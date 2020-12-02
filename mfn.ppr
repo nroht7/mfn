@@ -1,0 +1,28 @@
+program mfn;
+
+{$mode objfpc}{$H+}
+
+uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
+  {$IFDEF HASAMIGA}
+  athreads,
+  {$ENDIF}
+  Interfaces, // this includes the CT adLCL widgetset
+  Forms, main, dmgl, funkcje, dlgslownik, dlgpozsl, dlgaktorzy, dmakt, dlgwlasc,
+  dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan;
+
+{$R *.res}
+
+begin
+  RequireDerivedFormResource:=True;
+  Application.Scaled:=True;
+  Application.Initialize;
+  Application.CreateForm(TFrmMain, FrmMain);
+  Application.CreateForm(TDMG, DMG);
+  Application.CreateForm(TDMA, DMA);
+  Application.CreateForm(TFrmSkan, FrmSkan);
+  Application.Run;
+end.
+
