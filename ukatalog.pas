@@ -22,7 +22,7 @@ type
 
     function TypRelacjiDoKat(aKatalog: TKatalog): TTypRelacjiKat;
     function PokrewnyZKat(aKatalog: TKatalog): boolean;
-    function ToString: string;
+    function ToString: string; override;
     procedure DodajKatalog(aKatalog:string);
     procedure UsunOstatniKatalog;
 

@@ -18,17 +18,14 @@ type
     qAkt: TZQuery;
     qrAktFilmy: TZReadOnlyQuery;
     tbAKAA: TZTable;
-    sqAkt: TZSequence;
-    sqAKAA: TZSequence;
     tbAkt: TZTable;
-    procedure DataModuleCreate(Sender: TObject);
   private
-    fSqlAkt : string;
+    function GetSqlAkt: string;
   public
     procedure OtworzTabele;
     procedure ZamknijTabele;
 
-    property SqlAkt : string read fSqlAkt;
+    property SqlAkt : string read GetSqlAkt;
   end;
 
 var
@@ -40,9 +37,12 @@ implementation
 
 { TDMA }
 
-procedure TDMA.DataModuleCreate(Sender: TObject);
+function TDMA.GetSqlAkt: string;
 begin
-  fSqlAkt:= qAkt.SQL.Text;
+  if (qAkt.Active) then
+    result:= qAkt.SQL.Text
+  else
+    result:= '';
 end;
 
 procedure TDMA.OtworzTabele;

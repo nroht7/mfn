@@ -1,5 +1,4 @@
 object DMA: TDMA
-  OnCreate = DataModuleCreate
   OldCreateOrder = False
   Height = 381
   HorizontalOffset = 0
@@ -13,8 +12,6 @@ object DMA: TDMA
     )
     Params = <>
     IndexFieldNames = 'NAZWAAKT Asc'
-    Sequence = sqAkt
-    SequenceField = 'IDAKT'
     Left = 24
     Top = 16
   end
@@ -47,25 +44,10 @@ object DMA: TDMA
     MasterFields = 'IDAKT'
     MasterSource = dsAkt
     IndexFieldNames = 'NAZWAAKAA Asc'
-    Sequence = sqAkt
-    SequenceField = 'IDAKAA'
     Left = 80
     Top = 16
   end
-  object sqAkt: TZSequence
-    Connection = DMG.ZConn
-    SequenceName = 'SEQ_AKTORZY'
-    Left = 24
-    Top = 144
-  end
-  object sqAKAA: TZSequence
-    Connection = DMG.ZConn
-    SequenceName = 'SEQ_AKAA'
-    Left = 80
-    Top = 144
-  end
   object tbAkt: TZTable
-    Connection = DMG.ZConn
     TableName = 'AKTORZY'
     Left = 240
     Top = 16

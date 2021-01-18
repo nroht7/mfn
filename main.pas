@@ -34,6 +34,7 @@ type
     acKatWszystko: TAction;
     acFoldery: TAction;
     acKatOdswiez: TAction;
+    acRodzajePlikow: TAction;
     ActionList2: TActionList;
     aDaneJezyki: TAction;
     ActionList1: TActionList;
@@ -89,6 +90,8 @@ type
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -169,12 +172,14 @@ type
     procedure acFiltrOcenyExecute(Sender: TObject);
     procedure acFiltrSerieExecute(Sender: TObject);
     procedure acFolderSkanujExecute(Sender: TObject);
+    procedure acFolderWeryfikujExecute(Sender: TObject);
     procedure acFolderyExecute(Sender: TObject);
     procedure acKatNizExecute(Sender: TObject);
     procedure acKatOdswiezExecute(Sender: TObject);
     procedure acKatWszystkoExecute(Sender: TObject);
     procedure acKatWyzExecute(Sender: TObject);
     procedure acPlikKoniecExecute(Sender: TObject);
+    procedure acRodzajePlikowExecute(Sender: TObject);
     procedure aDaneJezykiExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -197,7 +202,7 @@ var
 implementation
 
 uses
-  funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dmmain, dlgkatalogi;
+  funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dlgkatalogi, dlgskan, dlgRozszPl;
 
 {$R *.frm}
 
@@ -206,6 +211,18 @@ uses
 procedure TFrmMain.acPlikKoniecExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TFrmMain.acRodzajePlikowExecute(Sender: TObject);
+var
+  frm : TFrmRozszPl;
+begin
+  frm:= TFrmRozszPl.Create(self);
+  try
+    frm.ShowModal;
+  finally
+    FreeAndNil(frm);
+  end;
 end;
 
 procedure TFrmMain.aDaneJezykiExecute(Sender: TObject);
@@ -217,7 +234,7 @@ begin
     frm.TytulOkna := 'Języki';
     frm.AliasPol := 'Jzk';
     frm.Tabela := 'Jezyki';
-    frm.Generator := 'SEQ_JEZYKI';
+    //frm.Generator := 'SEQ_JEZYKI';
     frm.ShowModal;
   finally
     FreeAndNil(frm);
@@ -261,7 +278,7 @@ begin
     frm.TytulOkna := 'Gatunki';
     frm.AliasPol := 'GAT';
     frm.Tabela := 'Gatunki';
-    frm.Generator := 'SEQ_GATUNKI';
+    //frm.Generator := 'SEQ_GATUNKI';
     frm.ShowModal;
   finally
     FreeAndNil(frm);
@@ -277,7 +294,7 @@ begin
     frm.TytulOkna := 'Serie';
     frm.AliasPol := 'Serii';
     frm.Tabela := 'Serie';
-    frm.Generator := 'SEQ_SERIE';
+    //frm.Generator := 'SEQ_SERIE';
     frm.ShowModal;
   finally
     FreeAndNil(frm);
@@ -293,7 +310,7 @@ begin
     frm.TytulOkna := 'Tagi';
     frm.AliasPol := 'Tag';
     frm.Tabela := 'Tagi';
-    frm.Generator := 'SEQ_TAGI';
+    //frm.Generator := 'SEQ_TAGI';
     frm.ShowModal;
   finally
     FreeAndNil(frm);
@@ -333,11 +350,40 @@ end;
 procedure TFrmMain.acFolderSkanujExecute(Sender: TObject);
 var
   kat :TKatalog;
+  frm : TFrmSkan;
 begin
   kat:= fKatMgr.WybranyKatalog;
   if Assigned(kat) then
   begin
+    frm:= TFrmSkan.Create(self);
+    try
+      frm.Katalog:= kat;
+      frm.RodzajOperacji:= rosSkan;
+      frm.ShowModal;
+    finally
+      FreeAndNil(frm);
+    end;
+  end
+  else
+    MessageDlg('Brak wybranego katalogu',mtInformation,[mbOk],0);
+end;
 
+procedure TFrmMain.acFolderWeryfikujExecute(Sender: TObject);
+var
+  kat :TKatalog;
+  frm : TFrmSkan;
+begin
+  kat:= fKatMgr.WybranyKatalog;
+  if Assigned(kat) then
+  begin
+    frm:= TFrmSkan.Create(self);
+    try
+      frm.Katalog:= kat;
+      frm.RodzajOperacji:= rosWeryfikacja;
+      frm.ShowModal;
+    finally
+      FreeAndNil(frm);
+    end;
   end
   else
     MessageDlg('Brak wybranego katalogu',mtInformation,[mbOk],0);
@@ -461,6 +507,7 @@ begin
   lvKat.BeginUpdate;
   try
     lvKat.Items.Clear;
+    fKatMgr.OdswiezListeKatalogow;
     for i := 0 to fKatMgr.ListaKatalogow.Count - 1 do
     begin
       kat := fKatMgr.ListaKatalogow.Items[i] as TKatalog;

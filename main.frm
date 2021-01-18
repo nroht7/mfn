@@ -69,13 +69,10 @@ object FrmMain: TFrmMain
             Caption = 'Filmy'
           end        
           item
-            Caption = 'Grafika'
+            Caption = 'Grafika i tekst'
           end        
           item
             Caption = 'Dzwięk'
-          end        
-          item
-            Caption = 'Tekst'
           end>
         ItemIndex = 0
         TabOrder = 2
@@ -879,10 +876,18 @@ object FrmMain: TFrmMain
       TabOrder = 3
       object edWybKat: TEdit
         Left = 101
-        Height = 23
+        Height = 25
         Top = 4
         Width = 820
         Anchors = [akTop, akLeft, akRight]
+        Color = clForm
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentFont = False
         ReadOnly = True
         TabOrder = 0
       end
@@ -981,6 +986,7 @@ object FrmMain: TFrmMain
       Caption = 'Weryfikuj'
       Hint = 'Weryfikuj folder'
       ImageIndex = 4
+      OnExecute = acFolderWeryfikujExecute
     end
     object acFiltrGatunki: TAction
       Category = 'Filtry'
@@ -1068,6 +1074,11 @@ object FrmMain: TFrmMain
       ImageIndex = 11
       OnExecute = acFolderyExecute
     end
+    object acRodzajePlikow: TAction
+      Category = 'Dane'
+      Caption = 'acRodzajePlikow'
+      OnExecute = acRodzajePlikowExecute
+    end
   end
   object MainMenu1: TMainMenu
     Images = ilMenuS
@@ -1125,6 +1136,13 @@ object FrmMain: TFrmMain
       object MenuItem15: TMenuItem
         Action = aDaneJezyki
         Caption = 'Języki...'
+      end
+      object MenuItem18: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem19: TMenuItem
+        Action = acRodzajePlikow
+        Caption = 'Rodzaje plików'
       end
     end
     object MenuItem10: TMenuItem

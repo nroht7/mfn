@@ -5,7 +5,7 @@ unit dmgl;
 interface
 
 uses
-  Classes, SysUtils, ZConnection, ZDataset, ZSequence, Controls, Variants, DB, Contnrs;
+  Classes, SysUtils, ZConnection, ZDataset, {ZSequence,} Controls, Variants, DB, Contnrs;
 
 type
 
@@ -15,19 +15,26 @@ type
     dsKat: TDataSource;
     ilCommon: TImageList;
     ilRozne: TImageList;
+    ilRozszPl: TImageList;
+    ilTypyPl: TImageList;
     tbTypyPl: TZTable;
     ZConn: TZConnection;
     tbKat: TZTable;
     rqLastId: TZReadOnlyQuery;
+    tbRozszPl: TZTable;
+    ZQuery1: TZQuery;
     procedure DataModuleDestroy(Sender: TObject);
   private
+    function PrzygotujSqlDodajRekord(aTabela:string;aListaPol:TStringList):string;
   public
     procedure OtworzPolaczenieZBazaDanych(ListaUstawien: TStringList; Force: boolean = False);
     procedure ZamknijPolaczenieZBazaDanych;
     function GetLastId: longint;
+    procedure OdswiezDataSet(aDataSet:TDataSet);
     function OdswiezDataSet(aDataSet:TDataSet; aPole:string): boolean;
     function OdswiezQueryZSql(aQuery:TZQuery; aSql, aPole:string): boolean;
     function UtworzListeKatalogow(var aLstKat:TObjectList): integer;
+    function DodajRekord(aTabela:string;aListaPol:TStringList): longint;
 
   end;
 
@@ -108,6 +115,11 @@ begin
   end;
 end;
 
+procedure TDMG.OdswiezDataSet(aDataSet: TDataSet);
+begin
+  OdswiezDataSet(aDataSet,  '');
+end;
+
 {Funkcja zwraca True jedynie jeśli uda się odnaleść poprzednią wartość pola i nic więcej
 (wynik nie sprawdza otwarcia tabeli ani nawet czy pole zostało przekazane - jeśli nie zostało - zwróci False)}
 function TDMG.OdswiezDataSet(aDataSet:TDataSet; aPole:string): boolean;
@@ -122,8 +134,15 @@ begin
     if (aPole <> '') and (not aDataSet.IsEmpty) then
       wart:= aDataSet.FieldByName(aPole).Value;
 
-    aDataSet.Close;
-    aDataSet.Open;
+    try
+      aDataSet.Close;
+      aDataSet.Open;
+    except
+      on e : exception do
+      begin
+        raise Exception.Create(Format('Podczas próby odświeżenia obiektu "%s" wystąpił błąd:',[aDataSet.Name])+sLineBreak+e.Message);
+      end;
+    end;
 
     if not VarIsNull(wart) then
       result:= aDataSet.Locate(aPole, wart, []);
@@ -159,6 +178,7 @@ begin
   if Assigned(aLstKat) then
   begin
     aLstKat.Clear;
+    OdswiezDataSet(tbKat, '');
     if (tbKat.Active) and (not tbKat.IsEmpty) then
     begin
       tbKat.First;
@@ -172,6 +192,79 @@ begin
         tbKat.Next;
       end;
     end;
+  end;
+end;
+
+function TDMG.DodajRekord(aTabela: string; aListaPol: TStringList): longint;
+var
+  sql : string;
+  qry : TZQuery;
+begin
+  result:= -1;
+  if (aTabela <> '') and (Assigned(aListaPol)) and (aListaPol.Count > 0) then
+  begin
+    sql:= PrzygotujSqlDodajRekord(aTabela, aListaPol);
+
+    qry:= TZQuery.Create(self);
+    try
+      qry.Connection:= ZConn;
+      qry.SQL.Text:= sql;
+      try
+        qry.ExecSQL;
+      except
+        on e : exception do
+        begin
+          raise Exception.Create('Błąd podczas wykonywania edycji bazy danych o treści:'+sLineBreak+e.Message+sLineBreak+'Zapytanie:'+sLineBreak+sql);
+        end;
+      end;
+    finally
+      FreeAndNil(qry);
+    end;
+
+    result:= GetLastId;
+  end;
+end;
+
+function TDMG.PrzygotujSqlDodajRekord(aTabela: string; aListaPol: TStringList
+  ): string;
+var
+  poleNazwa : string;
+  poleWart : string;
+  pola : string;
+  wart : string;
+  i : integer;
+  toLiczba : boolean;
+begin
+  result:= '';
+  pola:= '';
+  wart:= '';
+
+  if (aTabela <> '') and (Assigned(aListaPol)) and (aListaPol.Count > 0) then
+  begin
+    for i:=0 to aListaPol.Count-1 do
+    begin
+      poleNazwa:= aListaPol.Names[i];
+      poleWart:= aListaPol.ValueFromIndex[i];
+      toLiczba:= (poleNazwa[1] = '#');
+      if (toLiczba) then
+      begin
+        Delete(poleNazwa,1,1);
+      end;
+
+      if (i > 0) then
+      begin
+        pola:= pola + ',';
+        wart:= wart + ',';
+      end;
+
+      pola:= pola + poleNazwa;
+      if (toLiczba)  then
+        wart:= wart + poleWart
+      else
+        wart:= wart + '''' + poleWart + '''';
+    end;
+
+    result:= Format('INSERT INTO %s(%s) VALUES(%s)',[aTabela,pola,wart]);
   end;
 end;
 

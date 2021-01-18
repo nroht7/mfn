@@ -11,7 +11,8 @@ uses
   {$ENDIF}
   Interfaces, // this includes the CT adLCL widgetset
   Forms, main, dmgl, funkcje, dlgslownik, dlgpozsl, dlgaktorzy, dmakt, dlgwlasc,
-  dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan;
+  dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan, dlgRozszPl,
+  dlgedycjarozsz;
 
 {$R *.res}
 
@@ -22,7 +23,7 @@ begin
   Application.CreateForm(TFrmMain, FrmMain);
   Application.CreateForm(TDMG, DMG);
   Application.CreateForm(TDMA, DMA);
-  Application.CreateForm(TFrmSkan, FrmSkan);
+  Application.CreateForm(TFrmEdRozsz, FrmEdRozsz);
   Application.Run;
 end.
 

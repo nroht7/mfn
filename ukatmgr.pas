@@ -35,6 +35,7 @@ type
     function PrzejdzWyzej: boolean;
     function PrzejdzNizej(aKatalog: string): boolean;
     function PrzejdzDoPoczatku: boolean;
+    function OdswiezListeKatalogow: integer;
   end;
 
 implementation
@@ -191,6 +192,11 @@ begin
     UtworzListeKatZBazyDanych;
     Result := True;
   end;
+end;
+
+function TKatMgr.OdswiezListeKatalogow:integer;
+begin
+  result:=UtworzListeKatalogow;
 end;
 
 end.

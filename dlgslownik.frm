@@ -214,7 +214,6 @@ object FrmSlownik: TFrmSlownik
   object ZQuery: TZQuery
     Connection = DMG.ZConn
     Params = <>
-    Sequence = ZSequence
     Left = 39
     Top = 144
   end
@@ -222,10 +221,5 @@ object FrmSlownik: TFrmSlownik
     DataSet = ZQuery
     Left = 39
     Top = 200
-  end
-  object ZSequence: TZSequence
-    Connection = DMG.ZConn
-    Left = 40
-    Top = 256
   end
 end

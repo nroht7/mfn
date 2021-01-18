@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, DB, Forms, Controls, Graphics, Dialogs, ComCtrls, ExtCtrls,
-  ButtonPanel, DBCtrls, DBGrids, StdCtrls, Buttons, ActnList, DBActns, ZDataset,
-  ZSequence;
+  ButtonPanel, DBCtrls, DBGrids, StdCtrls, Buttons, ActnList, DBActns, ZDataset;
+
 
 type
 
@@ -42,7 +42,6 @@ type
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     ZQuery: TZQuery;
-    ZSequence: TZSequence;
     procedure acDodajExecute(Sender: TObject);
     procedure acUsunExecute(Sender: TObject);
     procedure edFiltrEditingDone(Sender: TObject);
@@ -55,7 +54,7 @@ type
     fPoleNazwa: string;
     fPoleMemo: string;
     fTabela: string;
-    fGenerator: string;
+    //fGenerator: string;
     fAliasPol: string;
     fPoleMemoWidoczne: boolean;
 
@@ -71,7 +70,7 @@ type
   public
     property TytulOkna: string read GetTytulOkna write SetTytulOkna;
     property Tabela: string read fTabela write fTabela;
-    property Generator: string read fGenerator write fGenerator;
+    //property Generator: string read fGenerator write fGenerator;
     property AliasPol: string read GetAliasPol write SetAliasPol;
     property PoleId: string read fPoleId write fPoleId;
     property PoleNazwa: string read fPoleNazwa write fPoleNazwa;
@@ -97,7 +96,7 @@ begin
   fPoleNazwa := '';
   fPoleMemo := '';
   fTabela := '';
-  fGenerator := '';
+  //fGenerator := '';
   fPoleMemoWidoczne := True;
   fAliasPol := '';
 end;
@@ -107,7 +106,7 @@ begin
   if (ZQuery.Active) then
   begin
     ZQuery.Close;
-    ZSequence.CloseSequence;
+    //ZSequence.CloseSequence;
   end;
 end;
 
@@ -237,8 +236,8 @@ begin
 end;
 
 procedure TFrmSlownik.InicjalizujSlownik;
-var
-  seq: string;
+//var
+//  seq: string;
 begin
   if fPoleNazwa = '' then
   begin
@@ -252,11 +251,6 @@ begin
     Exit;
   end;
 
-  if fGenerator = '' then
-    seq := 'SEQ_' + Tabela
-  else
-    seq := fGenerator;
-
   dbg.Columns[0].FieldName := PoleNazwa;
 
   if (fPoleMemo = '') or (not fPoleMemoWidoczne) then
@@ -264,7 +258,7 @@ begin
   else
     dbm.DataField := fPoleMemo;
 
-  ZSequence.SequenceName := seq;
+  //ZSequence.SequenceName := seq;
   OdswiezQuery;
 end;
 
