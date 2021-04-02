@@ -8,7 +8,7 @@ object FrmRozszPl: TFrmRozszPl
   ClientWidth = 350
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.2'
+  LCLVersion = '7.3'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -200,6 +200,7 @@ object FrmRozszPl: TFrmRozszPl
       PopupMenu = PopupMenu1
       ReadOnly = True
       TabOrder = 0
+      OnDrawColumnCell = dbgDrawColumnCell
     end
     object DBMemo1: TDBMemo
       Left = 1
@@ -364,6 +365,7 @@ object FrmRozszPl: TFrmRozszPl
         DataType = ftInteger
         Name = 'IdTypu'
         ParamType = ptInput
+        SQLType = stInteger
       end>
     IndexFieldNames = 'ImgIdxRozszPl Asc'
     Left = 136
@@ -373,6 +375,7 @@ object FrmRozszPl: TFrmRozszPl
         DataType = ftInteger
         Name = 'IdTypu'
         ParamType = ptInput
+        SQLType = stInteger
       end>
   end
   object tabTypyPl: TZTable

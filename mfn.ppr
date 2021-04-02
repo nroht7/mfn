@@ -12,7 +12,7 @@ uses
   Interfaces, // this includes the CT adLCL widgetset
   Forms, main, dmgl, funkcje, dlgslownik, dlgpozsl, dlgaktorzy, dmakt, dlgwlasc,
   dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan, dlgRozszPl,
-  dlgedycjarozsz;
+  dlgedycjarozsz, ulstplrec;
 
 {$R *.res}
 

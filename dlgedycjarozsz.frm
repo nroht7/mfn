@@ -9,7 +9,7 @@ object FrmEdRozsz: TFrmEdRozsz
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.2'
+  LCLVersion = '7.3'
   object cbeIkony: TComboBoxEx
     Left = 292
     Height = 22

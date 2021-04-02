@@ -1,9 +1,10 @@
 object DMG: TDMG
+  OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
   Height = 342
-  HorizontalOffset = 0
-  VerticalOffset = 0
+  HorizontalOffset = 86
+  VerticalOffset = 86
   Width = 475
   object ZConn: TZConnection
     ControlsCodePage = cCP_UTF8
@@ -13,12 +14,11 @@ object DMG: TDMG
       'codepage=UTF8'
     )
     TransactIsolationLevel = tiReadCommitted
+    Connected = True
     RaiseWarningMessages = True
     SQLHourGlass = True
     Port = 0
-    Database = 'C:\Users\Dominik\Documents\LazarusProjects\mfn\mfn.s3db'
-    User = 'sysdba'
-    Password = 'masterkey'
+    Database = 'C:\Users\Dominik\Documents\LazarusProjects\mfn\mfn.db'
     Protocol = 'sqlite'
     LibraryLocation = 'C:\Users\Dominik\Documents\LazarusProjects\mfn\sqlite3.dll'
     Left = 48

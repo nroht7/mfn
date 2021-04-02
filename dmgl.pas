@@ -23,8 +23,10 @@ type
     rqLastId: TZReadOnlyQuery;
     tbRozszPl: TZTable;
     ZQuery1: TZQuery;
+    procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
+    fLstDSDoZamkniecia : TObjectList;
     function PrzygotujSqlDodajRekord(aTabela:string;aListaPol:TStringList):string;
   public
     procedure OtworzPolaczenieZBazaDanych(ListaUstawien: TStringList; Force: boolean = False);
@@ -35,7 +37,7 @@ type
     function OdswiezQueryZSql(aQuery:TZQuery; aSql, aPole:string): boolean;
     function UtworzListeKatalogow(var aLstKat:TObjectList): integer;
     function DodajRekord(aTabela:string;aListaPol:TStringList): longint;
-
+    function GetLstOblTypowAsStr:string;
   end;
 
 var
@@ -51,8 +53,30 @@ uses
 { TDMG }
 
 procedure TDMG.DataModuleDestroy(Sender: TObject);
+var
+  i : integer;
+  ds : TDataSet;
 begin
+  for i:=0 to fLstDSDoZamkniecia.Count-1 do
+  begin
+    ds:= TDataSet(fLstDSDoZamkniecia.Items[i]);
+    if ds.Active then
+      ds.Close;
+  end;
+
+  fLstDSDoZamkniecia.Clear;
+  FreeAndNil(fLstDSDoZamkniecia);
+
   ZamknijPolaczenieZBazaDanych;
+end;
+
+procedure TDMG.DataModuleCreate(Sender: TObject);
+
+begin
+  fLstDSDoZamkniecia:= TObjectList.Create;
+
+  fLstDSDoZamkniecia.Add(tbRozszPl);
+
 end;
 
 procedure TDMG.OtworzPolaczenieZBazaDanych(ListaUstawien: TStringList; Force: boolean = False);
@@ -211,6 +235,8 @@ begin
       qry.SQL.Text:= sql;
       try
         qry.ExecSQL;
+
+        result:= GetLastId;
       except
         on e : exception do
         begin
@@ -221,8 +247,23 @@ begin
       FreeAndNil(qry);
     end;
 
-    result:= GetLastId;
   end;
+end;
+
+function TDMG.GetLstOblTypowAsStr: string;
+begin
+  OdswiezDataSet(tbRozszPl);
+  result:= '';
+  tbRozszPl.First;
+  while not tbRozszPl.EOF do
+  begin
+    if result<>'' then
+    result:=result+';';
+    result:= result + '*'+ tbRozszPl.FieldByName('NazwaRozszPl').AsString;
+
+    tbRozszPl.Next;
+  end;
+  tbRozszPl.Close;
 end;
 
 function TDMG.PrzygotujSqlDodajRekord(aTabela: string; aListaPol: TStringList
@@ -259,7 +300,9 @@ begin
 
       pola:= pola + poleNazwa;
       if (toLiczba)  then
+      begin
         wart:= wart + poleWart
+      end
       else
         wart:= wart + '''' + poleWart + '''';
     end;

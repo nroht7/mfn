@@ -57,7 +57,7 @@ uses
 
 procedure TFrmEdRozsz.FormShow(Sender: TObject);
 begin
-  WczytajIkony;
+  fPoczatkoweRozszerzenie:= edNazwa.Text;
   UstawTrybOtwarcia;
 end;
 
@@ -74,6 +74,7 @@ procedure TFrmEdRozsz.FormCreate(Sender: TObject);
 begin
   fTrybOtwOkna:= tooDodanie;
   fPoczatkoweRozszerzenie:= '';
+  WczytajIkony;
 end;
 
 function TFrmEdRozsz.GetIdxIkony: integer;
@@ -98,7 +99,6 @@ end;
 
 procedure TFrmEdRozsz.SetNazwa(AValue: string);
 begin
-  fPoczatkoweRozszerzenie:= AValue;
   edNazwa.Caption:= AValue;
 end;
 
