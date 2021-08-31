@@ -49,6 +49,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
+    procedure ZQueryAfterPost(DataSet: TDataSet);
   private
     fPoleId: string;
     fPoleNazwa: string;
@@ -57,6 +58,7 @@ type
     //fGenerator: string;
     fAliasPol: string;
     fPoleMemoWidoczne: boolean;
+    fSaZmiany: boolean;
 
     function GetAliasPol: string;
     function GetTytulOkna: string;
@@ -76,6 +78,7 @@ type
     property PoleNazwa: string read fPoleNazwa write fPoleNazwa;
     property PoleMemo: string read fPoleMemo write fPoleMemo;
     property PoleMemoWidoczne: boolean read fPoleMemoWidoczne write fPoleMemoWidoczne;
+    property SaZmiany : boolean read fSaZmiany;
   end;
 
 var
@@ -112,12 +115,18 @@ end;
 
 procedure TFrmSlownik.FormShow(Sender: TObject);
 begin
+  fSaZmiany:= False;
   InicjalizujSlownik;
 end;
 
 procedure TFrmSlownik.SpeedButton1Click(Sender: TObject);
 begin
   OdswiezQuery;
+end;
+
+procedure TFrmSlownik.ZQueryAfterPost(DataSet: TDataSet);
+begin
+  fSaZmiany:= True;
 end;
 
 procedure TFrmSlownik.edFiltrEditingDone(Sender: TObject);
@@ -217,10 +226,10 @@ begin
   if fPoleNazwa = '' then
     raise Exception.Create('Nie przekazano pola nazwa.')
   else
-    sql := sql + fPoleNazwa;
+    sql := sql + Format('%s',[fPoleNazwa]);
 
   if fPoleMemo <> '' then
-    sql := sql + ',' + fPoleMemo;
+    sql := sql + Format(', %s',[fPoleMemo]);
 
   if fTabela = '' then
     raise Exception.Create('Nie przekazano nazwy tabeli.')
@@ -292,7 +301,8 @@ begin
     try
       qry.Connection := DMG.ZConn;
       qry.SQL.Add('SELECT ' + fPoleId);
-      qry.SQL.Add(Format('WHERE %s = ''%s'' ', [fPoleNazwa, ANazwa]));
+      qry.SQL.Add(' FROM ' + fTabela);
+      qry.SQL.Add(Format(' WHERE %s = ''%s'' ', [fPoleNazwa, ANazwa]));
       qry.Open;
       if not qry.IsEmpty then
         Result := qry.Fields[0].AsInteger;

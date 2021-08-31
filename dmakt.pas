@@ -5,27 +5,32 @@ unit dmakt;
 interface
 
 uses
-  Classes, SysUtils, DB, ZDataset, ZSequence, Dialogs;
+  Classes, SysUtils, DB, ZDataset, Dialogs;
 
 type
 
   { TDMA }
 
   TDMA = class(TDataModule)
-    dsAkt: TDataSource;
     dsAkaA: TDataSource;
     dsAktFilmy: TDataSource;
     qAkt: TZQuery;
     qrAktFilmy: TZReadOnlyQuery;
-    tbAKAA: TZTable;
     tbAkt: TZTable;
+    qAkaA: TZQuery;
+    qCmd: TZQuery;
   private
     function GetSqlAkt: string;
   public
-    procedure OtworzTabele;
-    procedure ZamknijTabele;
-
     property SqlAkt : string read GetSqlAkt;
+
+    procedure PokazInneNazwiskaAktora(IdAkt: longint);
+    function JestAktorWFilmie(IdAkt,IdFilmu:longint):boolean;
+    function DodajAktoraDoFilmu(IdAkt: longint; IdFilmu: longint): boolean;
+    procedure UsunAktoraZFilmu(IdAkt,IdFilmu:longint);
+    function JestInneNazwiskoAktora(IdAkt: longint; Nazwisko: string):boolean;
+    function DodajInneNazwiskoDoAktora(IdAkt: longint; Nazwisko: string): boolean;
+    procedure UsunInneNazwisko(IdAKAA: longint);
   end;
 
 var
@@ -45,33 +50,71 @@ begin
     result:= '';
 end;
 
-procedure TDMA.OtworzTabele;
+procedure TDMA.PokazInneNazwiskaAktora(IdAkt: longint);
 begin
-  try
-    if not qAkt.Active then
-      qAkt.Open;
-    if not tbAKAA.Active then
-      tbAKAA.Open;
-  except
-    on e: Exception do
-    begin
-      MessageDlg('Błąd w module dmAkt podczas otwierania tabel o treści:' + sLineBreak + e.Message, mtError, [mbOK], 0);
-    end;
+  qAkaA.Close;
+  qAkaA.ParamByName('IdAkt').AsLargeInt:= IdAkt;
+  qAkaA.Open;
+end;
+
+function TDMA.JestAktorWFilmie(IdAkt,IdFilmu: longint): boolean;
+begin
+  qCmd.Close;
+  qCmd.SQL.Text:= Format('SELECT IdAkt FROM FilmyAkt WHERE IdAkt = %d AND IdFilmu = %d ', [IdAkt,IdFilmu]);
+  qCmd.Open;
+  result:= not qCmd.IsEmpty;
+  qCmd.Close;
+end;
+
+function TDMA.DodajAktoraDoFilmu(IdAkt: longint; IdFilmu: longint): boolean;
+begin
+  result:= False;
+  if not JestAktorWFilmie(idAkt,IdFilmu) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text:= Format('INSERT INTO FilmyAkt(IdAkt,IdFilmu) VALUES(%d, %d) ', [IdAkt,IdFilmu]);
+    qCmd.ExecSQL;
+    result:= True;
   end;
 end;
 
-procedure TDMA.ZamknijTabele;
+procedure TDMA.UsunAktoraZFilmu(IdAkt, IdFilmu: longint);
 begin
-  try
-    qAkt.Close;
-    tbAKAA.Close;
-  except
-    on e: Exception do
-    begin
-      MessageDlg('Błąd w module dmAkt podczas zamykania tabel o treści:' + sLineBreak + e.Message, mtError, [mbOK], 0);
-    end;
+  qCmd.Close;
+  qCmd.SQL.Text:= Format('DELETE FROM FilmyAkt WHERE IdAkt = %d AND IdFilmu = %d ', [IdAkt,IdFilmu]);
+  qCmd.ExecSQL;
+
+end;
+
+function TDMA.JestInneNazwiskoAktora(IdAkt: longint; Nazwisko: string): boolean;
+begin
+  qCmd.Close;
+  qCmd.SQL.Text:= Format('SELECT IdAkt FROM AKA_A WHERE IdAkt = %d AND Upper(NazwaAKAA) = ''%s'' ',[IdAkt, Nazwisko]);
+  qCmd.Open;
+  result:= not qCmd.IsEmpty;
+  qCmd.Close;
+end;
+
+function TDMA.DodajInneNazwiskoDoAktora(IdAkt: longint; Nazwisko: string
+  ): boolean;
+begin
+  result:= False;
+  if not JestInneNazwiskoAktora(IdAkt,Nazwisko) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text:= Format('INSERT INTO AKA_A(IdAkt,NazwaAKAA) VALUES(%d, ''%s'') ', [IdAkt,Nazwisko]);
+    qCmd.ExecSQL;
+    result:= True;
   end;
 end;
+
+procedure TDMA.UsunInneNazwisko(IdAKAA: longint);
+begin
+  qCmd.Close;
+  qCmd.SQL.Text:= Format('DELETE FROM AKA_A WHERE IdAKAA = %d ', [IdAKAA]);
+  qCmd.ExecSQL;
+end;
+
 
 end.
 

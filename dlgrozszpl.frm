@@ -201,6 +201,7 @@ object FrmRozszPl: TFrmRozszPl
       ReadOnly = True
       TabOrder = 0
       OnDrawColumnCell = dbgDrawColumnCell
+      OnDblClick = dbgDblClick
     end
     object DBMemo1: TDBMemo
       Left = 1

@@ -57,6 +57,7 @@ type
     procedure acZamknijExecute(Sender: TObject);
     procedure ComboBoxEx1Change(Sender: TObject);
     procedure DataSetEdit1Execute(Sender: TObject);
+    procedure dbgDblClick(Sender: TObject);
     procedure dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
     procedure FormShow(Sender: TObject);
     procedure tcTypyPlGetImageIndex(Sender: TObject; TabIndex: integer; var ImageIndex: integer);
@@ -127,6 +128,11 @@ begin
       FreeAndNil(frm);
     end;
   end;
+end;
+
+procedure TFrmRozszPl.dbgDblClick(Sender: TObject);
+begin
+  acEdytuj.Execute;
 end;
 
 procedure TFrmRozszPl.dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
@@ -235,7 +241,7 @@ begin
   if ((qry.Active) and (not qry.IsEmpty)) then
   begin
     s := qry.FieldByName('NazwaRozszPl').AsString;
-    if (MessageDlg('Usuwanie rozszerzenia', Format('Czy napewno usunąć rozszerzenie "%s"?', []), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
+    if (MessageDlg('Usuwanie rozszerzenia', Format('Czy napewno usunąć rozszerzenie "%s"?', [s]), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
     begin
       qry.Delete;
       DMG.OdswiezDataSet(qry);

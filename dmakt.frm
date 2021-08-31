@@ -1,8 +1,8 @@
 object DMA: TDMA
   OldCreateOrder = False
   Height = 381
-  HorizontalOffset = 0
-  VerticalOffset = 0
+  HorizontalOffset = 86
+  VerticalOffset = 86
   Width = 293
   object qAkt: TZQuery
     Connection = DMG.ZConn
@@ -22,13 +22,8 @@ object DMA: TDMA
     Left = 152
     Top = 16
   end
-  object dsAkt: TDataSource
-    DataSet = qAkt
-    Left = 24
-    Top = 80
-  end
   object dsAkaA: TDataSource
-    DataSet = tbAKAA
+    DataSet = qAkaA
     Left = 80
     Top = 80
   end
@@ -37,19 +32,40 @@ object DMA: TDMA
     Left = 152
     Top = 80
   end
-  object tbAKAA: TZTable
-    Connection = DMG.ZConn
-    SortedFields = 'NAZWAAKAA'
-    TableName = 'AKA_A'
-    MasterFields = 'IDAKT'
-    MasterSource = dsAkt
-    IndexFieldNames = 'NAZWAAKAA Asc'
-    Left = 80
-    Top = 16
-  end
   object tbAkt: TZTable
     TableName = 'AKTORZY'
     Left = 240
     Top = 16
+  end
+  object qAkaA: TZQuery
+    Connection = DMG.ZConn
+    SortedFields = 'NazwaAKAA'
+    SQL.Strings = (
+      'SELECT IdAKAA, NazwaAKAA FROM AKA_A'
+      'WHERE IdAkt = :IDAKT'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDAKT'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    IndexFieldNames = 'NazwaAKAA Asc'
+    Left = 80
+    Top = 16
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDAKT'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object qCmd: TZQuery
+    Connection = DMG.ZConn
+    Params = <>
+    Left = 24
+    Top = 192
   end
 end

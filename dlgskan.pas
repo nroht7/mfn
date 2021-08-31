@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  ComCtrls, CheckLst, Buttons, ZDataset, ukatalog, ulstplrec;
+  ComCtrls, Buttons, ZDataset, ukatalog, ulstplrec;
 
 type
   TRodzajOperacjiSkanowania = (rosWeryfikacja, rosUzupelnianie, rosCzyszczenie);
@@ -19,6 +19,7 @@ type
     btnZamknij:    TBitBtn;
     btnPrzerwij:   TBitBtn;
     btnKoniec:     TBitBtn;
+    btnZamknij1:   TBitBtn;
     chbxOpcje:     TCheckBox;
     chbxNowePl:    TCheckBox;
     chbxUaktPl:    TCheckBox;
@@ -30,11 +31,16 @@ type
     ImgRodzOp:     TImage;
     ImageList1:    TImageList;
     ImgLst32:      TImageList;
+    Label1:        TLabel;
+    lbZakDod:      TLabel;
+    lbZakZm:       TLabel;
+    lbZakUs:       TLabel;
+    lbZakInfo:     TLabel;
     lbKatOp:       TLabel;
     lbInfo:        TLabel;
     lbWynZm:       TLabel;
     lbWynUs:       TLabel;
-    Label6:        TLabel;
+    lbWyniki:      TLabel;
     lbWynNowe:     TLabel;
     lbIloscPrzetw: TLabel;
     lbOpcje:       TLabel;
@@ -44,6 +50,7 @@ type
     lbPlik:        TLabel;
     lvPods:        TListView;
     Notebook1:     TNotebook;
+    Zakonczenie:   TPage;
     Panel1:        TPanel;
     Podsumowanie:  TPage;
     Proces:        TPage;
@@ -54,12 +61,14 @@ type
     tbFld:         TZTable;
     tbPl:          TZTable;
     tbRozsz:       TZTable;
+    qOp:           TZQuery;
     procedure btnAktClick(Sender: TObject);
     procedure btnPrzerwijClick(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
     procedure btnZamknijClick(Sender: TObject);
     procedure btnKoniecClick(Sender: TObject);
     procedure chbxNowePlClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -68,24 +77,37 @@ type
     fRodzOp:      TRodzajOperacjiSkanowania;
     fWybKat:      TKatalog;
     fListaPlikow: TStringList;
-    fLstPlUsun:   TStringList;
-    fLstPlZmien:  TStringList;
-    fLstPlNowe:   TStringList;
+    fLstPlUsun:   TLstPlikowRec;
+    fLstPlZmien:  TLstPlikowRec;
+    fLstPlNowe:   TLstPlikowRec;
     fLstObsRozsz: TStringList;
     fPrzerwijPrzetwarzanie: boolean;
+    fIloscPlUs:   integer;
+    fIloscPlZm:   integer;
+    fIloscPlDod:  integer;
 
     procedure UstawRodzajOpSkanowanie;
     procedure UstawRodzajOpWeryfikacja;
     procedure UstawRodzajOkna(aRodzOp: TRodzajOperacjiSkanowania);
     procedure UstawObrazek(aImgIdx: integer);
     procedure UtworzListePlikow;
-    procedure ZapiszWyniki;
-    function UstawStatusPliku(aListaPl: TStringList; aStatus: string): boolean; overload;
+    procedure ZapiszWynikiWer;
+    function UstawStatusPliku(aListaPl: TLstPlikowRec; aStatus: string): boolean; overload;
     function UstawStatusPliku(aPlik: string; aStatus: string): boolean; overload;
     procedure UtworzPodsumowanie;
-    procedure WypelnijPozPodsumowaniaZListy(aListaPl: TStringList);
+    procedure WypelnijPozPodsumowaniaZListy(aListaPl: TLstPlikowRec);
     procedure UtworzListeObsRozszerzen;
     procedure AktualizujDane;
+    procedure UsunRekordy;
+    procedure AktualizujPlik(aPlikRec: TPlikRec);
+    function DodajPlik(aPlikRec: TPlikRec):longint;
+    function GetIdRip(Crc: string): longint;
+    function DodajPlikDoRip(Crc: string): longint;
+    procedure UstawWidokPostWynikow(Widoczne: boolean);
+    function GetIdRozsz(Rozsz: string): longint;
+    function GetIdTypuPl(Rozsz: string): longint;
+    function GetScWzg(Plik: string): string;
+    procedure UtworzZakonczenie;
   public
     property RodzajOperacji: TRodzajOperacjiSkanowania Read fRodzOp Write fRodzOp;
     property Katalog: TKatalog Read fWybKat Write fWybKat;
@@ -108,9 +130,9 @@ begin
   fRodzOp := rosWeryfikacja;
 
   fLstObsRozsz := TStringList.Create;
-  fLstPlNowe  := TStringList.Create;
-  fLstPlZmien := TStringList.Create;
-  fLstPlUsun  := TStringList.Create;
+  fLstPlNowe  := TLstPlikowRec.Create;
+  fLstPlZmien := TLstPlikowRec.Create;
+  fLstPlUsun  := TLstPlikowRec.Create;
 end;
 
 procedure TFrmSkan.FormDestroy(Sender: TObject);
@@ -123,19 +145,19 @@ begin
 
   if (Assigned(fLstPlUsun)) then
   begin
-    fLstPlUsun.Clear;
+    fLstPlUsun.Pliki.Clear;
     FreeAndNil(fLstPlUsun);
   end;
 
   if (Assigned(fLstPlZmien)) then
   begin
-    fLstPlZmien.Clear;
+    fLstPlZmien.Pliki.Clear;
     FreeAndNil(fLstPlZmien);
   end;
 
   if (Assigned(fLstPlNowe)) then
   begin
-    fLstPlNowe.Clear;
+    fLstPlNowe.Pliki.Clear;
     FreeAndNil(fLstPlNowe);
   end;
 
@@ -149,10 +171,12 @@ end;
 procedure TFrmSkan.FormShow(Sender: TObject);
 begin
   UstawRodzajOkna(fRodzOp);
+  tbRozsz.Open;
 
   lbWynNowe.Caption := 'Nowe: 0';
   lbWynZm.Caption := 'Zmienione: 0';
   lbWynUs.Caption := 'Usunięte: 0';
+
 end;
 
 procedure TFrmSkan.TabControl1Change(Sender: TObject);
@@ -171,9 +195,9 @@ begin
   Caption := 'Skanowanie';
   lbKatOp.Caption := 'Skanowany katalog:';
   UstawObrazek(0);
-  lbInfo.Caption := 'W trakcie skanowania zostaną porównane informacje zapisane w bazie danych,' + sLineBreak +
+  {lbInfo.Caption := 'W trakcie skanowania zostaną porównane informacje zapisane w bazie danych,' + sLineBreak +
     'z rzeczywistą zawartością badanego katalogu. Zmiany zostaną uwzględnione w rejestrze.' + sLineBreak +
-    'W wyniku operacji do bazy danych zostaną dopisane nowe pliki, usunięte już nie istnejące i zaktualizowane te które uległy zmianie.';
+    'W wyniku operacji do bazy danych zostaną dopisane nowe pliki, usunięte już nie istnejące i zaktualizowane te które uległy zmianie.';}
 end;
 
 procedure TFrmSkan.UstawRodzajOpWeryfikacja;
@@ -181,8 +205,8 @@ begin
   Caption := 'Weryfikacja';
   lbKatOp.Caption := 'Weryfikowany katalog:';
   UstawObrazek(1);
-  lbInfo.Caption := 'Weryfikacja sprawdzi wybrany katalog pod kątem zmian pomiędzy jego rzeczywistą zawartością a tym zapisanym w bazie danych.'
-    + sLineBreak + 'Zostaną określone pliki które zostały dodane, usunięte i zmienione.' + sLineBreak + 'I zostanie zmieniony ich status';
+  {lbInfo.Caption := 'Weryfikacja sprawdzi wybrany katalog pod kątem zmian pomiędzy jego rzeczywistą zawartością a tym zapisanym w bazie danych.'
+    + sLineBreak + 'Zostaną określone pliki które zostały dodane, usunięte i zmienione.' + sLineBreak + 'I zostanie zmieniony ich status';}
 end;
 
 procedure TFrmSkan.UstawRodzajOkna(aRodzOp: TRodzajOperacjiSkanowania);
@@ -229,11 +253,13 @@ var
   rozmiar: int64;
   crc32: string;
   iloscBledow: integer;
+  plRec: TPlikRec;
 begin
   if (Assigned(fListaPlikow)) then
     fListaPlikow.Clear
   else
     fListaPlikow := TStringList.Create;
+  UstawWidokPostWynikow(True);
 
   ProgressBar.Style := pbstMarquee;
   lbOperacja.Caption := 'Odczytywanie plików z katalogu';
@@ -269,12 +295,12 @@ begin
       begin
         if not UstawStatusPliku(qPliki.FieldByName('ScPl').AsString, 'U') then
           Inc(iloscBledow);
-        fLstPlUsun.Add(qPliki.FieldByName('ScPl').AsString);
+        fLstPlUsun.DodajPlik(qPliki.FieldByName('IdPl').AsInteger, qPliki.FieldByName('ScPl').AsString);
       end;
 
       ProgressBar.Position := i;
       lbIloscPrzetw.Caption := Format('%d/%d', [i, iloscRec]);
-      lbWynUs.Caption := Format('Usunięte: %d', [fLstPlUsun.Count]);
+      lbWynUs.Caption := Format('Usunięte: %d', [fLstPlUsun.Pliki.Count]);
       Application.ProcessMessages;
 
       qPliki.Next;
@@ -303,7 +329,7 @@ begin
         if qPliki.FieldByName('RozmiarPl').AsLargeInt <> rozmiar then
         begin
           UstawStatusPliku(qPliki.FieldByName('ScPl').AsString, 'Z');
-          fLstPlZmien.Add(plik);
+          fLstPlZmien.DodajPlik(qPliki.FieldByName('IdPl').AsInteger, plik);
         end
         else
         begin
@@ -311,7 +337,8 @@ begin
           if qPliki.FieldByName('Crc32Rip').AsString <> crc32 then
           begin
             UstawStatusPliku(qPliki.FieldByName('ScPl').AsString, 'Z');
-            fLstPlZmien.Add(plik);
+            plRec := fLstPlZmien.DodajPlik(qPliki.FieldByName('IdPl').AsInteger, plik);
+            plRec.Crc32Hash := crc32;
           end
           // jeśli plik jest i się nie zmienił to ewentualnie przywracam status (mógł zostać np. wcześniej usunięty ale jest już przywrócony)
           else if (qPliki.FieldByName('StatusPl').AsString = 'U') or (qPliki.FieldByName('StatusPl').AsString = 'U') then
@@ -322,15 +349,15 @@ begin
       end
       else
       begin
-        fLstPlNowe.Add(plik);
+        fLstPlNowe.DodajPlik(0, plik);
         //if fLstObsRozsz.IndexOf(ExtractFileExt(plik)) >= 0 then
         //  fLstPlNowe.Add(plik);
       end;
 
       ProgressBar.Position := i;
       lbIloscPrzetw.Caption := Format('%d/%d', [i, fListaPlikow.Count]);
-      lbWynNowe.Caption := Format('Nowe: %d', [fLstPlNowe.Count]);
-      lbWynZm.Caption := Format('Zmienione: %d', [fLstPlZmien.Count]);
+      lbWynNowe.Caption := Format('Nowe: %d', [fLstPlNowe.Pliki.Count]);
+      lbWynZm.Caption := Format('Zmienione: %d', [fLstPlZmien.Pliki.Count]);
       Application.ProcessMessages;
 
       if (fPrzerwijPrzetwarzanie) then
@@ -345,7 +372,7 @@ begin
   UtworzPodsumowanie;
 end;
 
-procedure TFrmSkan.ZapiszWyniki;
+procedure TFrmSkan.ZapiszWynikiWer;
 begin
   UstawStatusPliku(fLstPlUsun, 'U');
   UstawStatusPliku(fLstPlZmien, 'Z');
@@ -356,7 +383,7 @@ begin
   begin
     tbFld.Edit;
     tbFld.FieldByName('DataWerFld').AsDateTime  := now;
-    tbFld.FieldByName('NowePlikiFld').AsInteger := fLstPlNowe.Count;
+    tbFld.FieldByName('NowePlikiFld').AsInteger := fLstPlNowe.Pliki.Count;
     tbFld.Post;
   end
   else
@@ -367,18 +394,20 @@ begin
   tbFld.Close;
 end;
 
-function TFrmSkan.UstawStatusPliku(aListaPl: TStringList; aStatus: string): boolean;
+function TFrmSkan.UstawStatusPliku(aListaPl: TLstPlikowRec; aStatus: string): boolean;
 var
   i: integer;
   iloscBledow: integer;
+  plRec: TPlikRec;
 begin
   Result := True;
   iloscBledow := 0;
   tbPl.Close;
   tbPl.Open;
-  for i := 0 to aListaPl.Count - 1 do
+  for i := 0 to aListaPl.Pliki.Count - 1 do
   begin
-    if tbPl.Locate('ScPl', aListaPl.Strings[i], [loCaseInsensitive]) then
+    plRec := TPlikRec(aListaPl.Pliki.Items[i]);
+    if tbPl.Locate('ScPl', plRec.Sciezka, [loCaseInsensitive]) then
     begin
       tbPl.Edit;
       tbPl.FieldByName('StatusPl').AsString := aStatus;
@@ -387,7 +416,8 @@ begin
     else
     begin
       Inc(iloscBledow);
-      MessageDlg(Format('Błąd podczas próby zapisu statusu: "%s" do pliku: "%s"', [aStatus, aListaPl.Strings[i]]), mtError, [mbOK], 0);
+      MessageDlg(Format('Błąd podczas próby zapisu statusu: "%s" do pliku: "%s".' + sLineBreak + 'Nie znaleźiono rekordu.',
+        [aStatus, plRec.Sciezka]), mtError, [mbOK], 0);
 
       if (iloscBledow >= 3) then
       begin
@@ -422,11 +452,11 @@ var
   s: string;
 begin
   TabControl1.Tabs.Clear;
-  s := Format('Nowe (%d)', [fLstPlNowe.Count]);
+  s := Format('Nowe (%d)', [fLstPlNowe.Pliki.Count]);
   TabControl1.Tabs.Add(s);
-  s := Format('Zmienione (%d)', [fLstPlZmien.Count]);
+  s := Format('Zmienione (%d)', [fLstPlZmien.Pliki.Count]);
   TabControl1.Tabs.Add(s);
-  s := Format('Usunięte (%d)', [fLstPlUsun.Count]);
+  s := Format('Usunięte (%d)', [fLstPlUsun.Pliki.Count]);
   TabControl1.Tabs.Add(s);
 
   TabControl1.TabIndex := 0;
@@ -435,30 +465,32 @@ begin
   chbxNowePl.Checked := False;
   chbxUaktPl.Checked := False;
   chbxUsunPl.Checked := False;
-  chbxNowePl.Enabled := (fLstPlNowe.Count > 0);
-  chbxUaktPl.Enabled := (fLstPlZmien.Count > 0);
-  chbxUsunPl.Enabled := (fLstPlUsun.Count > 0);
+  chbxNowePl.Enabled := (fLstPlNowe.Pliki.Count > 0);
+  chbxUaktPl.Enabled := (fLstPlZmien.Pliki.Count > 0);
+  chbxUsunPl.Enabled := (fLstPlUsun.Pliki.Count > 0);
   btnAkt.Enabled := ((chbxNowePl.Enabled and chbxNowePl.Checked) or (chbxUaktPl.Enabled and chbxUaktPl.Checked) or
     (chbxUsunPl.Enabled and chbxUsunPl.Checked));
 end;
 
-procedure TFrmSkan.WypelnijPozPodsumowaniaZListy(aListaPl: TStringList);
+procedure TFrmSkan.WypelnijPozPodsumowaniaZListy(aListaPl: TLstPlikowRec);
 var
   item: TListItem;
   i: integer;
   rozsz: string;
   idx: string;
+  plRec: TPlikRec;
 begin
   lvPods.BeginUpdate;
   try
     lvPods.Items.Clear;
     if Assigned(aListaPl) then
     begin
-      for i := 0 to aListaPl.Count - 1 do
+      for i := 0 to aListaPl.Pliki.Count - 1 do
       begin
+        plRec := TPlikRec(aListaPl.Pliki.Items[i]);
         item := lvPods.Items.Add;
-        item.Caption := aListaPl.Strings[i];
-        rozsz := ExtractFileExt(aListaPl.Strings[i]);
+        item.Caption := plRec.Sciezka;
+        rozsz := ExtractFileExt(plRec.Sciezka);
         idx := fLstObsRozsz.Values[rozsz];
         if (idx <> '') then
           item.ImageIndex := StrToIntDef(idx, -1)
@@ -474,8 +506,8 @@ end;
 procedure TFrmSkan.UtworzListeObsRozszerzen;
 begin
   fLstObsRozsz.Clear;
-  tbRozsz.Close;
-  tbRozsz.Open;
+  //tbRozsz.Close;
+  //tbRozsz.Open;
   tbRozsz.First;
   while not tbRozsz.EOF do
   begin
@@ -483,17 +515,268 @@ begin
 
     tbRozsz.Next;
   end;
-  tbRozsz.Close;
+  //tbRozsz.Close;
 end;
 
 procedure TFrmSkan.AktualizujDane;
+var
+  i: integer;
+  plRec: TPlikRec;
 begin
-  ProgressBar.Style := pbstMarquee;
-  lbOperacja.Caption := 'Usuwanie rekordów dotyczących nieistniejących plików w katalogu';
-  lbIloscPrzetw.Caption := '0/0';
-  lbPlik.Caption := '';
-  Application.ProcessMessages;
+  fIloscPlUs  := 0;
+  fIloscPlZm  := 0;
+  fIloscPlDod := 0;
 
+  fPrzerwijPrzetwarzanie := False;
+  UstawWidokPostWynikow(False);
+
+  if fLstPlUsun.SaPliki then
+  begin
+    ProgressBar.Style := pbstMarquee;
+    lbOperacja.Caption := 'Usuwanie rekordów dotyczących nieistniejących plików w katalogu';
+    lbIloscPrzetw.Caption := '0/0';
+    lbPlik.Caption := '';
+    Application.ProcessMessages;
+    UsunRekordy;
+  end;
+
+  if (fLstPlZmien.SaPliki) and (not fPrzerwijPrzetwarzanie) then
+  begin
+    ProgressBar.Style := pbstNormal;
+    lbOperacja.Caption := 'Uaktualnianie plików w katalogu';
+    lbIloscPrzetw.Caption := Format('0/%d', [fLstPlZmien.Pliki.Count]);
+    lbPlik.Caption  := '';
+    ProgressBar.Max := fLstPlZmien.Pliki.Count;
+    Application.ProcessMessages;
+
+    for i := 0 to fLstPlZmien.Pliki.Count - 1 do
+    begin
+      plRec := TPlikRec(fLstPlZmien.Pliki[i]);
+
+      ProgressBar.Position := i;
+      lbIloscPrzetw.Caption := Format('%d/%d', [i, fLstPlZmien.Pliki.Count]);
+      lbPlik.Caption := plRec.Sciezka;
+      Application.ProcessMessages;
+
+      AktualizujPlik(plRec);
+      Inc(fIloscPlZm);
+
+      if fPrzerwijPrzetwarzanie then
+      begin
+        MessageDlg('Przetwarzanie przerwane przez użytkownika', mtWarning, [mbOK], 0);
+        break;
+      end;
+    end;
+  end;
+
+  if ((fLstPlNowe.SaPliki) and (not fPrzerwijPrzetwarzanie)) then
+  begin
+    ProgressBar.Style := pbstNormal;
+    lbOperacja.Caption := 'Dodanie nowych plików w katalogu';
+    lbIloscPrzetw.Caption := Format('0/%d', [fLstPlNowe.Pliki.Count]);
+    lbPlik.Caption  := '';
+    ProgressBar.Max := fLstPlNowe.Pliki.Count;
+    Application.ProcessMessages;
+
+    for i := 0 to fLstPlNowe.Pliki.Count - 1 do
+    begin
+      plRec := TPlikRec(fLstPlNowe.Pliki[i]);
+      ProgressBar.Position := i;
+      lbIloscPrzetw.Caption := Format('%d/%d', [i, fLstPlNowe.Pliki.Count]);
+      lbPlik.Caption := plRec.Sciezka;
+      Application.ProcessMessages;
+
+      plRec.ObliczCrc32();
+      DodajPlik(plRec);
+      Inc(fIloscPlDod);
+
+      if fPrzerwijPrzetwarzanie then
+      begin
+        MessageDlg('Przetwarzanie przerwane przez użytkownika', mtWarning, [mbOK], 0);
+        break;
+      end;
+    end;
+  end;
+
+  UtworzZakonczenie;
+  Notebook1.PageIndex := 3;
+end;
+
+procedure TFrmSkan.UsunRekordy;
+begin
+  try
+    qOp.Close;
+    qOp.SQL.Text := 'SELECT COUNT(*) FROM PLIKI WHERE StatPl = ''U''';
+    qOp.Open;
+    fIloscPlUs := qOp.Fields[0].AsInteger;
+    qOp.Close;
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby zliczenia rekordów do usunięcia.' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+
+  try
+    qOp.SQL.Text := 'DELETE FROM PLIKI WHERE StatPl = ''U''';
+    qOp.ExecSQL;
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby usunięcia rekordów.' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+end;
+
+procedure TFrmSkan.AktualizujPlik(aPlikRec: TPlikRec);
+var
+  idRip: longint;
+begin
+  idRip := GetIdRip(aPlikRec.Crc32Hash);
+
+  if (idRip = 0) then
+    idRip := DodajPlikDoRip(aPlikRec.Crc32Hash);
+
+  try
+    qOp.Close;
+    qOp.SQL.Text := 'UPDATE Pliki SET IdRip = :IDRIP WHERE IdPl = :IDPL';
+    qOp.ParamByName('IDRIP').AsInteger := idRip;
+    qOp.ParamByName('IDPL').AsInteger := aPlikRec.Id;
+    qOp.ExecSQL;
+    qOp.Close;
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby aktualizacji pliku.' + sLineBreak + 'Dla pliku: "' + aPlikRec.Sciezka +
+        '"' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+end;
+
+function TFrmSkan.DodajPlik(aPlikRec: TPlikRec):longint;
+var
+  idRip: longint;
+begin
+  idRip := GetIdRip(aPlikRec.Crc32Hash);
+
+  if (idRip = 0) then
+    idRip := DodajPlikDoRip(aPlikRec.Crc32Hash);
+
+  try
+    qOp.Close;
+    qOp.SQL.Clear;
+    qOp.SQL.Add('INSERT INTO Pliki(IdFld,IdRip,IdTypPl,NazwaPl,ScPl,RozmiarPl,WzgScPl,RozszPl) ');
+    qOp.SQL.Add('VALUES(:IDFLD,:IDRIP,:IDTYPPL,:NAZWAPL,:SCPL,:ROZMIARPL,:WZGSCPL,:ROZSZPL)');
+    qOp.ParamByName('IDFLD').AsInteger := fWybKat.IdKatalogu;
+    qOp.ParamByName('IDRIP').AsInteger := idRip;
+    qOp.ParamByName('IDTYPPL').AsInteger := GetIdTypuPl(ExtractFileExt(aPlikRec.Sciezka));
+    qOp.ParamByName('NAZWAPL').AsString := ExtractFileName(aPlikRec.Sciezka);
+    qOp.ParamByName('SCPL').AsString := aPlikRec.Sciezka;
+    qOp.ParamByName('ROZMIARPL').AsInt64 := aPlikRec.RozmiarPliku;
+    qOp.ParamByName('WZGSCPL').AsString := GetScWzg(aPlikRec.Sciezka);
+    qOp.ParamByName('ROZSZPL').AsString := ExtractFileExt(aPlikRec.Sciezka);
+    qOp.ExecSQL;
+    result:= DMG.GetLastId();
+    qOp.Close;
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby dodania pliku.' + sLineBreak + 'Dla pliku: "' + aPlikRec.Sciezka +
+        '"' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+end;
+
+function TFrmSkan.GetIdRip(Crc: string): longint;
+begin
+  Result := 0;
+
+  try
+    qOp.Close;
+    qOp.SQL.Text := 'SELECT IdRip FROM RejestrPlikow WHERE Crc32Rip = :CRC ';
+    qOp.ParamByName('CRC').AsString := Crc;
+    qOp.Open;
+
+    if not qOp.IsEmpty then
+      Result := qOp.FieldByName('IdRip').AsInteger;
+    qOp.Close;
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby pobrania informacji o pliku z rejestru plików.' + sLineBreak +
+        'Dla pliku: "' + Crc + '"' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+end;
+
+function TFrmSkan.DodajPlikDoRip(Crc: string): longint;
+begin
+  try
+    qOp.SQL.Text := 'INSERT INTO RejestrPlikow(Crc32Rip) VALUES(:CRC)';
+    qOp.ParamByName('CRC').AsString := Crc;
+    qOp.ExecSQL;
+    Result := DMG.GetLastId();
+  except
+    on e: Exception do
+    begin
+      Exception.Create('Błąd podczas próby dodania pliku do rejestru plików.' + sLineBreak + 'Dla pliku: "' +
+        Crc + '"' + sLineBreak + 'Treść błędu:' + sLineBreak + e.Message);
+    end;
+  end;
+end;
+
+procedure TFrmSkan.UstawWidokPostWynikow(Widoczne: boolean);
+begin
+  lbWyniki.Visible := Widoczne;
+  lbWynNowe.Visible := Widoczne;
+  lbWynZm.Visible := Widoczne;
+  lbWynUs.Visible := Widoczne;
+end;
+
+function TFrmSkan.GetIdRozsz(Rozsz: string): longint;
+var
+  s: string;
+begin
+  Result := 0;
+  s := fLstObsRozsz.Values[Rozsz];
+  if s <> '' then
+    Result := StrToIntDef(s, 0);
+end;
+
+function TFrmSkan.GetIdTypuPl(Rozsz: string): longint;
+begin
+  Result := 0;
+  if tbRozsz.Locate('NazwaRozszPl', Rozsz, [loCaseInsensitive]) then
+    Result := tbRozsz.FieldByName('IdTypPl').AsInteger;
+end;
+
+function TFrmSkan.GetScWzg(Plik: string): string;
+var
+  katPl:  string;
+  katWer: string;
+  dp, dw: integer;
+begin
+  Result := '';
+  katWer := AnsiUpperCase(fWybKat.ToString());
+  katPl := AnsiUpperCase(ExtractFilePath(Plik));
+  dp := Length(katPl);
+  dw := Length(katWer);
+  if dp > dw then
+  begin
+    Result := Copy(ExtractFilePath(Plik), dw + 2, dp);
+  end;
+end;
+
+procedure TFrmSkan.UtworzZakonczenie;
+begin
+  if fPrzerwijPrzetwarzanie then
+    lbZakInfo.Caption := 'Przerwano aktualizacje plików'
+  else
+    lbZakInfo.Caption := 'Zakończono aktualizacje plików';
+
+  lbZakDod.Caption := Format('Dodano: %d', [fIloscPlDod]);
+  lbZakZm.Caption  := Format('Uaktualniono: %d', [fIloscPlZm]);
+  lbZakUs.Caption  := Format('Usunięto: %d', [fIloscPlUs]);
 end;
 
 procedure TFrmSkan.btnZamknijClick(Sender: TObject);
@@ -519,6 +802,7 @@ begin
   if (chbxNowePl.Checked or chbxUaktPl.Checked or chbxUsunPl.Checked) then
   begin
     Notebook1.PageIndex := 1;
+    AktualizujDane;
   end;
 end;
 
@@ -531,6 +815,11 @@ procedure TFrmSkan.chbxNowePlClick(Sender: TObject);
 begin
   btnAkt.Enabled := ((chbxNowePl.Enabled and chbxNowePl.Checked) or (chbxUaktPl.Enabled and chbxUaktPl.Checked) or
     (chbxUsunPl.Enabled and chbxUsunPl.Checked));
+end;
+
+procedure TFrmSkan.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  tbRozsz.Close;
 end;
 
 end.

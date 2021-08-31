@@ -10,12 +10,14 @@ uses
 function GetConfigDir(): string;
 function GetAppDir(): string;
 function CrcFileStr(filename: string): string;
+function IsDigit(c: char): boolean;
+function IsNumberInteger(s: string): boolean;
 
 implementation
 
 function GetConfigDir(): string;
 begin
-  Result := GetUserDir + '.mfn';
+  Result := GetUserDir + '.mfn' + DirectorySeparator;
 end;
 
 function GetAppDir(): string;
@@ -26,28 +28,54 @@ end;
 function CrcFile(filename: string): longword;
 var
   crcvalue: longword;
-  fin: File;
-  NumRead: Word;
-  buf: Array[1..2048] of byte;
+  fin: file;
+  NumRead: word;
+  buf: array[1..2048] of byte;
 begin
-  crcvalue := crc32(0,nil,0);
-  AssignFile (fin, filename);
-  Reset (Fin,1);
+  crcvalue := crc32(0, nil, 0);
+  AssignFile(fin, filename);
+  Reset(Fin, 1);
   repeat
     BlockRead(fin, buf, Sizeof(buf), NumRead);
     crcvalue := crc32(crcvalue, @buf[1], NumRead);
-  until (NumRead=0);
+  until (NumRead = 0);
   CloseFile(fin);
-  result := crcvalue;
+  Result := crcvalue;
 end;
 
 function CrcFileStr(filename: string): string;
 var
   crcvalue: longword;
 begin
-  crcvalue:= CrcFile(filename);
-  result:= IntToHex(crcvalue, 8)
+  crcvalue := CrcFile(filename);
+  Result := IntToHex(crcvalue, 8);
+end;
+
+function IsDigit(c: char): boolean;
+begin
+  Result := c in ['0'..'9'];
+end;
+
+function IsNumberInteger(s: string): boolean;
+var
+  i: integer;
+begin
+  if (s = '') then
+  begin
+    Result := False;
+  end
+  else
+  begin
+    Result := True;
+    for i := 1 to Length(s) do
+    begin
+      if not IsDigit(s[i]) then
+      begin
+        Result := False;
+        break;
+      end;
+    end;
+  end;
 end;
 
 end.
-

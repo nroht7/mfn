@@ -31,6 +31,7 @@ type
     property ListaKatalogow: TObjectList read fLstKat;
     property WybranyKatalogOpis: string read GetWybKatOpis;
     property WybranyKatalog: TKatalog read fWybKat;
+    property Poziom : integer read fPoziom;
 
     function PrzejdzWyzej: boolean;
     function PrzejdzNizej(aKatalog: string): boolean;

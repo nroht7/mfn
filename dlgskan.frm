@@ -7,6 +7,7 @@ object FrmSkan: TFrmSkan
   Caption = 'Weryfikacja'
   ClientHeight = 370
   ClientWidth = 600
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -57,14 +58,14 @@ object FrmSkan: TFrmSkan
     Height = 320
     Top = 50
     Width = 600
-    PageIndex = 0
+    PageIndex = 2
     Align = alClient
     TabOrder = 1
     object Ustawienia: TPage
       object lbOpcje: TLabel
-        Left = 8
+        Left = 48
         Height = 15
-        Top = 120
+        Top = 232
         Width = 34
         Caption = 'Opcje:'
         ParentColor = False
@@ -129,20 +130,20 @@ object FrmSkan: TFrmSkan
         TabOrder = 1
       end
       object chbxOpcje: TCheckBox
-        Left = 24
+        Left = 64
         Height = 19
-        Top = 144
+        Top = 256
         Width = 263
         Caption = 'Obliczaj sumy MD5 dla każdego nowego pliku'
         TabOrder = 2
       end
       object lbInfo: TLabel
         Left = 48
-        Height = 80
+        Height = 200
         Top = 16
         Width = 544
         AutoSize = False
-        Caption = 'W trakcie skanowania zostaną porównane informacje zapisane w bazie danych, '#13#10'z rzeczywistą zawartością badanego katalogu. Zmiany zostaną uwzględnione w rejestrze.'#13#10'W wyniku operacji do bazy danych zostaną dopisane nowe pliki, usunięte już nie istnejące i zaktualizowane te które uległy zmianie.'
+        Caption = 'Operacja obejmuje dwa etapy:'#13#10#13#10'1. Weryfikacja'#13#10'Weryfikacja sprawdzi wybrany katalog pod kątem zmian pomiędzy jego rzeczywistą zawartością a tym zapisanym w bazie danych.'#13#10'Zostaną określone pliki które zostały dodane, usunięte i zmienione oraz odpowiedniej modyfikacji ulegnie ich status.'#13#10'Na tym etapie proces może zostać zakończony.'#13#10#13#10'2. Aktualizacja'#13#10'W trakcie aktualizacji zmiany wykryte w poprzednim etapie zostaną uwzględnione w rejestrze.'#13#10'W wyniku operacji do bazy danych zostaną dopisane nowe pliki, usunięte już nie istnejące i zaktualizowane te które uległy zmianie.'
         Font.CharSet = EASTEUROPE_CHARSET
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
@@ -276,7 +277,7 @@ object FrmSkan: TFrmSkan
         OnClick = btnPrzerwijClick
         TabOrder = 1
       end
-      object Label6: TLabel
+      object lbWyniki: TLabel
         Left = 8
         Height = 15
         Top = 136
@@ -576,6 +577,67 @@ object FrmSkan: TFrmSkan
         }
       end
     end
+    object Zakonczenie: TPage
+      object btnZamknij1: TBitBtn
+        Left = 496
+        Height = 30
+        Top = 284
+        Width = 93
+        Anchors = [akLeft, akBottom]
+        DefaultCaption = True
+        Kind = bkClose
+        ModalResult = 11
+        OnChangeBounds = btnZamknijClick
+        OnClick = btnZamknijClick
+        TabOrder = 0
+      end
+      object lbZakInfo: TLabel
+        Left = 46
+        Height = 21
+        Top = 47
+        Width = 246
+        Caption = 'Zakończono aktualizacje plików'
+        Font.CharSet = EASTEUROPE_CHARSET
+        Font.Height = -16
+        Font.Pitch = fpVariable
+        Font.Quality = fqDraft
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label1: TLabel
+        Left = 46
+        Height = 15
+        Top = 88
+        Width = 85
+        Caption = 'Podsumowanie:'
+        ParentColor = False
+      end
+      object lbZakDod: TLabel
+        Left = 80
+        Height = 15
+        Top = 112
+        Width = 54
+        Caption = 'Dodano: 0'
+        ParentColor = False
+      end
+      object lbZakZm: TLabel
+        Left = 80
+        Height = 15
+        Top = 136
+        Width = 83
+        Caption = 'Uaktualniono: 0'
+        ParentColor = False
+      end
+      object lbZakUs: TLabel
+        Left = 80
+        Height = 15
+        Top = 160
+        Width = 59
+        Caption = 'Usunięto: 0'
+        ParentColor = False
+      end
+    end
   end
   object ImageList1: TImageList
     Left = 424
@@ -773,6 +835,12 @@ object FrmSkan: TFrmSkan
     Connection = DMG.ZConn
     TableName = 'RozszerzeniaPl'
     Left = 440
+    Top = 192
+  end
+  object qOp: TZQuery
+    Connection = DMG.ZConn
+    Params = <>
+    Left = 384
     Top = 192
   end
 end

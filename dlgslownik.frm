@@ -10,7 +10,7 @@ object FrmSlownik: TFrmSlownik
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.2'
+  LCLVersion = '7.3'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -83,6 +83,7 @@ object FrmSlownik: TFrmSlownik
         item
           Title.Caption = 'Nazwa'
           Width = 350
+          FieldName = 'NAZWA'
         end>
       DataSource = DataSource
       TabOrder = 0
@@ -141,6 +142,7 @@ object FrmSlownik: TFrmSlownik
     Top = 464
     Width = 400
     Align = alBottom
+    DataField = 'OPIS'
     DataSource = DataSource
     TabOrder = 3
   end
@@ -198,6 +200,7 @@ object FrmSlownik: TFrmSlownik
       Hint = 'Dodaj'
       ImageIndex = 1
       OnExecute = acDodajExecute
+      ShortCut = 16462
     end
     object acUsun: TAction
       Category = 'Database'
@@ -205,6 +208,7 @@ object FrmSlownik: TFrmSlownik
       Hint = 'Usuń'
       ImageIndex = 2
       OnExecute = acUsunExecute
+      ShortCut = 16430
     end
   end
   object ImageList1: TImageList
@@ -213,6 +217,7 @@ object FrmSlownik: TFrmSlownik
   end
   object ZQuery: TZQuery
     Connection = DMG.ZConn
+    AfterPost = ZQueryAfterPost
     Params = <>
     Left = 39
     Top = 144

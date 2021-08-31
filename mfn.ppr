@@ -12,7 +12,8 @@ uses
   Interfaces, // this includes the CT adLCL widgetset
   Forms, main, dmgl, funkcje, dlgslownik, dlgpozsl, dlgaktorzy, dmakt, dlgwlasc,
   dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan, dlgRozszPl,
-  dlgedycjarozsz, ulstplrec;
+  dlgedycjarozsz, ulstplrec, usqlqryb, dlgflmdod, dlgfilmlista, dlginfotxt,
+  dlgrok, dlgczasfilm, dlgimgview, ulnkopen, dlgaktor, dlglstpoztxt, dlgpzlntxt;
 
 {$R *.res}
 
@@ -20,10 +21,11 @@ begin
   RequireDerivedFormResource:=True;
   Application.Scaled:=True;
   Application.Initialize;
-  Application.CreateForm(TFrmMain, FrmMain);
   Application.CreateForm(TDMG, DMG);
   Application.CreateForm(TDMA, DMA);
-  Application.CreateForm(TFrmEdRozsz, FrmEdRozsz);
+  Application.CreateForm(TDMM, DMM);
+  Application.CreateForm(TFrmMain, FrmMain);
+  Application.CreateForm(TFrmPozLinTxt, FrmPozLinTxt);
   Application.Run;
 end.
 

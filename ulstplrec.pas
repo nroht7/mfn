@@ -22,6 +22,7 @@ type
     function CrcZgodne(Crc32: string): boolean;
     function ObliczCrc32(Force: boolean = False): boolean;
     function ObliczMd5(Force: boolean = False): boolean;
+    function RozmiarPliku: int64;
 
     property Id: longint Read fId;
     property Sciezka: string Read fSc;
@@ -39,11 +40,12 @@ type
     destructor Destroy; override;
     function GetRec(Id: longint): TPlikRec; overload;
     function GetRec(Sc: string): TPlikRec; overload;
-    function DodajPlik(Id: longint; sc: string): integer; overload;
+    function DodajPlik(Id: longint; Sciezka: string): TPlikRec; overload;
     function DodajPlik(Plik: TPlikRec): integer; overload;
     function UsunPlik(Id: longint): boolean;
+    function SaPliki: boolean;
 
-    property Lista: TObjectList Read fLstPl;
+    property Pliki: TObjectList Read fLstPl;
   end;
 
 implementation
@@ -101,15 +103,16 @@ begin
   end;
 end;
 
-function TLstPlikowRec.DodajPlik(Id: longint; sc: string): integer;
+function TLstPlikowRec.DodajPlik(Id: longint; Sciezka: string): TPlikRec;
 var
   plRec: TPlikRec;
 begin
-  Result := -1;
-  if (GetRec(Id) = nil) then
+  Result := nil;
+  if (GetRec(Sciezka) = nil) then
   begin
-    plRec  := TPlikRec.Create(Id, sc);
-    Result := fLstPl.Add(plRec);
+    plRec  := TPlikRec.Create(Id, Sciezka);
+    fLstPl.Add(plRec);
+    Result:= plRec;
   end;
 end;
 
@@ -132,6 +135,11 @@ begin
   begin
     Result := (fLstPl.Remove(plRec) >= 0);
   end;
+end;
+
+function TLstPlikowRec.SaPliki: boolean;
+begin
+  result:= (fLstPl.Count > 0);
 end;
 
 { TPlikRec }
@@ -157,7 +165,7 @@ begin
   Result := False;
   if ((fSc <> '') and ((Force) or (fCrc = ''))) then
   begin
-    fCrc := CrcFileStr(plik);
+    fCrc := CrcFileStr(fSc);
     Result := True;
   end;
 end;
@@ -170,6 +178,16 @@ begin
     fMd5 := MD5Print(MD5File(fSc));
     Result := True;
   end;
+end;
+
+function TPlikRec.RozmiarPliku: int64;
+Var
+  F : File Of byte;
+begin
+  Assign (F,fSc);
+  Reset (F);
+  result:= FileSize(F);
+  Close (F);
 end;
 
 end.
