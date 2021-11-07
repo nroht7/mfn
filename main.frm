@@ -11,7 +11,7 @@ object FrmMain: TFrmMain
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '7.3'
+  LCLVersion = '7.5'
   object pnlMain: TPanel
     Left = 266
     Height = 801
@@ -28,9 +28,9 @@ object FrmMain: TFrmMain
       Height = 300
       Top = 501
       Width = 934
-      ActivePage = tsPlikInfo
+      ActivePage = tsPlikTagi
       Align = alBottom
-      TabIndex = 0
+      TabIndex = 3
       TabOrder = 0
       OnChange = pcDanePlChange
       object tsPlikInfo: TTabSheet
@@ -45,7 +45,7 @@ object FrmMain: TFrmMain
           DataField = 'NazwaPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
-          MaxLength = 300
+          MaxLength = 0
           TabOrder = 0
         end
         object Image1: TImage
@@ -107,7 +107,6 @@ object FrmMain: TFrmMain
           Top = 8
           Width = 22
           Caption = 'Plik:'
-          ParentColor = False
         end
         object Label2: TLabel
           Left = 56
@@ -115,7 +114,6 @@ object FrmMain: TFrmMain
           Top = 56
           Width = 41
           Caption = 'Scieżka:'
-          ParentColor = False
         end
         object Label3: TLabel
           Left = 56
@@ -123,7 +121,6 @@ object FrmMain: TFrmMain
           Top = 104
           Width = 203
           Caption = 'Scieżka względem katalogu głównego:'
-          ParentColor = False
         end
         object DBEdit2: TDBEdit
           Left = 56
@@ -133,7 +130,7 @@ object FrmMain: TFrmMain
           DataField = 'ScPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
-          MaxLength = 300
+          MaxLength = 0
           TabOrder = 1
         end
         object DBEdit3: TDBEdit
@@ -144,7 +141,7 @@ object FrmMain: TFrmMain
           DataField = 'WzgScPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
-          MaxLength = 300
+          MaxLength = 0
           TabOrder = 2
         end
         object Label4: TLabel
@@ -153,7 +150,6 @@ object FrmMain: TFrmMain
           Top = 152
           Width = 46
           Caption = 'Rozmiar:'
-          ParentColor = False
         end
         object Label5: TLabel
           Left = 184
@@ -161,7 +157,6 @@ object FrmMain: TFrmMain
           Top = 152
           Width = 33
           Caption = 'Crc32:'
-          ParentColor = False
         end
         object Label6: TLabel
           Left = 296
@@ -169,7 +164,6 @@ object FrmMain: TFrmMain
           Top = 152
           Width = 28
           Caption = 'MD5:'
-          ParentColor = False
         end
         object Label8: TLabel
           Left = 56
@@ -177,15 +171,13 @@ object FrmMain: TFrmMain
           Top = 200
           Width = 73
           Caption = 'Data dodania:'
-          ParentColor = False
         end
         object Label9: TLabel
-          Left = 240
+          Left = 56
           Height = 15
-          Top = 200
+          Top = 216
           Width = 92
           Caption = 'Data modyfikacji:'
-          ParentColor = False
         end
         object DBEdit4: TDBEdit
           Left = 56
@@ -205,7 +197,7 @@ object FrmMain: TFrmMain
           Width = 104
           DataField = 'Crc32Rip'
           DataSource = dsMain
-          MaxLength = 8
+          MaxLength = 0
           TabOrder = 4
         end
         object DBEdit6: TDBEdit
@@ -215,7 +207,7 @@ object FrmMain: TFrmMain
           Width = 160
           DataField = 'Md5Rip'
           DataSource = dsMain
-          MaxLength = 32
+          MaxLength = 0
           TabOrder = 5
         end
         object SpeedButton4: TSpeedButton
@@ -231,33 +223,128 @@ object FrmMain: TFrmMain
           Width = 41
           DataField = 'DataDodPl'
           DataSource = dsMain
-          ParentColor = False
         end
         object DBText2: TDBText
-          Left = 336
+          Left = 152
           Height = 15
-          Top = 200
+          Top = 216
           Width = 41
           DataField = 'DataModPl'
           DataSource = dsMain
-          ParentColor = False
         end
         object Label7: TLabel
-          Left = 448
+          Left = 56
           Height = 15
-          Top = 200
+          Top = 232
           Width = 95
           Caption = 'Ilość uruchomień:'
-          ParentColor = False
         end
         object DBText3: TDBText
-          Left = 552
+          Left = 160
           Height = 15
-          Top = 200
+          Top = 232
           Width = 41
           DataField = 'IloscUruchomienIpf'
           DataSource = DMM.dsMainInfo
-          ParentColor = False
+        end
+        object gbxOcena1: TGroupBox
+          Left = 496
+          Height = 80
+          Top = 160
+          Width = 272
+          Caption = 'Ocena'
+          ClientHeight = 60
+          ClientWidth = 268
+          TabOrder = 6
+          object DBText6: TDBText
+            Left = 232
+            Height = 40
+            Top = 0
+            Width = 113
+            DataField = 'OcenaRip'
+            DataSource = dsMain
+            Font.CharSet = EASTEUROPE_CHARSET
+            Font.Height = -29
+            Font.Pitch = fpVariable
+            Font.Quality = fqDraft
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object imgOcena: TImage
+            Left = 32
+            Height = 32
+            Top = 8
+            Width = 192
+            Picture.Data = {
+              1754506F727461626C654E6574776F726B477261706869639205000089504E47
+              0D0A1A0A0000000D49484452000000C000000020080600000044987785000005
+              5949444154789CED9C5B489C4714C7C75BA406ADC558424B485E0221841A5F8A
+              2F2934ED93CF421E7D16F745119510745956BBB05E56B45EC0BB46D7BBAEF7FB
+              1A5FBCA0220A2A94228855D13EF5217D9BCE7FF6FBACA16EDCB53167D459F8E3
+              3833E7FCCEC20C33F39DF996B1CB7FC25C2ED75BA13694FF879FEBC6562506CD
+              A7E4272727DFAFAFAFE790F837FAB6B0558941F369F961369BAD787E7E9E43F9
+              F9F9AF455DE82D60AB1283E6138F81BB454545EFF7F6F63884B2A88BBA056C55
+              62D07C427E487676F6AB9E9E1EBEB9B9C957575739CA168BE527B4DD60B62A31
+              683EF118882C2828F0ACACACF0DEDE5EEE76BB651085858503A2EDCE0D66AB12
+              83E6138F8198F2F272BEBFBFCF9B9A9AA4767777794545050E23313798AD4A0C
+              9A4FC80FB55AADAFC7C7C7B9D7EBE5ADADAD5228A30E6DECEA0E23946C5562D0
+              7CE23110555C5CFC7E676787777474F0B6B636290481BA929292AB3C8C50B255
+              8941F309F921E9E9E93F363434F08D8D0D09C6FE0B42796D6D8D37363672F461
+              9FFE3042C9562506CD271E0377C4E1A36B7171910F0D0DC919D8D9D92985727F
+              7F3F471BFAB04F7F18A164AB1283E65F113FDCE5722D086109E16289F12BA7D3
+              C9B7B6B624B0ABABEB03A10E8FA5CACACA3EEA038CD2D2522E78BF09760425DB
+              10E9F7D77C723E8B81D1C9C9093F3A3AE2878787FCE0E0E05CA10D070ECCBAEE
+              EEEE0F843AB4F9B335EDC1383E3E96CB96607F49C93644FAFD359F9CCFE26C36
+              9BB7A5A5E5D491B9AC9C95598FD986C4C37942DB45F66034373773BBDDEE15EC
+              7B946C43A4DF5FF3C9F9F222D177797979EFEAEAEA647201FB29FC3D4F7D7D7D
+              1F953F3BD3676D6D2D070B4C05D8D18AC4A0F9747C166ECC84E7A9A9A9BF5457
+              57CB59323030208D2E025E24F8802FF8846F30C03298D4EC704562D07C3A3E33
+              27C157424F1212125E21ABD6DEDECE0707074F03B98C600B1FF0059FF00D86C1
+              0A5780ADC2F7D77C7ABEFC20838624C223A1170E87E377DCB58603C8E3F10425
+              D30E3EE00B3E0DDF51ECBFD93A4AB62A31683EFD1890098448A16F84BECFC9C9
+              F1545555C9BD93E93050C106B6F0015F86CF48E63F4941C9562506CDA71F03F2
+              83E7A3F142CFB3B2B23AB18420F910A8868787E5B2035BE6DB6FC51B3E5567AB
+              1283E6D38F01F99E65BCD56A1D9E9B9BE3B3B3B3A7CE03116C606BC0837D6793
+              92AD4A0C9A4F3F06582CB266B87B313A3ACA474646021202800D6CE1E31AB255
+              8941F309F921168BE5673C9B458A198E1184A9B1B13179051542F96C1BFA2200
+              D8C2070BFE7212255B9518349F780C44D8EDF6262C3B4B4B4BA750686262824F
+              4D4DC9CC1BF65A28A3CE6C47DF858505B964C107BBC41E9C90AD4A0C9A4F3C06
+              A29D4EE71FCBCBCB723F6582272727E55FBC89939B9B3B0DE151D3D936CC4AEC
+              D9600B1F2CF89FADA064AB1283E653F29392921EE031126EDFC129343D3D2D97
+              1764D4D2D2D27E45370865F191330F7D100882D8DEDEE69595951CBEAE0B5B95
+              18349F961F264ED06F7089687D7D5D2E31985178B68AF73153525272449FA7CC
+              77C2869EA20E575AB12CA12F6CF092026CE08B057E12A764AB1283E6138F812F
+              1C0EC73C961E2C239855B841876BAB89898948273F66BE6525D410CA8FD1264E
+              DE7FE3AD1DD860EF862BAAF0059FD780AD4A0C9A4F3C066201C37B96984D3535
+              35F8F1A13F45FD0FECDF74F2D993758851F750E805FA62E9999999913EB03CB1
+              C01F4751B2558941F329F9717171F7C572F2179614282323C3CD7CFBAD6F99FF
+              74B299C6469FA4CCCC4CB7690F5FF0A93A5B9518349F7E0C60B6240ABD64BE4B
+              44CF58E0E964338DFDCCB07D69F80A78052064AB1283E6138F8108C3E06BE6BB
+              377D97057988316CEE193E6259707781A8D8AAC4A0F99F89FF0F480C920EE042
+              11250000000049454E44AE426082
+            }
+          end
+          object SpeedButton8: TSpeedButton
+            Left = 8
+            Height = 32
+            Hint = 'Ustaw ocene'
+            Top = 8
+            Width = 18
+            Caption = '...'
+            OnClick = SpeedButton3Click
+            ShowHint = True
+            ParentShowHint = False
+          end
+          object DBText7: TDBText
+            Left = 32
+            Height = 15
+            Top = 42
+            Width = 193
+            Alignment = taCenter
+            AutoSize = False
+            DataField = 'NazwaOceny'
+            DataSource = dsMain
+          end
         end
       end
       object tsPlikParam: TTabSheet
@@ -321,7 +408,6 @@ object FrmMain: TFrmMain
           Top = 8
           Width = 55
           Caption = 'Szerokość:'
-          ParentColor = False
         end
         object Label12: TLabel
           Left = 234
@@ -329,7 +415,6 @@ object FrmMain: TFrmMain
           Top = 8
           Width = 56
           Caption = 'Wysokość:'
-          ParentColor = False
         end
         object DBEdit8: TDBEdit
           Left = 146
@@ -378,7 +463,6 @@ object FrmMain: TFrmMain
           Top = 104
           Width = 68
           Caption = 'Kodek video:'
-          ParentColor = False
         end
         object Label17: TLabel
           Left = 56
@@ -386,7 +470,6 @@ object FrmMain: TFrmMain
           Top = 192
           Width = 69
           Caption = 'Kodek audio:'
-          ParentColor = False
         end
         object Label18: TLabel
           Left = 58
@@ -394,7 +477,6 @@ object FrmMain: TFrmMain
           Top = 144
           Width = 51
           Caption = 'Kontener:'
-          ParentColor = False
         end
         object Label19: TLabel
           Left = 58
@@ -402,7 +484,6 @@ object FrmMain: TFrmMain
           Top = 56
           Width = 46
           Caption = 'Długość:'
-          ParentColor = False
         end
         object DBEdit7: TDBEdit
           Left = 57
@@ -411,7 +492,7 @@ object FrmMain: TFrmMain
           Width = 256
           DataField = 'KodekVideoIpf'
           DataSource = DMM.dsMainInfo
-          MaxLength = 0
+          MaxLength = 50
           TabOrder = 3
         end
         object DBEdit10: TDBEdit
@@ -421,7 +502,7 @@ object FrmMain: TFrmMain
           Width = 256
           DataField = 'KontenerIpf'
           DataSource = DMM.dsMainInfo
-          MaxLength = 0
+          MaxLength = 50
           TabOrder = 4
         end
         object DBEdit11: TDBEdit
@@ -431,7 +512,7 @@ object FrmMain: TFrmMain
           Width = 256
           DataField = 'KodekAudioIpf'
           DataSource = DMM.dsMainInfo
-          MaxLength = 0
+          MaxLength = 50
           TabOrder = 5
         end
         object DBEdit12: TDBEdit
@@ -451,7 +532,6 @@ object FrmMain: TFrmMain
           Top = 8
           Width = 41
           Caption = 'Format:'
-          ParentColor = False
         end
         object DBEdit13: TDBEdit
           Left = 58
@@ -460,7 +540,7 @@ object FrmMain: TFrmMain
           Width = 80
           DataField = 'FormatIpf'
           DataSource = DMM.dsMainInfo
-          MaxLength = 0
+          MaxLength = 20
           TabOrder = 7
         end
         object Label21: TLabel
@@ -469,7 +549,6 @@ object FrmMain: TFrmMain
           Top = 64
           Width = 112
           Caption = 'Ilość strumieni video:'
-          ParentColor = False
         end
         object sbnInfoDodaj: TSpeedButton
           Left = 58
@@ -487,7 +566,6 @@ object FrmMain: TFrmMain
           Width = 41
           DataField = 'IloscStrumIpf'
           DataSource = DMM.dsMainInfo
-          ParentColor = False
         end
         object BitBtn1: TBitBtn
           Left = 336
@@ -540,7 +618,6 @@ object FrmMain: TFrmMain
           Top = 8
           Width = 38
           Caption = 'Rodzaj:'
-          ParentColor = False
         end
         object lcbRodzaj: TDBLookupComboBox
           Left = 336
@@ -566,6 +643,17 @@ object FrmMain: TFrmMain
           Images = DMG.ilCommon
           ImageIndex = 34
           OnClick = SpeedButton7Click
+        end
+        object DBText10: TDBText
+          Left = 112
+          Height = 15
+          Top = 56
+          Width = 50
+          DataField = 'CDlugosc'
+          DataSource = DMM.dsMainInfo
+          Font.Color = clGrayText
+          Font.Style = [fsItalic]
+          ParentFont = False
         end
       end
       object tsPlikFilm: TTabSheet
@@ -718,14 +806,14 @@ object FrmMain: TFrmMain
                     object ToolButton29: TToolButton
                       Left = 1
                       Top = 44
-                      Width = 23
+                      Width = 5
                       Caption = 'ToolButton29'
                       Style = tbsDivider
                     end
                     object ToolButton30: TToolButton
                       Left = 1
                       Top = 71
-                      Width = 23
+                      Width = 5
                       Caption = 'ToolButton30'
                       Style = tbsDivider
                     end
@@ -979,7 +1067,6 @@ object FrmMain: TFrmMain
                   Top = 8
                   Width = 76
                   Caption = 'Rok produkcji:'
-                  ParentColor = False
                 end
                 object Label26: TLabel
                   Left = 300
@@ -987,133 +1074,13 @@ object FrmMain: TFrmMain
                   Top = 8
                   Width = 78
                   Caption = 'Długość (min):'
-                  ParentColor = False
                 end
                 object Label28: TLabel
                   Left = 424
                   Height = 15
-                  Top = 152
+                  Top = 151
                   Width = 28
                   Caption = 'Seria:'
-                  ParentColor = False
-                end
-                object gbxOcena: TGroupBox
-                  Left = 196
-                  Height = 79
-                  Top = 112
-                  Width = 208
-                  Caption = 'Ocena'
-                  ClientHeight = 59
-                  ClientWidth = 204
-                  TabOrder = 1
-                  object DBText4: TDBText
-                    Left = 168
-                    Height = 40
-                    Top = 4
-                    Width = 113
-                    DataField = 'OcenaFilmu'
-                    DataSource = DMM.dsMainFilm
-                    Font.CharSet = EASTEUROPE_CHARSET
-                    Font.Height = -29
-                    Font.Pitch = fpVariable
-                    Font.Quality = fqDraft
-                    Font.Style = [fsBold]
-                    ParentColor = False
-                    ParentFont = False
-                  end
-                  object imgOcena: TImage
-                    Left = 32
-                    Height = 27
-                    Top = 13
-                    Width = 120
-                    Picture.Data = {
-                      1754506F727461626C654E6574776F726B477261706869631D06000089504E47
-                      0D0A1A0A0000000D494844520000007800000018080600000031903988000000
-                      017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
-                      597300000EC300000EC301C76FA8640000001874455874536F66747761726500
-                      7061696E742E6E657420342E302E35658532650000058E494441546843ED9A69
-                      48946B14C79F6E2E1194B985D1622EA07D482C4C2C84B22BEA05D788C04A301D
-                      1BB7D44453330571ABB1EB88FB5A63EA18651629A2E21209522E5F442BC4CC21
-                      CC42A5C6CCC15CCE3DE775ECCABDD7E17275EEF4E1FDC3C333EFB3FC9EF970E6
-                      7FCE3333ECDFCACBCB4B3B3939D9232929C9D3C7C7475B39BC69E2F9AAA556FE
-                      C99327595454D4DE7BF7EE4925128934222262AFA3A3A37276E3E2F9AAA56E3E
-                      69CBEDDBB7DD7B7A7AC6BABBBBC7323333DD696C656A53C4F3554BBDFCB367CF
-                      EAD5D5D5893F7CF8F07D6C6CEC3B4692D8DBDB5B4F39BD61F17CD5522B1F0058
-                      6A6AEAB1172F5EF47EFDFA15A6A7A7A1A5A5A5373E3EFE18CD6D543C5FB5D4CD
-                      670E0E0E3A555555D1EFDEBD93CFCDCDC1972F5FA0AFAF4F9E9393136D6F6FAF
-                      A35CF69FC5F3556B53F87BF6EC614E4E4EECCC99332C2020805DB97285C5C4C4
-                      B0D8D8584AEEA69D9D9DCD049E9D9D85A9A92978F3E60D545757370705059986
-                      868672EBC3C2C298502864FEFEFEECDCB9735C61606D6DCDF37F023E690B3E6C
-                      757575D5BD70E1C2F69090901D57AF5E35C0434CF2F3F32F21F023C13F7FFE0C
-                      9807607878181A1B1B3F62C97E09D79A8487871BD01E8140B01DF7EBBABBBB6F
-                      3537375F5B04F07C4DF1D1DF3DB0F4BE5C5F5F1FFDF4E9D3E4E6E66611464CC1
-                      F3E7CF255D5D5D7558B90D4E4E4E2E51047DFAF409D02A606868083A3A3A968A
-                      8A8A06B3B2B2EA442291E4D6AD5B05D844D8926FDEBC199D969676392E2ECE83
-                      E76B964F365088601956670A4CE0F318250B72B97C71666666091BE06BCEF709
-                      2E93C9E0F5EBD7D0DBDB0BEDEDEDF0E0C103C03707E5E5E54B6565658B151515
-                      0B77EFDE9DC75E8187CA8283830B79BE66F9CCD6D6F6385A81B8B5B55586FEBE
-                      3C3F3F0FD4140A05E7F978E00F385A052578686B6B83870F1F02C200C17400DC
-                      B97307B07C87CACACA65BCB3C93017880F1F3E7C9CE76B964F2EAD6D68686879
-                      FEFCF998DADADA81D1D1D185D5C8C1036162620230BAE0D5AB5780A53A343535
-                      518287C2C242C0FC006813DC2108A6685A484F4F1FC03B5ACCEEDDBB2D89CDF3
-                      35CEE7F40B36636767675F2CBF5BD002BE8D8F8FC3FBF7EF61646404060606E0
-                      D9B3678079828B9A828202C8CDCDE50E292D2DE5220723E85B626262CBA953A7
-                      7CB5B4B48C95CC55F17CCDF23951D5B5D3CECEEED7EBD7AF4BF0323D393838B8
-                      DCDFDF0F98F8E1FEFDFB80DECEC1F3F2F2B89EE0353535CB383E89E5BC84F612
-                      83582862AE15CFD72CFF8774CDCCCC8E6464643C42AF5F686868A08F3E949494
-                      709640708A1C7AA6F1C78F1F932D3CB2B0B038427B57102AC5F3554BBD7CFC78
-                      3317171723B48A1AA954BA442082AE368253E4506227DF47DB582A2E2EAEC13B
-                      9C91AE2ECFFFD9F9ECC081032C3434F4107AFC4BDCC8412972084CC99C6C821A
-                      E5023A804A75EC5F4644441CDAB76F9F92B2BE78BE6AA99BCF99F7B56BD73C11
-                      3A41151A358A228261B4C093274F00AB3D2EB153C31C00555555134949499EB4
-                      7D85B2BE78BE6AA99BCF1C1D1DB7A5A4A4DC40A8623562104007CC605EE8C9CC
-                      CCEC41E80C257D1AA743B057E0F88D13274E6C5362D615CF572D75F3D9C58B17
-                      4D44229114CBEE654AE2D816C562F15BA150986F6363F31BB59090907CB490B7
-                      085E541EB29C9D9D2DF5F3F3335162D615CF572DB5F28D8C8C187AF951DCDC47
-                      70F47D797C7C7C3B2670A1BEBE3E5D9CE9E7291D0303034B373737614242423B
-                      5A881CA38BF2445F6464E4519CE358FF249EAF593E43C896B8B8385F8C98F1B4
-                      B4B4618CA6DFADACACE8CF3FDCDD8A5BB4227ABD93E6680DADC5AA6F1CDF8CEF
-                      AE5DBBD6CD033C5FB37C666A6AAA1D1818E88F76507BFAF4697F4343C38338AC
-                      8D65FBCA8235C2A8A28EBE663B486B698F4020F0C72AF0C7D7637F15CFD72C9F
-                      191B1B6B59A3F6EFDF6F878FF49F9FF5A3E14FD11A3DDA437B89B132FC77F1FC
-                      FF9BCFD81FADA5BC26149A22760000000049454E44AE426082
-                    }
-                  end
-                  object SpeedButton3: TSpeedButton
-                    Left = 7
-                    Height = 22
-                    Hint = 'Ustaw ocene'
-                    Top = 32
-                    Width = 18
-                    Caption = '...'
-                    OnClick = SpeedButton3Click
-                    ShowHint = True
-                    ParentShowHint = False
-                  end
-                  object RxSpinButton1: TRxSpinButton
-                    Left = 7
-                    Height = 20
-                    Top = 8
-                    Width = 18
-                    DownGlyph.Data = {
-                      C6000000424DC600000000000000360000002800000006000000060000000100
-                      2000000000009000000064000000640000000000000000000000000000000000
-                      0000000000FF000000FF000000000000000000000000000000FF000000FF0000
-                      00FF000000FF00000000000000FF000000FF000000FF000000FF000000FF0000
-                      00FF0000000000000000000000FF000000FF0000000000000000000000000000
-                      0000000000FF000000FF00000000000000000000000000000000000000FF0000
-                      00FF0000000000000000
-                    }
-                    UpGlyph.Data = {
-                      C6000000424DC600000000000000360000002800000006000000060000000100
-                      2000000000009000000064000000640000000000000000000000000000000000
-                      0000000000FF000000FF00000000000000000000000000000000000000FF0000
-                      00FF00000000000000000000000000000000000000FF000000FF000000000000
-                      0000000000FF000000FF000000FF000000FF000000FF000000FF000000000000
-                      00FF000000FF000000FF000000FF000000000000000000000000000000FF0000
-                      00FF0000000000000000
-                    }
-                  end
                 end
                 object DBEdit14: TDBEdit
                   Left = 196
@@ -1124,7 +1091,7 @@ object FrmMain: TFrmMain
                   DataSource = DMM.dsMainFilm
                   Alignment = taRightJustify
                   MaxLength = 0
-                  TabOrder = 2
+                  TabOrder = 1
                 end
                 object DBEdit15: TDBEdit
                   Left = 300
@@ -1136,7 +1103,7 @@ object FrmMain: TFrmMain
                   ReadOnly = True
                   Alignment = taRightJustify
                   MaxLength = 0
-                  TabOrder = 3
+                  TabOrder = 2
                 end
                 object Label13: TLabel
                   Left = 424
@@ -1144,7 +1111,6 @@ object FrmMain: TFrmMain
                   Top = 8
                   Width = 30
                   Caption = 'Język:'
-                  ParentColor = False
                 end
                 object lcbJezyk: TDBLookupComboBox
                   Left = 424
@@ -1162,7 +1128,7 @@ object FrmMain: TFrmMain
                   DisplayEmpty = 'brak'
                   ParentDoubleBuffered = False
                   Style = csDropDownList
-                  TabOrder = 4
+                  TabOrder = 3
                 end
                 object sbnJezykClear: TSpeedButton
                   Left = 648
@@ -1180,7 +1146,6 @@ object FrmMain: TFrmMain
                   Top = 56
                   Width = 39
                   Caption = 'Napisy:'
-                  ParentColor = False
                 end
                 object lcbNapisy: TDBLookupComboBox
                   Left = 424
@@ -1195,7 +1160,7 @@ object FrmMain: TFrmMain
                   ListSource = DMM.dsJezyki
                   LookupCache = False
                   Style = csDropDownList
-                  TabOrder = 5
+                  TabOrder = 4
                 end
                 object sbnNapisyClear: TSpeedButton
                   Left = 648
@@ -1213,7 +1178,6 @@ object FrmMain: TFrmMain
                   Top = 104
                   Width = 49
                   Caption = 'Dubbing:'
-                  ParentColor = False
                 end
                 object lcbDubbing: TDBLookupComboBox
                   Left = 424
@@ -1228,7 +1192,7 @@ object FrmMain: TFrmMain
                   ListSource = DMM.dsJezyki
                   LookupCache = False
                   Style = csDropDownList
-                  TabOrder = 6
+                  TabOrder = 5
                 end
                 object sbnDubbingClear: TSpeedButton
                   Left = 648
@@ -1246,7 +1210,6 @@ object FrmMain: TFrmMain
                   Top = 56
                   Width = 23
                   Caption = 'Kraj:'
-                  ParentColor = False
                 end
                 object DBLookupComboBox2: TDBLookupComboBox
                   Left = 196
@@ -1261,12 +1224,12 @@ object FrmMain: TFrmMain
                   ListSource = DMM.dsKraje
                   LookupCache = False
                   Style = csDropDownList
-                  TabOrder = 7
+                  TabOrder = 6
                 end
                 object DBLookupComboBox3: TDBLookupComboBox
                   Left = 424
                   Height = 23
-                  Top = 168
+                  Top = 167
                   Width = 247
                   DataField = 'IdSerii'
                   DataSource = DMM.dsMainFilm
@@ -1276,7 +1239,7 @@ object FrmMain: TFrmMain
                   ListSource = DMM.dsSerie
                   LookupCache = False
                   Style = csDropDownList
-                  TabOrder = 8
+                  TabOrder = 7
                 end
                 object SpeedButton1: TSpeedButton
                   Left = 381
@@ -1321,7 +1284,6 @@ object FrmMain: TFrmMain
                   Width = 87
                   Caption = 'Podsumowanie:'
                   Font.Style = [fsBold]
-                  ParentColor = False
                   ParentFont = False
                 end
                 object ListView2: TListView
@@ -1340,8 +1302,215 @@ object FrmMain: TFrmMain
                     end>
                   RowSelect = True
                   SmallImages = DMG.ilCommon
-                  TabOrder = 9
+                  TabOrder = 8
                   ViewStyle = vsReport
+                end
+                object GroupBox3: TGroupBox
+                  Left = 196
+                  Height = 89
+                  Top = 104
+                  Width = 208
+                  Caption = 'Ocena:'
+                  ClientHeight = 69
+                  ClientWidth = 204
+                  TabOrder = 9
+                  object Panel10: TPanel
+                    Left = 0
+                    Height = 35
+                    Top = 0
+                    Width = 204
+                    Align = alTop
+                    BevelInner = bvRaised
+                    BevelOuter = bvLowered
+                    ClientHeight = 35
+                    ClientWidth = 204
+                    TabOrder = 0
+                    object Label29: TLabel
+                      Left = 8
+                      Height = 15
+                      Top = 8
+                      Width = 29
+                      Caption = 'Pliku:'
+                    end
+                    object ImgOcenaPlF: TImage
+                      Left = 62
+                      Height = 16
+                      Top = 4
+                      Width = 96
+                      Picture.Data = {
+                        1754506F727461626C654E6574776F726B477261706869638902000089504E47
+                        0D0A1A0A0000000D4948445200000060000000100806000000E9BA7AF9000000
+                        017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+                        597300000EC300000EC301C76FA8640000021E494441545847ED96BF6B5A5114
+                        C78F8FAAA05041140771B2411C6C0A85E21A091D03CDE8D0B5436D11C5B55070
+                        F4078A94ACC9FF902583A34B28C40C42892E82A0561082BF507CF67EAFD7D0C7
+                        33E4BD9721CBFDC2D173CF399F87F0E57A1E6D361B7A4CD56AF50B8B8A38EA04
+                        56F2CFE31591EF552814FA150C06BF8BA36949FE69FE51034AA5D2CF4824A244
+                        A3519E8BB26149DE18BFD7804AA5E272BBDD3F3C1E0F21908B962149DE38BFD7
+                        80F57A7D168BC5A8D3E9F0405E2E97CF45FB4949DE386FC322A8D56A17AAAABE
+                        65E021CE0E878312890487A170384CF57A9D96CB25298A8268B2B84DA5529FD1
+                        97BC75FE1506187C1A8FC7DD6C69C03D72B95CD46C361F36FC6030A0643249B3
+                        D98CF7DBEDF661ABD57AC35AFC0748DE3ACF6F80CD667B572C16AF0281801FB0
+                        A8F18070DED5F090E170F83793C97C64B51BF4256F9DDFED809B6C367BCCAECC
+                        25067C3E1F5CD5046A93C904D7EA92C1C760B62897E42DF2FF2FE1DB7C3EFF0D
+                        2E399D4EDD03EC763B77103398DD221A49DE02AF790B2A140A71BFDFCFFFB300
+                        EDAE0EF2D168C45DC48C18D749F2E6798D016C4B1FC1A9E9744AABD58A4308E4
+                        B83EE82D168B2331AE93E4CDF31A03987B27E3F1980FF7FBFD3FE974FA030239
+                        6AF3F99CBC5EEF8918D749F2E6798D01EC1529D0EBF5D446A3F13597CB7D628E
+                        5E2390A3D6ED7655CC88719D246F9EDFBD868A23BD17DF772CEEB7E9835EB338
+                        D8A6F41B1F6021C95BE7B901522F25A27F9C40236FDEA08CD20000000049454E
+                        44AE426082
+                      }
+                    end
+                    object DBText4: TDBText
+                      Left = 44
+                      Height = 15
+                      Top = 8
+                      Width = 49
+                      DataField = 'OcenaRip'
+                      DataSource = dsMain
+                      Font.CharSet = EASTEUROPE_CHARSET
+                      Font.Pitch = fpVariable
+                      Font.Quality = fqDraft
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                    end
+                    object DBText8: TDBText
+                      Left = 48
+                      Height = 15
+                      Top = 19
+                      Width = 129
+                      Alignment = taCenter
+                      AutoSize = False
+                      DataField = 'NazwaOceny'
+                      DataSource = dsMain
+                    end
+                  end
+                  object pnlFilmOcena: TPanel
+                    Left = 0
+                    Height = 34
+                    Top = 35
+                    Width = 204
+                    Align = alTop
+                    BevelInner = bvRaised
+                    BevelOuter = bvLowered
+                    ClientHeight = 34
+                    ClientWidth = 204
+                    TabOrder = 1
+                    Visible = False
+                    object Label30: TLabel
+                      Left = 8
+                      Height = 15
+                      Top = 8
+                      Width = 33
+                      Caption = 'Filmu:'
+                    end
+                    object DBText9: TDBText
+                      Left = 44
+                      Height = 15
+                      Top = 8
+                      Width = 49
+                      DataField = 'OcenaFilmu'
+                      DataSource = DMM.dsMainFilm
+                      Font.CharSet = EASTEUROPE_CHARSET
+                      Font.Pitch = fpVariable
+                      Font.Quality = fqDraft
+                      Font.Style = [fsBold]
+                      ParentFont = False
+                    end
+                    object ImgOcenaF: TImage
+                      Left = 62
+                      Height = 16
+                      Top = 4
+                      Width = 96
+                      Picture.Data = {
+                        1754506F727461626C654E6574776F726B477261706869638902000089504E47
+                        0D0A1A0A0000000D4948445200000060000000100806000000E9BA7AF9000000
+                        017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048
+                        597300000EC300000EC301C76FA8640000021E494441545847ED96BF6B5A5114
+                        C78F8FAAA05041140771B2411C6C0A85E21A091D03CDE8D0B5436D11C5B55070
+                        F4078A94ACC9FF902583A34B28C40C42892E82A0561082BF507CF67EAFD7D0C7
+                        33E4BD9721CBFDC2D173CF399F87F0E57A1E6D361B7A4CD56AF50B8B8A38EA04
+                        56F2CFE31591EF552814FA150C06BF8BA36949FE69FE51034AA5D2CF4824A244
+                        A3519E8BB26149DE18BFD7804AA5E272BBDD3F3C1E0F21908B962149DE38BFD7
+                        80F57A7D168BC5A8D3E9F0405E2E97CF45FB4949DE386FC322A8D56A17AAAABE
+                        65E021CE0E878312890487A170384CF57A9D96CB25298A8268B2B84DA5529FD1
+                        97BC75FE1506187C1A8FC7DD6C69C03D72B95CD46C361F36FC6030A0643249B3
+                        D98CF7DBEDF661ABD57AC35AFC0748DE3ACF6F80CD667B572C16AF0281801FB0
+                        A8F18070DED5F090E170F83793C97C64B51BF4256F9DDFED809B6C367BCCAECC
+                        25067C3E1F5CD5046A93C904D7EA92C1C760B62897E42DF2FF2FE1DB7C3EFF0D
+                        2E399D4EDD03EC763B77103398DD221A49DE02AF790B2A140A71BFDFCFFFB300
+                        EDAE0EF2D168C45DC48C18D749F2E6798D016C4B1FC1A9E9744AABD58A4308E4
+                        B83EE82D168B2331AE93E4CDF31A03987B27E3F1980FF7FBFD3FE974FA030239
+                        6AF3F99CBC5EEF8918D749F2E6798D01EC1529D0EBF5D446A3F13597CB7D628E
+                        5E2390A3D6ED7655CC88719D246F9EDFBD868A23BD17DF772CEEB7E9835EB338
+                        D8A6F41B1F6021C95BE7B901522F25A27F9C40236FDEA08CD20000000049454E
+                        44AE426082
+                      }
+                    end
+                    object sbnOcenaFilm: TSpeedButton
+                      Left = 177
+                      Height = 22
+                      Top = 4
+                      Width = 23
+                      Caption = '...'
+                      OnClick = sbnOcenaFilmClick
+                    end
+                    object lbOcenaFOpis: TLabel
+                      Left = 44
+                      Height = 15
+                      Top = 16
+                      Width = 133
+                      Alignment = taCenter
+                      AutoSize = False
+                      Caption = 'lbOcenaFOpis'
+                    end
+                  end
+                  object btnDodOceneFilmu: TSpeedButton
+                    Left = 46
+                    Height = 22
+                    Top = 40
+                    Width = 96
+                    Caption = 'Ocena film'
+                    Flat = True
+                    Glyph.Data = {
+                      36040000424D3604000000000000360000002800000010000000100000000100
+                      2000000000000004000064000000640000000000000000000000FFFFFF000000
+                      000000000000000000000000000A000000250000003300000033000000330000
+                      0033000000250000000A000000000000000000000000FFFFFF00FFFFFF000000
+                      00000000000000000022004F2B5C008347C9008C4BFF008B4AFF008B4AFF008C
+                      4BFF008347C9004F2B5C0000001E0000000000000000FFFFFF00FFFFFF000000
+                      00000000001E008046BB009050FF01A169FF00AA76FF00AB77FF00AB77FF00AA
+                      76FF01A169FF009050FF007C44AA0000001E00000000FFFFFF00FFFFFF000000
+                      000A007C43AA009152FF02AC77FF00C38CFF00D699FF18DEA8FF18DEA8FF00D6
+                      99FF00C38CFF01AB76FF009253FF007C44AA0000000AFFFFFF00FFFFFF000059
+                      3151009051FF0FB483FF02D299FF00D69BFF00D193FFFFFFFFFFFFFFFFFF00D1
+                      93FF00D69BFF00D198FF01AB76FF009050FF005A3151FFFFFF00FFFFFF000083
+                      45C916AB78FF11C997FF00D49AFF00D297FF00CD8EFFFFFFFFFFFFFFFFFF00CD
+                      8EFF00D297FF00D59BFF00C18CFF01A169FF008447C9FFFFFF00FFFFFF00008A
+                      48FF38C49CFF00D198FF00CD92FF00CB8EFF00C787FFFFFFFFFFFFFFFFFF00C7
+                      87FF00CB8EFF00CE93FF00D09AFF00AB76FF008C4BFFFFFFFF00FFFFFF000089
+                      46FF51D2AFFF12D4A3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                      FFFFFFFFFFFFFFFFFFFF00CF97FF00AD78FF008B4AFFFFFFFF00FFFFFF000088
+                      45FF66DDBEFF10D0A2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+                      FFFFFFFFFFFFFFFFFFFF00CD97FF00AD78FF008B4AFFFFFFFF00FFFFFF000088
+                      46FF76E0C5FF00CA98FF00C590FF00C48EFF00C187FFFFFFFFFFFFFFFFFF00C1
+                      87FF00C48EFF00C793FF00CB99FF00AB76FF008C4BFFFFFFFF00FFFFFF000088
+                      46BE59C9A4FF49DEBCFF00C794FF00C794FF00C38EFFFFFFFFFFFFFFFFFF00C3
+                      8EFF00C896FF00CB9AFF06C190FF00A168FF008B4BBFFFFFFF00FFFFFF00008C
+                      4B330A9458FFADF8E9FF18D0A7FF00C494FF00C290FFFFFFFFFFFFFFFFFF00C3
+                      91FF00C799FF05C89BFF18B787FF009050FF008E4D33FFFFFF00FFFFFF000000
+                      0000008A48AA199C63FFBCFFF7FF5DE4C9FF00C397FF00BF90FF00C091FF00C4
+                      98FF22CAA2FF31C297FF039355FF008D4C9500000000FFFFFF00FFFFFF000000
+                      000000000000008A48950E9659FF74D5B6FF9FF3E0FF92EFDAFF79E5CAFF5DD6
+                      B5FF2EB586FF039152FF008C4CAA0000000000000000FFFFFF00FFFFFF000000
+                      00000000000000000000008C4A33008946BB008744FF008743FF008744FF0089
+                      46FF008B49BB008D4C33000000000000000000000000FFFFFF00FFFFFF00FFFF
+                      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+                      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
+                    }
+                    OnClick = btnDodOceneFilmuClick
+                  end
                 end
               end
               object tsFilmAktorzy: TTabSheet
@@ -1642,7 +1811,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton41: TToolButton
                       Left = 47
-                      Height = 22
+                      Height = 8
                       Top = 2
                       Caption = 'ToolButton41'
                       Style = tbsSeparator
@@ -1654,7 +1823,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton43: TToolButton
                       Left = 78
-                      Height = 22
+                      Height = 8
                       Top = 2
                       Caption = 'ToolButton43'
                       Style = tbsSeparator
@@ -1808,7 +1977,7 @@ object FrmMain: TFrmMain
                   end
                   object ToolButton27: TToolButton
                     Left = 81
-                    Height = 22
+                    Height = 8
                     Top = 2
                     Caption = 'ToolButton27'
                     Style = tbsSeparator
@@ -1820,7 +1989,7 @@ object FrmMain: TFrmMain
                   end
                   object ToolButton32: TToolButton
                     Left = 158
-                    Height = 22
+                    Height = 8
                     Top = 2
                     Caption = 'ToolButton32'
                     Style = tbsSeparator
@@ -2090,7 +2259,7 @@ object FrmMain: TFrmMain
                   end
                   object ToolButton35: TToolButton
                     Left = 47
-                    Height = 22
+                    Height = 8
                     Top = 2
                     Caption = 'ToolButton35'
                     Style = tbsSeparator
@@ -2214,7 +2383,6 @@ object FrmMain: TFrmMain
                 Top = 12
                 Width = 28
                 Caption = 'Tytuł:'
-                ParentColor = False
               end
               object sbnFilm: TSpeedButton
                 Left = 774
@@ -2242,7 +2410,6 @@ object FrmMain: TFrmMain
                 Width = 36
                 Anchors = [akTop, akRight]
                 Caption = 'Ilość: 0'
-                ParentColor = False
               end
               object DBEdit16: TDBEdit
                 Left = 40
@@ -2421,7 +2588,7 @@ object FrmMain: TFrmMain
                 Title.Alignment = taCenter
                 Title.Orientation = toHorizontal
                 Title.Caption = 'Nazwa'
-                Width = 300
+                Width = 500
                 FieldName = 'NazwaTag'
                 EditButtons = <>
                 Filter.DropDownRows = 0
@@ -2778,7 +2945,7 @@ object FrmMain: TFrmMain
           Title.Orientation = toHorizontal
           Title.Caption = 'Status'
           Width = 50
-          FieldName = 'StatusPl'
+          FieldName = 'C_Status'
           EditButtons = <>
           Filter.DropDownRows = 0
           Filter.EmptyValue = '(Pusty)'
@@ -2789,10 +2956,12 @@ object FrmMain: TFrmMain
           Footers = <>
         end      
         item
+          Alignment = taRightJustify
           Title.Alignment = taCenter
           Title.Orientation = toHorizontal
           Title.Caption = 'Rozmiar'
-          FieldName = 'RozmiarPl'
+          Width = 80
+          FieldName = 'C_Rozmiar'
           EditButtons = <>
           Filter.DropDownRows = 0
           Filter.EmptyValue = '(Pusty)'
@@ -2836,6 +3005,7 @@ object FrmMain: TFrmMain
           Title.Alignment = taCenter
           Title.Orientation = toHorizontal
           Title.Caption = 'Md5Rip'
+          Width = 60
           FieldName = 'Md5Rip'
           EditButtons = <>
           Filter.DropDownRows = 0
@@ -2968,7 +3138,6 @@ object FrmMain: TFrmMain
         Width = 92
         Caption = 'Wybrany katalog:'
         Font.Color = clHighlightText
-        ParentColor = False
         ParentFont = False
       end
     end
@@ -3142,6 +3311,7 @@ object FrmMain: TFrmMain
               item
                 Caption = 'Dzwięk'
               end>
+            ItemIndex = 0
             OnChange = cbxTypPlChange
             Style = csExDropDownList
             TabOrder = 2
@@ -3205,7 +3375,7 @@ object FrmMain: TFrmMain
             Caption = 'pnlFiltryTytul'
             Font.Style = [fsBold]
             ParentFont = False
-            TabOrder = 0
+            TabOrder = 2
           end
           object ToolBar2: TToolBar
             Left = 0
@@ -3217,7 +3387,7 @@ object FrmMain: TFrmMain
             Images = ilMenuS
             ParentShowHint = False
             ShowHint = True
-            TabOrder = 1
+            TabOrder = 0
             object tbnOceny: TToolButton
               Left = 1
               Top = 2
@@ -3272,36 +3442,62 @@ object FrmMain: TFrmMain
             Height = 458
             Top = 18
             Width = 253
-            PageIndex = 3
+            PageIndex = 0
             Align = alClient
-            TabOrder = 2
+            TabOrder = 1
             object ListView: TPage
-              object ListView1: TListView
+              object lvFiltry: TListView
                 Left = 0
-                Height = 458
-                Top = 0
+                Height = 432
+                Top = 26
                 Width = 253
                 Align = alClient
+                Checkboxes = True
                 Columns = <                
                   item
                     Width = 10
                   end>
                 HideSelection = False
+                ReadOnly = True
                 SmallImages = ilFiltry
                 TabOrder = 0
-                OnSelectItem = ListView1SelectItem
+                OnItemChecked = lvFiltryItemChecked
               end
-            end
-            object DbGrid: TPage
-              object DBGrid1: TDBGrid
+              object pnlFiltrNagl: TPanel
                 Left = 0
-                Height = 458
+                Height = 26
                 Top = 0
                 Width = 253
-                Align = alClient
-                Color = clWindow
-                Columns = <>
-                TabOrder = 0
+                Align = alTop
+                BevelInner = bvLowered
+                ClientHeight = 26
+                ClientWidth = 253
+                TabOrder = 1
+                object chbxFiltrWszystko: TCheckBox
+                  Left = 8
+                  Height = 19
+                  Top = 4
+                  Width = 69
+                  Caption = 'Wszystko'
+                  Checked = True
+                  OnChange = chbxFiltrWszystkoChange
+                  State = cbChecked
+                  TabOrder = 0
+                end
+                object sbnFiltrOdsw: TSpeedButton
+                  Left = 224
+                  Height = 22
+                  Hint = 'Odśwież widok'
+                  Top = 1
+                  Width = 23
+                  Flat = True
+                  Images = DMG.ilCommon
+                  ImageIndex = 27
+                  ShowHint = True
+                  ParentShowHint = False
+                end
+              end
+              object DbGrid: TPage
               end
             end
             object Lata: TPage
@@ -3316,8 +3512,6 @@ object FrmMain: TFrmMain
                 TabOrder = 0
                 Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
               end
-            end
-            object Tagi: TPage
             end
             object Aktorzy: TPage
               object gbgFiltrAkt: TRxDBGrid
@@ -3541,6 +3735,8 @@ object FrmMain: TFrmMain
       Caption = 'Baza danych'
     end
   end
+  object Tagi: TPage
+  end
   object ActionList1: TActionList
     Images = ilMenuS
     Left = 288
@@ -3572,7 +3768,6 @@ object FrmMain: TFrmMain
       Caption = 'Gatunki'
       Hint = ' Gatunki'
       ImageIndex = 5
-      OnExecute = acFiltrGatunkiExecute
     end
     object acFiltrSerie: TAction
       Category = 'Filtry'
@@ -5279,12 +5474,14 @@ object FrmMain: TFrmMain
       Caption = 'Dodaj'
       Hint = 'Dodaj tag'
       ImageIndex = 32
+      OnExecute = acTagDodajExecute
     end
     object acTagUsun: TAction
       Category = 'Tagi'
       Caption = 'Usuń'
       Hint = 'Usuń tag'
       ImageIndex = 33
+      OnExecute = acTagUsunExecute
     end
     object acLinkDodaj: TAction
       Category = 'Linki'
@@ -5550,6 +5747,11 @@ object FrmMain: TFrmMain
       Caption = '5 - Świetny'
       OnClick = MenuItem23Click
     end
+    object MenuItem32: TMenuItem
+      Tag = 6
+      Caption = '6 - Legendarny'
+      OnClick = MenuItem23Click
+    end
   end
   object pmTagi: TPopupMenu
     Images = DMG.ilCommon
@@ -5568,5 +5770,43 @@ object FrmMain: TFrmMain
     Filter = 'Pliki jpg (*.jpg; *.jpeg)|*.jpg;*.jpeg|Wszystkie pliki (*.*)|*.*'
     Left = 407
     Top = 351
+  end
+  object pmOcenyF: TPopupMenu
+    Left = 480
+    Top = 448
+    object MenuItem33: TMenuItem
+      Caption = '0 - Bez oceny'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem34: TMenuItem
+      Tag = 1
+      Caption = '1- Beznadziejny'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem35: TMenuItem
+      Tag = 2
+      Caption = '2 - Słaby'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem36: TMenuItem
+      Tag = 3
+      Caption = '3 -Taki sobie'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem37: TMenuItem
+      Tag = 4
+      Caption = '4 - Dobry'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem38: TMenuItem
+      Tag = 5
+      Caption = '5 - Świetny'
+      OnClick = MenuItem33Click
+    end
+    object MenuItem39: TMenuItem
+      Tag = 6
+      Caption = '6 - Legendarny'
+      OnClick = MenuItem33Click
+    end
   end
 end

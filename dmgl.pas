@@ -29,6 +29,8 @@ type
     ilTypyPl:    TImageList;
     ilStatus:    TImageList;
     ilRozszPl32: TImageList;
+    ilStars: TImageList;
+    ilStars16: TImageList;
     tbTypyPl:    TZTable;
     ZConn:       TZConnection;
     tbKat:       TZTable;
@@ -51,7 +53,8 @@ type
     procedure ZamknijPolaczenieZBazaDanych;
     function GetLastId: longint;
     procedure OdswiezDataSet(aDataSet: TDataSet);
-    function OdswiezDataSet(aDataSet: TDataSet; aPole: string): boolean;
+    function OdswiezDataSet(aDataSet: TDataSet; aPole: string): boolean; overload;
+    function OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc:variant): boolean; overload;
     function OdswiezQueryZSql(aQuery: TZQuery; aSql, aPole: string): boolean;
     function UtworzListeKatalogow(var aLstKat: TObjectList): integer;
     function DodajRekord(aTabela: string; aListaPol: TStringList): longint;
@@ -199,6 +202,28 @@ begin
 
     if not VarIsNull(wart) then
       Result := aDataSet.Locate(aPole, wart, []);
+  end;
+end;
+
+function TDMG.OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc: variant
+  ): boolean;
+begin
+  Result := False;
+
+  if Assigned(aDataSet) then
+  begin
+    try
+      aDataSet.Close;
+      aDataSet.Open;
+    except
+      on e: Exception do
+      begin
+        raise Exception.Create(Format('Podczas próby odświeżenia obiektu "%s" wystąpił błąd:', [aDataSet.Name]) + sLineBreak + e.Message);
+      end;
+    end;
+
+    if (aPole <> '') and (not VarIsNull(wartosc)) then
+      Result := aDataSet.Locate(aPole, wartosc, [loCaseInsensitive]);
   end;
 end;
 

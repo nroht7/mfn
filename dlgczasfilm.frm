@@ -9,7 +9,7 @@ object FrmCzasFilm: TFrmCzasFilm
   ClientWidth = 280
   OnCreate = FormCreate
   Position = poOwnerFormCenter
-  LCLVersion = '7.3'
+  LCLVersion = '7.5'
   object Image1: TImage
     Left = 8
     Height = 32
@@ -107,7 +107,7 @@ object FrmCzasFilm: TFrmCzasFilm
   object PageControl1: TPageControl
     Left = 56
     Height = 136
-    Top = 8
+    Top = 40
     Width = 216
     ActivePage = tsGodz
     TabIndex = 0
@@ -147,7 +147,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 8
         Width = 30
         Caption = 'Godz:'
-        ParentColor = False
       end
       object SpeedButton1: TSpeedButton
         Left = 10
@@ -302,7 +301,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 8
         Width = 24
         Caption = 'Min:'
-        ParentColor = False
       end
       object lbGodzMin: TLabel
         Left = 10
@@ -310,7 +308,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 89
         Width = 38
         Caption = '(0 min)'
-        ParentColor = False
       end
     end
     object tsMin: TTabSheet
@@ -361,7 +358,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 8
         Width = 41
         Caption = 'Minuty:'
-        ParentColor = False
       end
       object spb30min: TRxSpinButton
         Left = 168
@@ -398,7 +394,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 64
         Width = 35
         Caption = '(00:00)'
-        ParentColor = False
       end
       object Label3: TLabel
         Left = 122
@@ -406,7 +401,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 12
         Width = 14
         Caption = '(1)'
-        ParentColor = False
       end
       object Label5: TLabel
         Left = 144
@@ -414,7 +408,6 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 12
         Width = 20
         Caption = '(10)'
-        ParentColor = False
       end
       object Label6: TLabel
         Left = 168
@@ -422,14 +415,13 @@ object FrmCzasFilm: TFrmCzasFilm
         Top = 12
         Width = 20
         Caption = '(30)'
-        ParentColor = False
       end
     end
   end
   object chbxBrak: TCheckBox
     Left = 56
     Height = 19
-    Top = 152
+    Top = 16
     Width = 43
     Caption = 'Brak'
     OnChange = chbxBrakChange

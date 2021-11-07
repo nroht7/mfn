@@ -9,7 +9,7 @@ uses
   ActnList, Menus, ComboEx, Buttons, DBGrids, RxDBGrid, rxcurredit, rxspin,
   RxTimeEdit, RxMDI, LSControls,
   IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls, ukatalog, Contnrs, DB, ukatmgr,
-  Grids, DBActns, ShellAPI, Clipbrd, LCLIntf, LCLType, StrUtils;
+  Grids, DBActns, ShellAPI, Clipbrd, LCLIntf, LCLType, StrUtils, umgrpoz, upozsl;
 
 type
   TWybranyFiltr = (twfOcena, twfRok, twfAktor, twfTag, twfGatunek, twfSeria);
@@ -23,18 +23,18 @@ type
     acFiltrGatunki: TAction;
     acFiltrSerie: TAction;
     acFiltrAktorzy: TAction;
-    acFiltrLata:  TAction;
+    acFiltrLata: TAction;
     acFiltrOceny: TAction;
-    acFiltrTagi:  TAction;
+    acFiltrTagi: TAction;
     acDaneGatunki: TAction;
-    acDaneSerie:  TAction;
+    acDaneSerie: TAction;
     acDaneAktorzy: TAction;
-    acDaneTagi:   TAction;
+    acDaneTagi: TAction;
     acPlikWlasciwosci: TAction;
-    acKatWyz:     TAction;
-    acKatNiz:     TAction;
+    acKatWyz: TAction;
+    acKatNiz: TAction;
     acKatWszystko: TAction;
-    acFoldery:    TAction;
+    acFoldery: TAction;
     acKatOdswiez: TAction;
     acRodzajePlikow: TAction;
     acFolderCzysc: TAction;
@@ -42,13 +42,13 @@ type
     acFilmUruchom: TAction;
     acFilmyEdycja: TAction;
     acDodajRekInfo: TAction;
-    acFilmDodaj:  TAction;
-    acFilmLista:  TAction;
-    acDaneKraje:  TAction;
+    acFilmDodaj: TAction;
+    acFilmLista: TAction;
+    acDaneKraje: TAction;
     acDaneRodzaje: TAction;
-    acFilmRok:    TAction;
-    acTagDodaj:   TAction;
-    acTagUsun:    TAction;
+    acFilmRok: TAction;
+    acTagDodaj: TAction;
+    acTagUsun: TAction;
     acLinkDodaj: TAction;
     acLinkUsun: TAction;
     acLinkOtworz: TAction;
@@ -64,201 +64,228 @@ type
     acInnyTytUsun: TAction;
     acInnyTytDodWiele: TAction;
     acWidokOdswiez: TAction;
-    ActionList2:  TActionList;
-    ActionList3:  TActionList;
-    aDaneJezyki:  TAction;
-    ActionList1:  TActionList;
-    Aktorzy:      TPage;
-    BitBtn1:      TBitBtn;
+    ActionList2: TActionList;
+    ActionList3: TActionList;
+    aDaneJezyki: TAction;
+    ActionList1: TActionList;
+    Aktorzy: TPage;
+    BitBtn1: TBitBtn;
     btnDodajRekInfo: TBitBtn;
-    cbxTypPl:     TComboBoxEx;
+    cbxTypPl: TComboBoxEx;
     chbxFiltrAktorWszystko: TCheckBox;
+    chbxFiltrWszystko: TCheckBox;
     DataSetCancel1: TDataSetCancel;
     DataSetEdit1: TDataSetEdit;
     DataSetPost1: TDataSetPost;
-    DBEdit1:      TDBEdit;
-    DBEdit10:     TDBEdit;
-    DBEdit11:     TDBEdit;
-    DBEdit12:     TDBEdit;
-    DBEdit13:     TDBEdit;
-    DBEdit14:     TDBEdit;
-    DBEdit15:     TDBEdit;
-    DBEdit16:     TDBEdit;
-    DBEdit2:      TDBEdit;
-    DBEdit3:      TDBEdit;
-    DBEdit4:      TDBEdit;
-    DBEdit5:      TDBEdit;
-    DBEdit6:      TDBEdit;
-    DBEdit7:      TDBEdit;
-    DBEdit8:      TDBEdit;
-    DBEdit9:      TDBEdit;
-    DbGrid:       TPage;
-    DBGrid1:      TDBGrid;
+    DBEdit1: TDBEdit;
+    DBEdit10: TDBEdit;
+    DBEdit11: TDBEdit;
+    DBEdit12: TDBEdit;
+    DBEdit13: TDBEdit;
+    DBEdit14: TDBEdit;
+    DBEdit15: TDBEdit;
+    DBEdit16: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    DBEdit9: TDBEdit;
+    DbGrid: TPage;
+    DBGrid1: TDBGrid;
     DBLookupComboBox2: TDBLookupComboBox;
     DBLookupComboBox3: TDBLookupComboBox;
-    DBMemo1:      TDBMemo;
-    DBMemo2:      TDBMemo;
-    DBMemo3:      TDBMemo;
-    DBMemo4:      TDBMemo;
-    DBMemo5:      TDBMemo;
+    DBMemo1: TDBMemo;
+    DBMemo2: TDBMemo;
+    DBMemo3: TDBMemo;
+    DBMemo4: TDBMemo;
+    DBMemo5: TDBMemo;
     DBMemo6: TDBMemo;
-    DBText4:      TDBText;
-    gbxOcena:     TGroupBox;
-    GroupBox1:    TGroupBox;
+    DBText10: TDBText;
+    DBText4: TDBText;
+    DBText6: TDBText;
+    DBText7: TDBText;
+    DBText8: TDBText;
+    DBText9: TDBText;
+    gbxOcena1: TGroupBox;
+    GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
-    Image3:       TImage;
-    Image4:       TImage;
-    Image5:       TImage;
+    GroupBox3: TGroupBox;
+    Image3: TImage;
+    Image4: TImage;
+    Image5: TImage;
+    ImgOcenaPlF: TImage;
+    ImgOcenaF: TImage;
     ImgBrakOkl: TImage;
     ImgBrakZdjAkt: TImage;
+    imgOcena: TImage;
     ImgOkladka: TImage;
-    imgOcena:     TImage;
     ImgZdjAkt: TImage;
-    Label13:      TLabel;
-    Label14:      TLabel;
-    Label15:      TLabel;
-    Label22:      TLabel;
-    Label24:      TLabel;
-    Label25:      TLabel;
-    Label26:      TLabel;
-    Label27:      TLabel;
-    Label28:      TLabel;
-    lbFilmIlosc:  TLabel;
-    lcbDubbing:   TDBLookupComboBox;
-    lcbJezyk:     TDBLookupComboBox;
-    lcbNapisy:    TDBLookupComboBox;
-    lcbRodzaj:    TDBLookupComboBox;
-    DBText3:      TDBText;
-    ilOceny:      TImageList;
-    Label23:      TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label22: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    lbOcenaFOpis: TLabel;
+    lbFilmIlosc: TLabel;
+    lcbDubbing: TDBLookupComboBox;
+    lcbJezyk: TDBLookupComboBox;
+    lcbNapisy: TDBLookupComboBox;
+    lcbRodzaj: TDBLookupComboBox;
+    DBText3: TDBText;
+    ilOceny: TImageList;
+    Label23: TLabel;
     DBNavigator1: TDBNavigator;
-    DBText1:      TDBText;
-    DBText2:      TDBText;
-    DBText5:      TDBText;
-    dsMain:       TDataSource;
-    edWybKat:     TEdit;
-    Label7:       TLabel;
-    ListView2:    TListView;
-    MenuItem22:   TMenuItem;
-    MenuItem23:   TMenuItem;
-    MenuItem24:   TMenuItem;
-    MenuItem25:   TMenuItem;
-    MenuItem26:   TMenuItem;
-    MenuItem27:   TMenuItem;
-    MenuItem28:   TMenuItem;
-    ilMenuS:      TImageList;
-    ilMenuL:      TImageList;
-    Image1:       TImage;
-    Image2:       TImage;
-    ilFiltry:     TImageList;
-    Label1:       TLabel;
-    Label10:      TLabel;
-    Label11:      TLabel;
-    Label12:      TLabel;
-    Label16:      TLabel;
-    Label17:      TLabel;
-    Label18:      TLabel;
-    Label19:      TLabel;
-    Label2:       TLabel;
-    Label20:      TLabel;
-    Label21:      TLabel;
-    Label3:       TLabel;
-    Label4:       TLabel;
-    Label5:       TLabel;
-    Label6:       TLabel;
-    Label8:       TLabel;
-    Label9:       TLabel;
-    ListView:     TPage;
-    ListView1:    TListView;
-    lvKat:        TListView;
-    MainMenu1:    TMainMenu;
-    MenuItem1:    TMenuItem;
-    MenuItem10:   TMenuItem;
-    MenuItem11:   TMenuItem;
-    MenuItem12:   TMenuItem;
-    MenuItem13:   TMenuItem;
-    MenuItem14:   TMenuItem;
-    MenuItem15:   TMenuItem;
-    MenuItem16:   TMenuItem;
-    MenuItem17:   TMenuItem;
-    MenuItem18:   TMenuItem;
-    MenuItem19:   TMenuItem;
-    MenuItem2:    TMenuItem;
-    MenuItem20:   TMenuItem;
-    MenuItem21:   TMenuItem;
-    MenuItem29:   TMenuItem;
-    MenuItem3:    TMenuItem;
+    DBText1: TDBText;
+    DBText2: TDBText;
+    DBText5: TDBText;
+    dsMain: TDataSource;
+    edWybKat: TEdit;
+    Label7: TLabel;
+    ListView2: TListView;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
+    MenuItem24: TMenuItem;
+    MenuItem25: TMenuItem;
+    MenuItem26: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
+    ilMenuS: TImageList;
+    ilMenuL: TImageList;
+    Image1: TImage;
+    Image2: TImage;
+    ilFiltry: TImageList;
+    Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label2: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    ListView: TPage;
+    lvFiltry: TListView;
+    lvKat: TListView;
+    MainMenu1: TMainMenu;
+    MenuItem1: TMenuItem;
+    MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem29: TMenuItem;
+    MenuItem3: TMenuItem;
     MenuItem30: TMenuItem;
     MenuItem31: TMenuItem;
-    MenuItem4:    TMenuItem;
-    MenuItem5:    TMenuItem;
-    MenuItem6:    TMenuItem;
-    MenuItem7:    TMenuItem;
-    MenuItem8:    TMenuItem;
-    MenuItem9:    TMenuItem;
-    N1:           TMenuItem;
-    nbkFiltry:    TNotebook;
+    MenuItem32: TMenuItem;
+    MenuItem33: TMenuItem;
+    MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
+    MenuItem36: TMenuItem;
+    MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
+    MenuItem39: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
+    N1: TMenuItem;
+    nbkFiltry: TNotebook;
     OpenDlg: TOpenDialog;
     PageControl1: TPageControl;
+    Panel10: TPanel;
+    pmOcenyF: TPopupMenu;
+    pnlFilmOcena: TPanel;
     pnlAktZdj: TPanel;
     pnlAktTresc: TPanel;
-    Panel3:       TPanel;
-    Panel4:       TPanel;
-    Panel5:       TPanel;
-    Panel6:       TPanel;
-    Panel7:       TPanel;
-    Panel8:       TPanel;
-    Panel9:       TPanel;
-    pcDanePl:     TPageControl;
-    pcFilmy:      TPageControl;
-    pnlFilm:      TPanel;
-    pcLeft:       TPageControl;
-    Panel1:       TPanel;
-    Panel2:       TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Panel8: TPanel;
+    Panel9: TPanel;
+    pcDanePl: TPageControl;
+    pcFilmy: TPageControl;
+    pnlFilm: TPanel;
+    pcLeft: TPageControl;
+    Panel1: TPanel;
+    Panel2: TPanel;
     pnlFiltrAkt: TPanel;
-    pnlFiltry:    TPanel;
+    pnlFiltrNagl: TPanel;
+    pnlFiltry: TPanel;
     pnlFiltryTytul: TPanel;
-    pnlLeft:      TPanel;
-    pmOceny:      TPopupMenu;
-    pnOpisInfo:   TPanel;
+    pnlLeft: TPanel;
+    pmOceny: TPopupMenu;
+    pnOpisInfo: TPanel;
     pmTagi: TPopupMenu;
-    RxDBGrid1:    TRxDBGrid;
-    gbgFiltrAkt:    TRxDBGrid;
+    RxDBGrid1: TRxDBGrid;
+    gbgFiltrAkt: TRxDBGrid;
     RxDBGrid3: TRxDBGrid;
     dbgAkt: TRxDBGrid;
     RxDBGrid4: TRxDBGrid;
     RxDBGrid5: TRxDBGrid;
-    RxSpinButton1: TRxSpinButton;
     sbnDubbingClear: TSpeedButton;
-    sbnFilm:      TSpeedButton;
+    sbnFilm: TSpeedButton;
     sbnFilmOdswiez: TSpeedButton;
+    sbnFiltrOdsw: TSpeedButton;
     sbnJezykClear: TSpeedButton;
     sbnNapisyClear: TSpeedButton;
-    sedFiltrPl:   TSearchEdit;
-    sedFiltrF:    TSearchEdit;
+    sedFiltrPl: TSearchEdit;
+    sedFiltrF: TSearchEdit;
     sbnFiltrPlClear: TSpeedButton;
     sbnFiltrFiClear: TSpeedButton;
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
+    sbnOcenaFilm: TSpeedButton;
     SpeedButton4: TSpeedButton;
     sbnInfoDodaj: TSpeedButton;
     SpeedButton5: TSpeedButton;
     SpeedButton6: TSpeedButton;
     SpeedButton7: TSpeedButton;
     sbnFiltrAktorOdsw: TSpeedButton;
-    Splitter3:    TSplitter;
-    Splitter4:    TSplitter;
-    Splitter5:    TSplitter;
+    SpeedButton8: TSpeedButton;
+    btnDodOceneFilmu: TSpeedButton;
+    Splitter3: TSplitter;
+    Splitter4: TSplitter;
+    Splitter5: TSplitter;
     Splitter6: TSplitter;
-    ToolBar3:     TToolBar;
-    ToolBar4:     TToolBar;
+    Tagi: TPage;
+    ToolBar3: TToolBar;
+    ToolBar4: TToolBar;
     ToolBar6: TToolBar;
     ToolBar7: TToolBar;
     ToolBar8: TToolBar;
     ToolBar9: TToolBar;
     ToolButton10: TToolButton;
-    ToolButton2:  TToolButton;
+    ToolButton2: TToolButton;
     ToolButton23: TToolButton;
     ToolButton24: TToolButton;
     ToolButton25: TToolButton;
@@ -274,38 +301,37 @@ type
     ToolButton35: TToolButton;
     ToolButton36: TToolButton;
     ToolButton39: TToolButton;
-    ToolButton4:  TToolButton;
+    ToolButton4: TToolButton;
     ToolButton40: TToolButton;
     ToolButton41: TToolButton;
     ToolButton42: TToolButton;
     ToolButton43: TToolButton;
     ToolButton44: TToolButton;
-    ToolButton5:  TToolButton;
-    ToolButton7:  TToolButton;
-    ToolButton9:  TToolButton;
-    tsFilmAKA:    TTabSheet;
+    ToolButton5: TToolButton;
+    ToolButton7: TToolButton;
+    ToolButton9: TToolButton;
+    tsFilmAKA: TTabSheet;
     tsFilmAktorzy: TTabSheet;
     tsFilmGatunki: TTabSheet;
     tsFilmKomentarz: TTabSheet;
-    tsFilmOpis:   TTabSheet;
+    tsFilmOpis: TTabSheet;
     tsFilmPodstawy: TTabSheet;
     tsFilmyLinki: TTabSheet;
-    tsPlikTagi:   TTabSheet;
-    ToolButton3:  TToolButton;
-    ToolButton6:  TToolButton;
-    tmrMain:      TTimer;
+    tsPlikTagi: TTabSheet;
+    ToolButton3: TToolButton;
+    ToolButton6: TToolButton;
+    tmrMain: TTimer;
     ToolButton19: TToolButton;
     ToolButton21: TToolButton;
-    Lata:         TPage;
+    Lata: TPage;
     ToolButton22: TToolButton;
     tsOpisOgolny: TTabSheet;
-    tsOpisPlik:   TTabSheet;
+    tsOpisPlik: TTabSheet;
     tvFiltryLata: TTreeView;
-    tsFiltry:     TTabSheet;
-    tsBaza:       TTabSheet;
-    Tagi:         TPage;
-    ToolBar2:     TToolBar;
-    ToolBar5:     TToolBar;
+    tsFiltry: TTabSheet;
+    tsBaza: TTabSheet;
+    ToolBar2: TToolBar;
+    ToolBar5: TToolBar;
     ToolButton11: TToolButton;
     ToolButton12: TToolButton;
     ToolButton13: TToolButton;
@@ -314,25 +340,25 @@ type
     ToolButton16: TToolButton;
     ToolButton17: TToolButton;
     ToolButton18: TToolButton;
-    tbnOceny:     TToolButton;
+    tbnOceny: TToolButton;
     ToolButton20: TToolButton;
-    tbnLata:      TToolButton;
-    tbnAktorzy:   TToolButton;
-    tbnTagi:      TToolButton;
-    tbnGatunki:   TToolButton;
-    tbnSerie:     TToolButton;
-    ToolButton8:  TToolButton;
-    tsPlikOpis:   TTabSheet;
-    tsPlikParam:  TTabSheet;
-    pnlMain:      TPanel;
-    dbg:          TRxDBGrid;
-    Splitter1:    TSplitter;
-    Splitter2:    TSplitter;
-    StatusBar1:   TStatusBar;
-    tsPlikInfo:   TTabSheet;
-    tsPlikFilm:   TTabSheet;
-    ToolBar1:     TToolBar;
-    ToolButton1:  TToolButton;
+    tbnLata: TToolButton;
+    tbnAktorzy: TToolButton;
+    tbnTagi: TToolButton;
+    tbnGatunki: TToolButton;
+    tbnSerie: TToolButton;
+    ToolButton8: TToolButton;
+    tsPlikOpis: TTabSheet;
+    tsPlikParam: TTabSheet;
+    pnlMain: TPanel;
+    dbg: TRxDBGrid;
+    Splitter1: TSplitter;
+    Splitter2: TSplitter;
+    StatusBar1: TStatusBar;
+    tsPlikInfo: TTabSheet;
+    tsPlikFilm: TTabSheet;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
     procedure acAktDodajExecute(Sender: TObject);
     procedure acAktUsunExecute(Sender: TObject);
     procedure acDaneAktorzyExecute(Sender: TObject);
@@ -346,7 +372,6 @@ type
     procedure acFilmRokExecute(Sender: TObject);
     procedure acFilmUruchomExecute(Sender: TObject);
     procedure acFiltrAktorzyExecute(Sender: TObject);
-    procedure acFiltrGatunkiExecute(Sender: TObject);
     procedure acFiltrLataExecute(Sender: TObject);
     procedure acFiltrOcenyExecute(Sender: TObject);
     procedure acFiltrSerieExecute(Sender: TObject);
@@ -371,20 +396,25 @@ type
     procedure acPlikKoniecExecute(Sender: TObject);
     procedure acPlikWlasciwosciExecute(Sender: TObject);
     procedure acRodzajePlikowExecute(Sender: TObject);
+    procedure acTagDodajExecute(Sender: TObject);
+    procedure acTagUsunExecute(Sender: TObject);
     procedure acWidokOdswiezExecute(Sender: TObject);
     procedure aDaneJezykiExecute(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure btnDodajRekInfoClick(Sender: TObject);
+    procedure btnDodOceneFilmuClick(Sender: TObject);
     procedure cbxTypPlChange(Sender: TObject);
+    procedure chbxFiltrWszystkoChange(Sender: TObject);
     procedure dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
     procedure dsMainDataChange(Sender: TObject; Field: TField);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ListView1SelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
+    procedure lvFiltryItemChecked(Sender: TObject; Item: TListItem);
     procedure lvKatDblClick(Sender: TObject);
     procedure MenuItem23Click(Sender: TObject);
+    procedure MenuItem33Click(Sender: TObject);
     procedure pcDanePlChange(Sender: TObject);
     procedure sbnDubbingClearClick(Sender: TObject);
     procedure sbnFilmClick(Sender: TObject);
@@ -393,6 +423,7 @@ type
     procedure sbnFiltrPlClearClick(Sender: TObject);
     procedure sbnJezykClearClick(Sender: TObject);
     procedure sbnNapisyClearClick(Sender: TObject);
+    procedure sbnOcenaFilmClick(Sender: TObject);
     procedure sedFiltrPlExecute(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
@@ -401,13 +432,16 @@ type
     procedure SpeedButton7Click(Sender: TObject);
     procedure tmrMainTimer(Sender: TObject);
   private
-    fKatMgr:        TKatMgr;
-    fWybFiltr:      TWybranyFiltr;
-    fLstLat:        TStringList;
-    fIdRipWybPl:    longint;
-    fAktualneInfo:  boolean;
-    fAktualnyFilm:  boolean;
-    fAktualneTagi:  boolean;
+    fKatMgr: TKatMgr;
+    fWybFiltr: TWybranyFiltr;
+    fLstFiltrow: TObjectList;
+    fFiltrAktywny: array[0..5] of boolean;
+    fLstLat: TStringList;
+    fIdRipWybPl: longint;
+    fAktualneInfo: boolean;
+    fAktualneParam: boolean;
+    fAktualnyFilm: boolean;
+    fAktualneTagi: boolean;
     fAktualneOpisy: boolean;
     fWczytanaOcena: byte;
 
@@ -418,18 +452,28 @@ type
     procedure UstawWybranyKatalog;
     procedure OdswiezDane;
     function PrepareQuery: string;
-    procedure PokazFiltrOceny;
+    procedure UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
     procedure PokazFiltrLata;
     procedure PokazDanePliku;
     procedure PokazDaneWybranejZakladki;
-    procedure PokazDaneZaklInfo(Wymus: boolean);
+    procedure PokazDaneZaklInfo;
+    procedure PokazDaneZaklParam(Wymus: boolean);
     procedure PokazDaneZaklFilm;
     procedure PokazDaneZaklTag;
     procedure PokazDaneZaklOpis(Wymus: boolean);
     procedure PokazDaneWybranegoFilmu;
     function UstawOcene(Ocena: byte): boolean;
-    procedure UstawOceneGraf(AOcena: byte);
+    function UstawOceneFilm(Ocena: byte): boolean;
+    procedure UstawOceneGraf(AOcena: byte); overload;
+    procedure UstawOceneGraf(AOcena: byte; AImg: TImage; AImgLst: TImageList); overload;
     procedure OdswiezFiltrAktorow;
+    function WybFiltrToDbIdx(filtr: TWybranyFiltr): integer;
+    function WczytajTabDoFiltra(filtr: TWybranyFiltr; ds: TDataSet; postfix: string): integer;
+    procedure UtworzFiltry;
+    procedure WczytajPozycjeFiltru(MgrPoz: TManagerPozycji; lv: TListView; ImgIdx: integer);
+    function GetMgrPozFiltra(filtr: TWybranyFiltr): TManagerPozycji;
+    function FiltrAktywny(filtr: TWybranyFiltr): boolean;
+    function WybranePozycjeFiltra(MgrPoz: TManagerPozycji; var LstWartosci: TStringList): integer;
   public
 
   end;
@@ -442,9 +486,10 @@ implementation
 uses
   funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dlgkatalogi, dlgskan, dlgRozszPl, dlgwlasc, usqlqryb,
   dmmain, dlgflmdod, dlgfilmlista, dlginfotxt, dlgrok, dlgczasfilm, dlgimgview, dlgpozsl, ulnkopen, dmakt,
-  dlgpzlntxt;
+  dlgpzlntxt, dlgslpoz;
 
 {$R *.frm}
+
 
 { TFrmMain }
 
@@ -453,8 +498,10 @@ begin
   fLstLat := TStringList.Create;
   fLstLat.CaseSensitive := False;
   fLstLat.Duplicates := TDuplicates.dupIgnore;
+  fLstFiltrow := TObjectList.Create;
   fIdRipWybPl := 0;
   fAktualneInfo := False;
+  fAktualneParam := False;
   fAktualnyFilm := False;
   fAktualneTagi := False;
   fAktualneOpisy := False;
@@ -470,6 +517,11 @@ begin
     fLstLat.Clear;
     FreeAndNil(fLstLat);
   end;
+  if (Assigned(fLstFiltrow)) then
+  begin
+    fLstFiltrow.Clear;
+    FreeAndNil(fLstFiltrow);
+  end;
 end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
@@ -480,13 +532,14 @@ begin
       'Problem z uruchomieniem', mtError, [mbOK], 0);
     Close;
   end;
-  acFiltrOceny.Execute;
   DMG.GetListaLatIDekadFolder(0, fLstLat);
   PokazFiltrLata;
   tbnOceny.Down := True;
+  UtworzFiltry;
   DMM.UstawStanObjListyAktDataSet(True);
   OdswiezWidokKatalogow;
   OdswiezFiltrAktorow;
+  acFiltrOceny.Execute;
 end;
 
 procedure TFrmMain.acPlikKoniecExecute(Sender: TObject);
@@ -515,6 +568,37 @@ begin
     frm.ShowModal;
   finally
     FreeAndNil(frm);
+  end;
+end;
+
+procedure TFrmMain.acTagDodajExecute(Sender: TObject);
+var
+  frm : TFrmSlPoz;
+begin
+  frm:= TFrmSlPoz.Create(self);
+  try
+    frm.TytulOkna:= 'Dodaj tagi';
+    frm.ShowModal;
+  finally
+    FreeAndNil(frm);
+  end;
+end;
+
+procedure TFrmMain.acTagUsunExecute(Sender: TObject);
+begin
+  if (DMM.qMainTag.Active and (not DMM.qMainTag.IsEmpty)) then
+  begin
+    if DMM.qMainTag.RecordCount > 1 then
+    begin
+
+    end
+    else
+    begin
+      if (MessageDlg('Usuń tag z z pliku',Format('Czy napewno usunąć tag "%s" przypisany do pliku?',[]),mtConfirmation,[mbOk,mbCancel],0) = mrOk) then
+      begin
+
+      end;
+    end;
   end;
 end;
 
@@ -570,6 +654,14 @@ begin
   PokazDaneZaklOpis(True);
 end;
 
+procedure TFrmMain.btnDodOceneFilmuClick(Sender: TObject);
+var
+  pt: TPoint;
+begin
+  pt := Mouse.CursorPos;
+  pmOcenyF.PopUp(pt.x, pt.y);
+end;
+
 procedure TFrmMain.cbxTypPlChange(Sender: TObject);
 begin
   OdswiezDane;
@@ -617,12 +709,6 @@ begin
   DMM.UstawStanObjListyAktDataSet(False);
 end;
 
-procedure TFrmMain.ListView1SelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
-begin
-  if Selected then
-    OdswiezDane;
-end;
-
 procedure TFrmMain.lvKatDblClick(Sender: TObject);
 begin
   acKatNiz.Execute;
@@ -631,6 +717,15 @@ end;
 procedure TFrmMain.MenuItem23Click(Sender: TObject);
 begin
   UstawOcene((Sender as TMenuItem).Tag);
+end;
+
+procedure TFrmMain.MenuItem33Click(Sender: TObject);
+var
+  ocena : integer;
+begin
+  ocena:= (Sender as TMenuItem).Tag;
+  UstawOceneFilm(ocena);
+  lbOcenaFOpis.Caption:= DMM.OpisOceny(ocena);
 end;
 
 procedure TFrmMain.pcDanePlChange(Sender: TObject);
@@ -696,6 +791,14 @@ begin
   end;
 end;
 
+procedure TFrmMain.sbnOcenaFilmClick(Sender: TObject);
+var
+  pt: TPoint;
+begin
+  pt := Mouse.CursorPos;
+  pmOcenyF.PopUp(pt.x, pt.y);
+end;
+
 procedure TFrmMain.sedFiltrPlExecute(Sender: TObject);
 begin
   OdswiezDane;
@@ -733,28 +836,28 @@ end;
 
 procedure TFrmMain.SpeedButton5Click(Sender: TObject);
 var
-  frm : TFrmCzasFilm;
+  frm: TFrmCzasFilm;
 begin
   if (not DMM.qMainFilm.IsEmpty) then
   begin
-  frm:= TFrmCzasFilm.Create(self);
-  try
-    if DMM.qMainFilm.FieldByName('DlugoscFilmu').IsNull then
-      frm.Brak:= true
-    else
-      frm.Czas:= DMM.qMainFilm.FieldByName('DlugoscFilmu').AsInteger;
-    if (frm.ShowModal = mrOk) then
-    begin
-      if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
-        DMM.qMainFilm.Edit;
-      if (frm.Brak) then
-        DMM.qMainFilm.FieldByName('DlugoscFilmu').Clear
+    frm := TFrmCzasFilm.Create(self);
+    try
+      if DMM.qMainFilm.FieldByName('DlugoscFilmu').IsNull then
+        frm.Brak := True
       else
-      DMM.qMainFilm.FieldByName('DlugoscFilmu').AsInteger:= frm.Czas;
+        frm.Czas := DMM.qMainFilm.FieldByName('DlugoscFilmu').AsInteger;
+      if (frm.ShowModal = mrOk) then
+      begin
+        if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
+          DMM.qMainFilm.Edit;
+        if (frm.Brak) then
+          DMM.qMainFilm.FieldByName('DlugoscFilmu').Clear
+        else
+          DMM.qMainFilm.FieldByName('DlugoscFilmu').AsInteger := frm.Czas;
+      end;
+    finally
+      FreeAndNil(frm);
     end;
-  finally
-    FreeAndNil(frm);
-  end;
   end;
 end;
 
@@ -772,12 +875,6 @@ end;
 procedure TFrmMain.tmrMainTimer(Sender: TObject);
 begin
   PokazDanePliku;
-end;
-
-procedure TFrmMain.acFiltrGatunkiExecute(Sender: TObject);
-begin
-  pnlFiltryTytul.Caption := 'Gatunki';
-  nbkFiltry.PageIndex := 1;
 end;
 
 procedure TFrmMain.acDaneGatunkiExecute(Sender: TObject);
@@ -963,7 +1060,7 @@ begin
             DMM.qMainInfo.Post;
             if (pcDanePl.ActivePage = tsPlikParam) then
             begin
-              PokazDaneZaklInfo(True);
+              PokazDaneZaklParam(True);
             end
             else if (pcDanePl.ActivePage = tsPlikOpis) then
             begin
@@ -1010,20 +1107,20 @@ end;
 procedure TFrmMain.acAktDodajExecute(Sender: TObject);
 var
   frm: TFrmAktorzy;
-  idAkt : longint;
-  idFilmu : longint;
+  idAkt: longint;
+  idFilmu: longint;
 begin
   frm := TFrmAktorzy.Create(self);
   try
-    frm.TrybOtwarcia:= tooWybor;
+    frm.TrybOtwarcia := tooWybor;
     if frm.ShowModal = mrOk then
     begin
-      idAkt:= frm.WybraneIdAktora;
+      idAkt := frm.WybraneIdAktora;
       if idAkt > 0 then
       begin
-        idFilmu:= DMM.qMainAkt.FieldByName('IdFilmu').AsInteger;
+        idFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
         if DMA.DodajAktoraDoFilmu(IdAkt, IdFilmu) then
-          DMG.OdswiezDataSet(DMM.qMainAkt, 'IdAkt');
+          DMG.OdswiezDataSet(DMM.qMainAkt, 'IdAkt', IdAkt);
       end
       else
         ShowMessage('Nie wybrano aktora');
@@ -1035,17 +1132,18 @@ end;
 
 procedure TFrmMain.acAktUsunExecute(Sender: TObject);
 var
-  nazwa : string;
-  idAkt : longint;
-  idFilmu : longint;
+  nazwa: string;
+  idAkt: longint;
+  idFilmu: longint;
 begin
   if ((DMM.qMainAkt.Active) and (not DMM.qMainAkt.IsEmpty)) then
   begin
-    nazwa:= DMM.qMainAkt.FieldByName('NazwaAkt').AsString;
-    if MessageDlg('Potwierdzenie usunięcia aktora',Format('Czy napweno usunąć "%s" z filmu?', [nazwa]),mtConfirmation,[mbYes, mbCancel],0) = mrYes then
+    nazwa := DMM.qMainAkt.FieldByName('NazwaAkt').AsString;
+    if MessageDlg('Potwierdzenie usunięcia aktora', Format('Czy napweno usunąć "%s" z filmu?', [nazwa]),
+      mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
     begin
-      idAkt:= DMM.qMainAkt.FieldByName('IdAkt').AsInteger;
-      idFilmu:= DMM.qMainAkt.FieldByName('IdFilmu').AsInteger;
+      idAkt := DMM.qMainAkt.FieldByName('IdAkt').AsInteger;
+      idFilmu := DMM.qMainAkt.FieldByName('IdFilmu').AsInteger;
       DMA.UsunAktoraZFilmu(idAkt, idFilmu);
       DMG.OdswiezDataSet(DMM.qMainAkt);
     end;
@@ -1056,29 +1154,33 @@ procedure TFrmMain.acFiltrLataExecute(Sender: TObject);
 begin
   fWybFiltr := twfRok;
   pnlFiltryTytul.Caption := 'Lata';
-  nbkFiltry.PageIndex := 2;
+  nbkFiltry.PageIndex := 1;
 end;
 
 procedure TFrmMain.acFiltrOcenyExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
 begin
   fWybFiltr := twfOcena;
   pnlFiltryTytul.Caption := 'Oceny';
   nbkFiltry.PageIndex := 0;
-  PokazFiltrOceny;
+  chbxFiltrWszystko.Checked := not FiltrAktywny(fWybFiltr);
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, 1);
 end;
 
 procedure TFrmMain.acFiltrSerieExecute(Sender: TObject);
 begin
   fWybFiltr := twfSeria;
   pnlFiltryTytul.Caption := 'Serie';
-  nbkFiltry.PageIndex := 1;
+  nbkFiltry.PageIndex := 0;
 end;
 
 procedure TFrmMain.acFiltrAktorzyExecute(Sender: TObject);
 begin
   fWybFiltr := twfAktor;
   pnlFiltryTytul.Caption := 'Aktorzy';
-  nbkFiltry.PageIndex := 4;
+  nbkFiltry.PageIndex := 2;
 end;
 
 
@@ -1138,27 +1240,27 @@ end;
 
 procedure TFrmMain.acInnyTytDodajExecute(Sender: TObject);
 var
-  frm : TFrmPozSlownika;
+  frm: TFrmPozSlownika;
 begin
-  frm:= TFrmPozSlownika.Create(self);
+  frm := TFrmPozSlownika.Create(self);
   try
-    frm.TytulOkna:= 'Nowy inny tytuł';
-    frm.Ikona:= 0;
-    frm.OpisWidoczny:= False;
+    frm.TytulOkna := 'Nowy inny tytuł';
+    frm.Ikona := 0;
+    frm.OpisWidoczny := False;
     if frm.ShowModal = mrOk then
     begin
       if (DMM.FilmMaTakiInnyTytul(DMM.qMainFilm.FieldByName('IdFilmu').AsInteger, frm.Nazwa)) then
       begin
-        MessageDlg('Taki tytuł już jest',mtWarning,[mbOk],0)
+        MessageDlg('Taki tytuł już jest', mtWarning, [mbOK], 0);
       end
       else
       begin
-        if DMM.qMainAkaF.State in [dsInsert,dsEdit] then
+        if DMM.qMainAkaF.State in [dsInsert, dsEdit] then
           DMM.qMainAkaF.Cancel;
 
         DMM.qMainAkaF.Append;
-        DMM.qMainAkaF.FieldByName('IdFilmu').AsInteger:= DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
-        DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString:= frm.Nazwa;
+        DMM.qMainAkaF.FieldByName('IdFilmu').AsInteger := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+        DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString := frm.Nazwa;
         DMM.qMainAkaF.Post;
       end;
     end;
@@ -1169,26 +1271,26 @@ end;
 
 procedure TFrmMain.acInnyTytDodWieleExecute(Sender: TObject);
 var
-  frm : TFrmPozLinTxt;
-  s : string;
-  i : integer;
+  frm: TFrmPozLinTxt;
+  s: string;
+  i: integer;
   saNowePozycje: boolean;
   idFilmu: longint;
 begin
-  frm:= TFrmPozLinTxt.Create(self);
+  frm := TFrmPozLinTxt.Create(self);
   try
-    saNowePozycje:= False;
-    frm.TytulOkna:= 'Dodaj inne tytuły';
+    saNowePozycje := False;
+    frm.TytulOkna := 'Dodaj inne tytuły';
     if (frm.ShowModal = mrOk) then
     begin
       if frm.OdczytajPozycje > 0 then
       begin
-        for i:= 0 to frm.Pozycje.Count-1 do
+        for i := 0 to frm.Pozycje.Count - 1 do
         begin
-          s:= frm.Pozycje.Strings[i];
-          idFilmu:= DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+          s := frm.Pozycje.Strings[i];
+          idFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
           if DMM.DodajInnyTytul(idFilmu, s) > 0 then
-            saNowePozycje:= True;
+            saNowePozycje := True;
         end;
         if (saNowePozycje) then
           DMG.OdswiezDataSet(DMM.qMainAkaF, 'IdAKAF');
@@ -1203,15 +1305,16 @@ procedure TFrmMain.acInnyTytUsunExecute(Sender: TObject);
 begin
   if not DMM.qMainAkaF.Active then
   begin
-    MessageDlg('Tabela nie aktywna',mtError,[mbOk],0);
+    MessageDlg('Tabela nie aktywna', mtError, [mbOK], 0);
     Exit;
   end;
 
-  if not  DMM.qMainAkaF.IsEmpty then
+  if not DMM.qMainAkaF.IsEmpty then
   begin
-    if (MessageDlg(Format('Czy napewno usunąć tytuł:'+sLineBreak+'"%s"?',[DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString]),mtConfirmation,[mbOk,mbCancel],0) = mrOk) then
+    if (MessageDlg(Format('Czy napewno usunąć tytuł:' + sLineBreak + '"%s"?', [DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString]),
+      mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
     begin
-      if DMM.qMainAkaF.State in [dsInsert,dsEdit] then
+      if DMM.qMainAkaF.State in [dsInsert, dsEdit] then
         DMM.qMainAkaF.Cancel;
 
       DMM.qMainAkaF.Delete;
@@ -1269,34 +1372,34 @@ end;
 
 procedure TFrmMain.acLinkDodajExecute(Sender: TObject);
 var
-  frm : TFrmPozSlownika;
+  frm: TFrmPozSlownika;
 begin
   if not DMM.qMainLinki.Active then
   begin
-    MessageDlg('Tabela nie aktywna',mtError,[mbOk],0);
+    MessageDlg('Tabela nie aktywna', mtError, [mbOK], 0);
     Exit;
   end;
 
-  frm:= TFrmPozSlownika.Create(self);
+  frm := TFrmPozSlownika.Create(self);
   try
-    frm.TytulOkna:= 'Nowy link';
-    frm.Ikona:= 2;
+    frm.TytulOkna := 'Nowy link';
+    frm.Ikona := 2;
     if frm.ShowModal = mrOk then
     begin
       if (DMM.FilmMaTakiLink(DMM.qMainFilm.FieldByName('IdFilmu').AsInteger, frm.Nazwa)) then
       begin
-        MessageDlg('Taki link już jest',mtWarning,[mbOk],0)
+        MessageDlg('Taki link już jest', mtWarning, [mbOK], 0);
       end
       else
       begin
-        if DMM.qMainLinki.State in [dsInsert,dsEdit] then
+        if DMM.qMainLinki.State in [dsInsert, dsEdit] then
           DMM.qMainLinki.Cancel;
 
         DMM.qMainLinki.Append;
-        DMM.qMainLinki.FieldByName('IdFilmu').AsInteger:= DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
-        DMM.qMainLinki.FieldByName('TrescLnk').AsString:= frm.Nazwa;
+        DMM.qMainLinki.FieldByName('IdFilmu').AsInteger := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+        DMM.qMainLinki.FieldByName('TrescLnk').AsString := frm.Nazwa;
         if (frm.Opis <> '') then
-        DMM.qMainLinki.FieldByName('OpisLnk').AsString:= frm.Opis;
+          DMM.qMainLinki.FieldByName('OpisLnk').AsString := frm.Opis;
         DMM.qMainLinki.Post;
       end;
     end;
@@ -1311,7 +1414,7 @@ var
 begin
   if not DMM.qMainLinki.Active then
   begin
-    MessageDlg('Tabela nie aktywna',mtError,[mbOk],0);
+    MessageDlg('Tabela nie aktywna', mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -1327,15 +1430,16 @@ procedure TFrmMain.acLinkUsunExecute(Sender: TObject);
 begin
   if not DMM.qMainLinki.Active then
   begin
-    MessageDlg('Tabela nie aktywna',mtError,[mbOk],0);
+    MessageDlg('Tabela nie aktywna', mtError, [mbOK], 0);
     Exit;
   end;
 
-  if not  DMM.qMainLinki.IsEmpty then
+  if not DMM.qMainLinki.IsEmpty then
   begin
-    if (MessageDlg(Format('Czy napewno usunąć link:'+sLineBreak+'"%s"?',[DMM.qMainLinki.FieldByName('TrescLnk').AsString]),mtConfirmation,[mbOk,mbCancel],0) = mrOk) then
+    if (MessageDlg(Format('Czy napewno usunąć link:' + sLineBreak + '"%s"?', [DMM.qMainLinki.FieldByName('TrescLnk').AsString]),
+      mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
     begin
-      if DMM.qMainLinki.State in [dsInsert,dsEdit] then
+      if DMM.qMainLinki.State in [dsInsert, dsEdit] then
         DMM.qMainLinki.Cancel;
 
       DMM.qMainLinki.Delete;
@@ -1345,14 +1449,15 @@ end;
 
 procedure TFrmMain.acOklPowiekszExecute(Sender: TObject);
 var
-  frm : TFrmImgView;
+  frm: TFrmImgView;
 begin
   if ((not DMM.qMainFilm.IsEmpty) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '')) then
   begin
-    frm:= TFrmImgView.Create(self);
+    frm := TFrmImgView.Create(self);
     try
-      frm.TytulOkna:= 'Podgląd okładki';
-      frm.PlikObr:= DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;;
+      frm.TytulOkna := 'Podgląd okładki';
+      frm.PlikObr := DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;
+      ;
       frm.ShowModal;
     finally
       FreeAndNil(frm);
@@ -1381,22 +1486,23 @@ begin
     end;
     if formatOk then
     begin
-      pytanie:= True;
-      if EndsStr(DirectorySeparator,DMG.Ustawienia.Values['okladki']) then
+      pytanie := True;
+      if EndsStr(DirectorySeparator, DMG.Ustawienia.Values['okladki']) then
         plik := DMG.Ustawienia.Values['okladki'] + IntToStr(fIdRipWybPl) + '_okl1.jpg'
       else
         plik := DMG.Ustawienia.Values['okladki'] + IntToStr(fIdRipWybPl) + '_okl1.jpg';
 
       if (FileExists(plik)) then
       begin
-        if (MessageDlg('Plik o podanej nazwie istnieje. Czy go nadpisać?',mtWarning,[mbOk, mbCancel],0) <> mrOk) then
-          pytanie:= False
+        if (MessageDlg('Plik o podanej nazwie istnieje. Czy go nadpisać?', mtWarning, [mbOK, mbCancel], 0) <> mrOk) then
+          pytanie := False
         else
           Exit;
       end;
-      if ((pytanie) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '') and (FileExists(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString))) then
+      if ((pytanie) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '') and
+        (FileExists(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString))) then
       begin
-        if (MessageDlg('Nadpisać istniejącą okładkę?',mtWarning,[mbOk, mbCancel],0) <> mrOk) then
+        if (MessageDlg('Nadpisać istniejącą okładkę?', mtWarning, [mbOK, mbCancel], 0) <> mrOk) then
           Exit;
       end;
       ShowMessage(plik);
@@ -1418,18 +1524,18 @@ end;
 
 procedure TFrmMain.acOklUsunExecute(Sender: TObject);
 var
-  usunPlik : boolean;
-  edycja : boolean;
-  sc : string;
+  usunPlik: boolean;
+  edycja: boolean;
+  sc: string;
 begin
-  usunPlik:= False;
+  usunPlik := False;
   if ((not DMM.qMainFilm.IsEmpty) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '')) then
   begin
-    sc:= DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;
-    if (MessageDlg('Czy napewno usunąć okładkę?',mtWarning,[mbOk,mbCancel],0) = mrOk) then
+    sc := DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;
+    if (MessageDlg('Czy napewno usunąć okładkę?', mtWarning, [mbOK, mbCancel], 0) = mrOk) then
     begin
       if (FileExists(sc)) then
-        usunPlik:= (MessageDlg('Usunąć plik okładki z dysku?',mtConfirmation,[mbOk, mbCancel],0) = mrOk);
+        usunPlik := (MessageDlg('Usunąć plik okładki z dysku?', mtConfirmation, [mbOK, mbCancel], 0) = mrOk);
       edycja := False;
       if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
       begin
@@ -1448,12 +1554,12 @@ end;
 
 procedure TFrmMain.acOklWybierzExecute(Sender: TObject);
 var
-  edycja : boolean;
+  edycja: boolean;
 begin
   if not DMM.qMainFilm.IsEmpty then
   begin
-    OpenDlg.InitialDir:= DMG.Ustawienia.Values['okladki'];
-    edycja:= False;
+    OpenDlg.InitialDir := DMG.Ustawienia.Values['okladki'];
+    edycja := False;
     if (OpenDlg.Execute) then
     begin
       if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
@@ -1471,7 +1577,7 @@ end;
 
 function TFrmMain.UruchomAplikacje: boolean;
 begin
-  Result  := True;
+  Result := True;
 
   DMG.Ustawienia := OdczytajUstawienia;
 
@@ -1483,7 +1589,7 @@ end;
 function TFrmMain.OdczytajUstawienia: TStringList;
 var
   plikUst: string;
-  lstUst:  TStringList;
+  lstUst: TStringList;
 begin
   plikUst := GetAppDir() + 'ustawienia.ini';
   // próba odczytu pliku ustawien z katalogu aplikacji
@@ -1523,14 +1629,14 @@ begin
   if (lstUst.Values['file_info'] = '') then
     lstUst.Values['file_info'] := Format('%s%s', [GetAppDir(), 'info']);
   if (lstUst.Values['okladki'] = '') then
-    lstUst.Values['okladki'] := Format('%s%s', [GetAppDir(), 'obr'+DirectorySeparator+'okl'+DirectorySeparator]);
+    lstUst.Values['okladki'] := Format('%s%s', [GetAppDir(), 'obr' + DirectorySeparator + 'okl' + DirectorySeparator]);
   if (lstUst.Values['aktorzy'] = '') then
-    lstUst.Values['aktorzy'] := Format('%s%s', [GetAppDir(), 'obr'+DirectorySeparator+'akt'+DirectorySeparator]);
+    lstUst.Values['aktorzy'] := Format('%s%s', [GetAppDir(), 'obr' + DirectorySeparator + 'akt' + DirectorySeparator]);
 
-  DMG.LinkOpen.LokalicacjaPrzegladarki:= lstUst.Values['przegladarka'];
-  DMG.LinkOpen.ParametryPrzegladarki:= lstUst.Values['parametry_przegladarki'];
+  DMG.LinkOpen.LokalicacjaPrzegladarki := lstUst.Values['przegladarka'];
+  DMG.LinkOpen.ParametryPrzegladarki := lstUst.Values['parametry_przegladarki'];
 
-  result:= lstUst;
+  Result := lstUst;
 end;
 
 function TFrmMain.OdczytajUstawieniaPoczatkowe(plikIni: string): TStringList;
@@ -1568,7 +1674,7 @@ begin
     fKatMgr.OdswiezListeKatalogow;
     for i := 0 to fKatMgr.ListaKatalogow.Count - 1 do
     begin
-      kat  := fKatMgr.ListaKatalogow.Items[i] as TKatalog;
+      kat := fKatMgr.ListaKatalogow.Items[i] as TKatalog;
       item := lvKat.Items.Add;
       item.Caption := kat.ToString;
       item.SubItems.Add(IntToStr(i));
@@ -1586,7 +1692,7 @@ procedure TFrmMain.UstawWybranyKatalog;
 var
   item: TListItem;
   //i: integer;
-  kat:  TKatalog;
+  kat: TKatalog;
 begin
   item := lvKat.ItemFocused;
   if Assigned(item) then
@@ -1607,33 +1713,49 @@ end;
 function TFrmMain.PrepareQuery: string;
 var
   qry: TSqlQueryBuilder;
+  lstWart: TStringList;
+  iloscWart: integer;
+  s: string;
+  MgrPoz: TManagerPozycji;
 begin
   qry := TSqlQueryBuilder.Create;
+  lstWart := TStringList.Create;
   try
-    qry.AddFields('P.IdPl, P.IdFld, P.IdRip, P.IdTypPl, P.NazwaPl, P.ScPl, P.WzgScPl, P.IdRozszPl, P.RozmiarPl, P.StatusPl, R.IloscUruchomienRip, P.DataDodPl, P.DataModPl, P.OpisPl');
-    qry.AddFields('R.Crc32Rip, R.Md5Rip, T.NazwaTypPl, O.NazwaRozszPl, O.ImgIdxRozszPl, I.WysokoscIpf, I.SzerokoscIpf');
+    qry.AddFields('P.IdPl, P.IdFld, P.IdRip, P.IdTypPl, P.NazwaPl, P.ScPl, P.WzgScPl, P.IdRozszPl, P.RozmiarPl, P.StatusPl, I.IloscUruchomienIpf, P.DataDodPl, P.DataModPl, P.OpisPl');
+    qry.AddFields('R.Crc32Rip, R.Md5Rip, T.NazwaTypPl, O.NazwaRozszPl, O.ImgIdxRozszPl, I.WysokoscIpf, I.SzerokoscIpf, R.OcenaRip, O.NazwaOceny');
     qry.From := 'Pliki P';
 
     qry.AddJoin('JOIN RejestrPlikow R ON R.IdRip = P.IdRip');
     qry.AddJoin('LEFT JOIN TypyPl T ON T.IdTypPl = P.IdTypPl');
     qry.AddJoin('LEFT JOIN RozszerzeniaPl O ON O.IdRozszPl = P.IdRozszPl');
     qry.AddJoin('LEFT JOIN InfoPlikiFilmy I ON I.IdRip = R.IdRip');
+    qry.AddJoin('LEFT JOIN Oceny O ON O.IdOceny = R.OcenaRip');
 
     qry.SetOrder('P.NazwaPl');
 
     if ((fKatMgr.Poziom > 0) and (fKatMgr.WybranyKatalog <> nil)) then
       qry.AddWhereFormat('P.IdFld = %d ', [fKatMgr.WybranyKatalog.IdKatalogu]);
 
-    if ((fWybFiltr = twfOcena) and (ListView1.ItemIndex > 0)) then
+    if ((fWybFiltr = twfOcena) and (FiltrAktywny(fWybFiltr))) then
     begin
-      qry.AddWhereFormat('R.OcenaRip = %d ', [7 - ListView1.ItemIndex]);
+      MgrPoz := GetMgrPozFiltra(fWybFiltr);
+      iloscWart := WybranePozycjeFiltra(MgrPoz, lstWart);
+      if (iloscWart > 1) then
+      begin
+        s := lstWart.CommaText;
+        qry.AddWhereFormat('R.OcenaRip IN (%s) ', [s]);
+      end
+      else if (iloscWart > 0) then
+      begin
+        qry.AddWhereFormat('R.OcenaRip = %s ', [lstWart.Strings[0]]);
+      end;
     end;
     {else if ((fWybFiltr = twfRok) and (tvFiltryLata.Selected <> nil) and (tvFiltryLata.Selected.AbsoluteIndex > 0)) then
     begin
       if (tvFiltryLata.Selected.Level = 1) then
-        qry.AddWhereFormat('R.OcenaRip = %d ', [7-ListView1.ItemIndex])
+        qry.AddWhereFormat('R.OcenaRip = %d ', [7-lvFiltry.ItemIndex])
       else if (tvFiltryLata.Selected.Level = 2) then
-        qry.AddWhereFormat('R.OcenaRip = %d ', [7-ListView1.ItemIndex])
+        qry.AddWhereFormat('R.OcenaRip = %d ', [7-lvFiltry.ItemIndex])
     end;}
 
     if (cbxTypPl.ItemIndex > 0) then
@@ -1649,6 +1771,8 @@ begin
     Result := qry.AsString;
   finally
     FreeAndNil(qry);
+    LstWart.Clear;
+    FreeAndNil(LstWart);
   end;
 
   {where:= '';
@@ -1669,7 +1793,7 @@ begin
 
   {case fWybFiltr of
     twfOcena:
-      item:= ListView1.Selected;
+      item:= lvFiltry.Selected;
       if (item <> nil) and (StrToIntDef(item.SubItems[0],0) > 0) then
       begin
         where:= where + Format(' = %d'
@@ -1683,54 +1807,23 @@ begin
   result:= select + where + order;}
 end;
 
-procedure TFrmMain.PokazFiltrOceny;
+procedure TFrmMain.UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
 const
   oceny: array[0..5] of string = ('Beznadziejny', 'Słaby', 'Taki sobie', 'Dobry', 'Bardzo dobry', 'Świetny');
 var
-  item: TListItem;
   i: integer;
+  poz: TPozycjaSlownika;
 begin
-  nbkFiltry.PageIndex := 0;
-  ListView1.Items.BeginUpdate;
-  try
-    ListView1.Items.Clear;
+  if not Assigned(MgrPozOcen) then
+    raise Exception.Create('Błąd poczas próby utworzenia filtra ocen - obiekt klasy TManagerPozycji nie istnieje');
 
-    item := ListView1.Items.Add;
-    item.Caption := 'Wszystko';
-    item.ImageIndex := 0;
-    item.SubItems.Add('0');
+  MgrPozOcen.UsunWszystkiePozycje;
 
-    for i := 5 downto 0 do
-    begin
-      item := ListView1.Items.Add;
-      item.Caption := oceny[i] + Format(' (%d)', [i + 1]);
-      item.ImageIndex := 1;
-      item.SubItems.Add(IntToStr(i + 1));
-    end;
-    {item := ListView1.Items.Add;
-    item.Caption:= 'Świetny (6)';
-    item.ImageIndex:= 8;
-    item.Data:= Pointer(Integer(6));
-    item := ListView1.Items.Add;
-    item.Caption:= 'Bardzo dobry (5)';
-    item.Data:= Pointer(Integer(5));
-    item := ListView1.Items.Add;
-    item.Caption:= 'Dobry (4)';
-    item.Data:= Pointer(Integer(4));
-    item := ListView1.Items.Add;
-    item.Caption:= 'Taki sobie (3)';
-    item.Data:= Pointer(Integer(3));
-    item := ListView1.Items.Add;
-    item.Caption:= 'Słaby (2)';
-    item.Data:= Pointer(Integer(2));
-    item := ListView1.Items.Add;
-    item.Caption:= 'Beznadziejny (1)';
-    item.Data:= Pointer(Integer(1));  }
-  finally
-    ListView1.Items.EndUpdate;
+  for i := 5 downto 0 do
+  begin
+    poz := TPozycjaSlownika.Create(i + 1, oceny[i]);
+    MgrPozOcen.DodajPozycje(poz);
   end;
-
-  ListView1.ItemIndex := 0;
 end;
 
 procedure TFrmMain.PokazFiltrLata;
@@ -1750,7 +1843,7 @@ begin
     for i := 0 to fLstLat.Count - 1 do
     begin
       dekada := fLstLat.ValueFromIndex[i];
-      wzDek  := tvFiltryLata.Items.FindTopLvlNode(dekada);
+      wzDek := tvFiltryLata.Items.FindTopLvlNode(dekada);
       if wzDek = nil then
       begin
         wzDek := tvFiltryLata.Items.Add(nil, dekada);
@@ -1770,9 +1863,10 @@ end;
 procedure TFrmMain.PokazDanePliku;
 begin
   tmrMain.Enabled := False;
-  fAktualneInfo  := False;
-  fAktualnyFilm  := False;
-  fAktualneTagi  := False;
+  fAktualneInfo := False;
+  fAktualneParam := False;
+  fAktualnyFilm := False;
+  fAktualneTagi := False;
   fAktualneOpisy := False;
 
   if ((DMM.qMain.Active) and (not DMM.qMain.IsEmpty)) then
@@ -1798,9 +1892,13 @@ end;
 
 procedure TFrmMain.PokazDaneWybranejZakladki;
 begin
-  if (pcDanePl.ActivePage = tsPlikParam) then
+  if (pcDanePl.ActivePage = tsPlikInfo) then
   begin
-    PokazDaneZaklInfo(False);
+    PokazDaneZaklInfo;
+  end
+  else if (pcDanePl.ActivePage = tsPlikParam) then
+  begin
+    PokazDaneZaklParam(False);
   end
   else if (pcDanePl.ActivePage = tsPlikFilm) then
   begin
@@ -1812,13 +1910,26 @@ begin
   end;
 end;
 
-procedure TFrmMain.PokazDaneZaklInfo(Wymus: boolean);
+procedure TFrmMain.PokazDaneZaklInfo;
+var
+  oc: longint;
+begin
+  if (not fAktualneInfo) then
+  begin
+    oc := DMM.qMain.FieldByName('OcenaRip').AsInteger;
+    UstawOceneGraf(oc);
+
+    fAktualneInfo := True;
+  end;
+end;
+
+procedure TFrmMain.PokazDaneZaklParam(Wymus: boolean);
 var
   jestRekord: boolean;
 begin
   jestRekord := False;
 
-  if (not fAktualneInfo) or (Wymus) then
+  if (not fAktualneParam) or (Wymus) then
   begin
     if (fIdRipWybPl > 0) then
     begin
@@ -1828,7 +1939,7 @@ begin
 
     sbnInfoDodaj.Enabled := not jestRekord;
     lcbRodzaj.Enabled := jestRekord;
-    fAktualneInfo := True;
+    fAktualneParam := True;
   end;
 end;
 
@@ -1836,11 +1947,12 @@ procedure TFrmMain.PokazDaneZaklFilm;
 var
   jestRekordFilm: boolean;
   iloscF: integer;
-  oc: longint;
+  ocf,ocpl : longint;
+  jestOcenaFilmu : boolean;
 begin
   if (not fAktualnyFilm) then
   begin
-    ImgBrakOkl.Visible:= False;
+    ImgBrakOkl.Visible := False;
     DMM.qMainFilmPl.Close;
     DMM.qMainFilm.Close;
 
@@ -1860,14 +1972,28 @@ begin
         PokazDaneWybranegoFilmu;
         sbnFilm.ImageIndex := 3;
         sbnFilm.Hint := 'Zarządzaj filmami';
-        oc := DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger;
-        UstawOceneGraf(oc);
+        ocf := DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger;
+        ocpl := DMM.qMain.FieldByName('OcenaRip').AsInteger;
+        jestOcenaFilmu:= (ocf > 0);
+        btnDodOceneFilmu.Enabled:= not jestOcenaFilmu;
+        btnDodOceneFilmu.Visible:= not jestOcenaFilmu;
+        pnlFilmOcena.Visible:= jestOcenaFilmu;
+        UstawOceneGraf(ocpl, ImgOcenaPlF, DMG.ilStars16);
+        if (ocf > 0) then
+        begin
+          UstawOceneGraf(ocf, ImgOcenaF, DMG.ilStars16);
+          lbOcenaFOpis.Caption:= DMM.OpisOceny(ocf);
+        end;
       end
       else
       begin
         sbnFilm.ImageIndex := 1;
         sbnFilm.Hint := 'Dodaj film';
-        UstawOceneGraf(0);
+        btnDodOceneFilmu.Enabled:= False;
+        btnDodOceneFilmu.Visible:= True;
+        pnlFilmOcena.Visible:= False;
+        UstawOceneGraf(0, ImgOcenaPlF, DMG.ilStars16);
+        lbOcenaFOpis.Caption:= '';
         ImgOkladka.Picture.Clear;
       end;
 
@@ -1903,7 +2029,7 @@ var
 begin
   if (not fAktualneOpisy) or (Wymus) then
   begin
-    jestRekordInfo  := not DMM.qMainInfo.IsEmpty;
+    jestRekordInfo := not DMM.qMainInfo.IsEmpty;
     pnOpisInfo.Visible := not jestRekordInfo;
     DBMemo5.Visible := jestRekordInfo;
   end;
@@ -1912,7 +2038,7 @@ end;
 procedure TFrmMain.PokazDaneWybranegoFilmu;
 var
   id: longint;
-  sc : string;
+  sc: string;
 begin
   if ((DMM.qMainFilmPl.Active) and (not DMM.qMainFilmPl.IsEmpty)) then
   begin
@@ -1926,50 +2052,82 @@ begin
         if not DMM.qMainFilmPl.Locate('IdFilmu', id, []) then
           raise Exception.Create('Błąd podczas próby wszukania wybranego filmu id: ' + IntToStr(id));
       end;
-      sc:= DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;
+      sc := DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString;
       if (sc <> '') then
       begin
         if (FileExists(sc)) then
           ImgOkladka.Picture.LoadFromFile(sc)
         else
-          ImgBrakOkl.Visible:= True;
+          ImgBrakOkl.Visible := True;
       end
       else
-        ImgOkladka.Picture.Clear;;
+        ImgOkladka.Picture.Clear;
+
       {if (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '') and (FileExists(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString)) then
         ImgOkladka.Picture.LoadFromFile(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString)
       else
         ImgOkladka.Picture.Clear;}
 
       DMM.qMainAkt.Close;
-      DMM.qMainAkt.ParamByName('IdFilmu').AsInteger:= id;
+      DMM.qMainAkt.ParamByName('IdFilmu').AsInteger := id;
       DMM.qMainAkt.Open;
       DMM.qMainLinki.Close;
-      DMM.qMainLinki.ParamByName('IdFilmu').AsInteger:= id;
+      DMM.qMainLinki.ParamByName('IdFilmu').AsInteger := id;
       DMM.qMainLinki.Open;
       DMM.qMainAkaF.Close;
-      DMM.qMainAkaF.ParamByName('IdFilmu').AsInteger:= id;
+      DMM.qMainAkaF.ParamByName('IdFilmu').AsInteger := id;
       DMM.qMainAkaF.Open;
     end
     else
     begin
-      UstawOceneGraf(0);
+      //UstawOceneGraf(0);
       MessageDlg('Błąd', 'Film ma przypisany nieprawidłowy identyfikator', mtError, [mbOK], 0);
     end;
   end;
 end;
 
 function TFrmMain.UstawOcene(Ocena: byte): boolean;
+var
+  IdRip: longint;
 begin
   Result := False;
-  if ((not DMM.qMainFilm.IsEmpty) and (Ocena in [0..5])) then
+  if ((not DMM.qMain.IsEmpty) and (Ocena in [0..6])) then
   begin
+    IdRip := DMM.qMain.FieldByName('IdRip').AsInteger;
+    DMM.UstawOcenePliku(IdRip, Ocena);
+    DMG.OdswiezDataSet(DMM.qMain, 'IdPl');
+
+    {if not (DMM.qMain.State in [dsInsert, dsEdit]) then
+      DMM.qMain.Edit;
+    DMM.qMain.FieldByName('OcenaRip').AsInteger := Ocena;
+    DMM.qMain.Post;}
+    //UstawOceneGraf(Ocena);
+    Result := True;
+  end;
+end;
+
+function TFrmMain.UstawOceneFilm(Ocena: byte): boolean;
+var
+  jestOcenaFilmu : boolean;
+begin
+  Result := False;
+  if ((DMM.qMainFilm.Active) and (not DMM.qMainFilm.IsEmpty) and (Ocena in [0..6])) then
+  begin
+    if (DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger <> Ocena) then
+    begin
     if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
       DMM.qMainFilm.Edit;
     DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger := Ocena;
     DMM.qMainFilm.Post;
-    UstawOceneGraf(Ocena);
+
+    jestOcenaFilmu:= (Ocena > 0);
+    btnDodOceneFilmu.Enabled:= not jestOcenaFilmu;
+    btnDodOceneFilmu.Visible:= not jestOcenaFilmu;
+    pnlFilmOcena.Visible:= jestOcenaFilmu;
+    UstawOceneGraf(Ocena, ImgOcenaF, DMG.ilStars16);
+
     Result := True;
+    end;
   end;
 end;
 
@@ -1981,7 +2139,7 @@ begin
   begin
     bmp := TBitmap.Create;
     try
-      ilOceny.GetBitmap(AOcena, bmp);
+      DMG.ilStars.GetBitmap(AOcena, bmp);
       imgOcena.Picture.Bitmap := bmp;
 
     finally
@@ -1991,9 +2149,224 @@ begin
   end;
 end;
 
+procedure TFrmMain.UstawOceneGraf(AOcena: byte; AImg: TImage;
+  AImgLst: TImageList);
+var
+  bmp: TBitmap;
+begin
+  bmp := TBitmap.Create;
+  try
+    AImgLst.GetBitmap(AOcena, bmp);
+    AImg.Picture.Bitmap := bmp;
+
+  finally
+    FreeAndNil(bmp);
+  end;
+end;
+
 procedure TFrmMain.OdswiezFiltrAktorow;
 begin
   DMG.OdswiezDataSet(DMM.qMainFiltrAkt, 'IdAkt');
+end;
+
+function TFrmMain.WybFiltrToDbIdx(filtr: TWybranyFiltr): integer;
+begin
+  case filtr of
+    twfOcena: Result := 0;
+    twfAktor: Result := 1;
+    twfTag: Result := 2;
+    twfGatunek: Result := 3;
+    twfSeria: Result := 4;
+    else
+      Result := -1;
+  end;
+end;
+
+procedure TFrmMain.UtworzFiltry;
+var
+  mgrPoz: TManagerPozycji;
+  i: integer;
+begin
+  for i := 1 to 5 do
+  begin
+    mgrPoz := TManagerPozycji.Create;
+    fLstFiltrow.Add(mgrPoz);
+  end;
+
+  mgrPoz := TManagerPozycji(fLstFiltrow.Items[WybFiltrToDbIdx(twfOcena)]);
+  UtworzFiltrOceny(mgrPoz);
+
+  DMM.qMainFiltrAkt.Open;
+  WczytajTabDoFiltra(twfAktor, DMM.qMainFiltrAkt, 'Akt');
+  DMM.qMainFiltrAkt.Close;
+
+  DMM.qMainFiltrTag.Open;
+  WczytajTabDoFiltra(twfTag, DMM.qMainFiltrTag, 'Tag');
+  DMM.qMainFiltrTag.Close;
+
+  DMM.qMainFiltrGat.Open;
+  WczytajTabDoFiltra(twfGatunek, DMM.qMainFiltrGat, 'Gat');
+  DMM.qMainFiltrGat.Close;
+
+  DMM.qMainFiltrSer.Open;
+  WczytajTabDoFiltra(twfSeria, DMM.qMainFiltrSer, 'Serii');
+  DMM.qMainFiltrSer.Close;
+end;
+
+procedure TFrmMain.WczytajPozycjeFiltru(MgrPoz: TManagerPozycji; lv: TListView; ImgIdx: integer);
+var
+  i: integer;
+  item: TListItem;
+  poz: TPozycjaSlownika;
+begin
+  if not Assigned(MgrPoz) then
+    raise Exception.Create('Błąd poczas próby wczytania pozycji filtra - obiekt MenageraPozycji nie istnieje');
+  if not Assigned(lv) then
+    raise Exception.Create('Błąd poczas próby wczytania pozycji filtra - nie przekazano obiektu ListView');
+
+  lv.BeginUpdate;
+  try
+    lv.Items.Clear;
+    for i := 0 to MgrPoz.IloscWszystkichPozycji - 1 do
+    begin
+      if (MgrPoz.WidocznaPozycja[i]) then
+      begin
+        poz := MgrPoz.Pozycja[i];
+        item := lv.Items.Add;
+        item.Caption := poz.Nazwa;
+        item.SubItems.Add(IntToStr(poz.NrId));
+        item.Checked := poz.Zaznaczona;
+        if ImgIdx >= 0 then
+          item.ImageIndex := ImgIdx;
+      end;
+    end;
+  finally
+    lv.EndUpdate;
+  end;
+  if (lv.Items.Count > 0) then
+  begin
+    lv.Selected := lv.Items.Item[0];
+    lv.ItemFocused := lv.Selected;
+  end;
+end;
+
+function TFrmMain.GetMgrPozFiltra(filtr: TWybranyFiltr): TManagerPozycji;
+var
+  idx: integer;
+begin
+  idx := WybFiltrToDbIdx(filtr);
+  if (idx >= 0) then
+    Result := TManagerPozycji(fLstFiltrow.Items[idx])
+  else
+    Result := nil;
+end;
+
+function TFrmMain.FiltrAktywny(filtr: TWybranyFiltr): boolean;
+var
+  idx: integer;
+begin
+  idx := WybFiltrToDbIdx(filtr);
+  if (idx >= 0) then
+    Result := fFiltrAktywny[idx]
+  else
+    raise Exception.Create('Błąd podczas sprawdzania aktywności filtru - niepoprawny typ filtra');
+end;
+
+function TFrmMain.WybranePozycjeFiltra(MgrPoz: TManagerPozycji; var LstWartosci: TStringList): integer;
+var
+  i: integer;
+  poz: TPozycjaSlownika;
+begin
+  if not Assigned(MgrPoz) then
+    raise Exception.Create('Błąd podczas pobierania wybranych wartości filtra - nie przekazano obiektu TManagerPozycji');
+  if not Assigned(LstWartosci) then
+    raise Exception.Create('Błąd podczas pobierania wybranych wartości filtra - nie przekazano obiektu TStringList');
+
+  Result := 0;
+  LstWartosci.BeginUpdate;
+  try
+    LstWartosci.Clear;
+    if MgrPoz.IloscWybranychPozycji > 0 then
+    begin
+      for i := 0 to MgrPoz.IloscWszystkichPozycji - 1 do
+      begin
+        poz := TPozycjaSlownika(MgrPoz.Pozycja[i]);
+        if poz.Zaznaczona then
+        begin
+          LstWartosci.Add(IntToStr(poz.NrId));
+          Inc(Result);
+        end;
+      end;
+    end;
+  finally
+    LstWartosci.EndUpdate;
+  end;
+end;
+
+function TFrmMain.WczytajTabDoFiltra(filtr: TWybranyFiltr; ds: TDataSet; postfix: string): integer;
+var
+  filtrIdx: integer;
+  mgrPoz: TManagerPozycji;
+  poz: TPozycjaSlownika;
+  wartId: longint;
+  wartNazwa: string;
+begin
+  Result := 0;
+  filtrIdx := WybFiltrToDbIdx(filtr);
+  if (filtrIdx >= 0) then
+  begin
+    mgrPoz := TManagerPozycji(fLstFiltrow.Items[filtrIdx]);
+    mgrPoz.UsunWszystkiePozycje;
+    ds.DisableControls;
+    try
+      ds.First;
+      while not ds.EOF do
+      begin
+        wartId := ds.FieldByName('Id' + postfix).AsInteger;
+        wartNazwa := ds.FieldByName('Nazwa' + postfix).AsString;
+
+        poz := TPozycjaSlownika.Create(wartId, wartNazwa);
+        mgrPoz.DodajPozycje(poz);
+        Inc(Result);
+
+        ds.Next;
+      end;
+    finally
+      ds.EnableControls;
+    end;
+  end
+  else
+    raise Exception.Create('Błąd podczas próby wczytania danych do filtra. Nieobsługiwany filtr.');
+end;
+
+procedure TFrmMain.chbxFiltrWszystkoChange(Sender: TObject);
+var
+  idx: integer;
+begin
+  idx := WybFiltrToDbIdx(fWybFiltr);
+  if (idx >= 0) then
+  begin
+    fFiltrAktywny[idx] := not chbxFiltrWszystko.Checked;
+    OdswiezDane;
+  end
+  else
+    raise Exception.Create('Błąd podczas ustawiania aktywności filtru - niepoprawny typ filtra');
+end;
+
+procedure TFrmMain.lvFiltryItemChecked(Sender: TObject; Item: TListItem);
+var
+  poz: TPozycjaSlownika;
+  id: integer;
+  mgrPoz: TManagerPozycji;
+begin
+  id := StrToInt(Item.SubItems.Strings[0]);
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  poz := mgrPoz.GetPozycjaWgId(id);
+  poz.Zaznaczona := Item.Checked;
+  if not chbxFiltrWszystko.Checked then
+  begin
+    OdswiezDane;
+  end;
 end;
 
 end.

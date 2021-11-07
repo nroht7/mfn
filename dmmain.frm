@@ -41,8 +41,8 @@ object DMM: TDMM
     Top = 176
   end
   object qMainAkt: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaAkt'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT A.IdAkt, A.NazwaAkt, A.OcenaAkt, A.ZdjecieScAkt, A.OpisAkt'
       'FROM Aktorzy A'
@@ -100,8 +100,8 @@ object DMM: TDMM
       end>
   end
   object qMainAkaF2: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaAKAF'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdAKAF, IdFilmu, NazwaAKAF FROM AKA_F'
       'WHERE IdFilmu = :IdFilmu'
@@ -115,8 +115,8 @@ object DMM: TDMM
       end>
     IndexFieldNames = 'NazwaAKAF Asc'
     Options = [doCalcDefaults, doPreferPrepared]
-    Left = 288
-    Top = 360
+    Left = 384
+    Top = 312
     ParamData = <    
       item
         DataType = ftInteger
@@ -161,22 +161,256 @@ object DMM: TDMM
     Top = 232
   end
   object qMain: TZReadOnlyQuery
-    Connection = DMG.ZConn
     AfterScroll = qMainAfterScroll
+    OnCalcFields = qMainCalcFields
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT P.IdPl, P.IdFld, P.IdRip, P.IdTypPl, P.NazwaPl, P.ScPl, P.WzgScPl, P.IdRozszPl, P.RozmiarPl, P.StatusPl, I.IloscUruchomienIpf, P.DataDodPl, P.DataModPl,'
-      'R.Crc32Rip, R.Md5Rip, T.NazwaTypPl, O.NazwaRozszPl, O.ImgIdxRozszPl, I.WysokoscIpf, I.SzerokoscIpf'
+      'R.Crc32Rip, R.Md5Rip, T.NazwaTypPl, O.NazwaRozszPl, O.ImgIdxRozszPl, I.WysokoscIpf, I.SzerokoscIpf, R.OcenaRip, O.NazwaOceny'
       'FROM Pliki P'
       'JOIN RejestrPlikow R ON R.IdRip = P.IdRip'
       'LEFT JOIN TypyPl T ON T.IdTypPl = P.IdTypPl'
       'LEFT JOIN RozszerzeniaPl O ON O.IdRozszPl = P.IdRozszPl'
       'LEFT JOIN InfoPlikiFilmy I ON I.IdRip = R.IdRip'
+      'LEFT JOIN Oceny O ON O.IdOceny = R.OcenaRip'
       'ORDER BY P.NazwaPl'
     )
     Params = <>
     Options = [doCalcDefaults, doPreferPrepared]
     Left = 24
     Top = 16
+    object qMainIdPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdPl'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainIdFld: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdFld'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainIdRip: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRip'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainIdTypPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdTypPl'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainNazwaPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'NazwaPl'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 300
+    end
+    object qMainScPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'ScPl'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 300
+    end
+    object qMainWzgScPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'WzgScPl'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 300
+    end
+    object qMainIdRozszPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRozszPl'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainRozmiarPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'RozmiarPl'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainStatusPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'StatusPl'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 1
+    end
+    object qMainIloscUruchomienIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IloscUruchomienIpf'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainDataDodPl: TZDateTimeField
+      FieldKind = fkData
+      FieldName = 'DataDodPl'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      DisplayFormat.Format = 'dd.mm.yyyy hh:nn:ss'
+      DisplayFormat.SecondFractionSeperator = ','
+      DisplayFormat.SecondFractionOption = foSetByFormat
+    end
+    object qMainDataModPl: TZDateTimeField
+      FieldKind = fkData
+      FieldName = 'DataModPl'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      DisplayFormat.Format = 'dd/mm/yyyy hh:nn:ss'
+      DisplayFormat.SecondFractionSeperator = ','
+      DisplayFormat.SecondFractionOption = foSetByFormat
+    end
+    object qMainCrc32Rip: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'Crc32Rip'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 8
+    end
+    object qMainMd5Rip: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'Md5Rip'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 32
+    end
+    object qMainNazwaTypPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'NazwaTypPl'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 100
+    end
+    object qMainNazwaRozszPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'NazwaRozszPl'
+      Index = 16
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 30
+    end
+    object qMainImgIdxRozszPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'ImgIdxRozszPl'
+      Index = 17
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainWysokoscIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'WysokoscIpf'
+      Index = 18
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainSzerokoscIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'SzerokoscIpf'
+      Index = 19
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainOcenaRip: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'OcenaRip'
+      Index = 20
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object qMainNazwaOceny: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'NazwaOceny'
+      Index = 21
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 30
+    end
+    object qMainC_Rozmiar: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'C_Rozmiar'
+      Index = 22
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 30
+    end
+    object qMainC_Status: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'C_Status'
+      Index = 23
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
   end
   object qCmd: TZQuery
     Connection = DMG.ZConn
@@ -185,6 +419,7 @@ object DMM: TDMM
     Top = 300
   end
   object qMainInfo: TZQuery
+    OnCalcFields = qMainInfoCalcFields
     Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdRip, KodekVideoIpf,KodekAudioIpf,KontenerIpf,FormatIpf,WysokoscIpf,SzerokoscIpf,DlugoscIpf, '
@@ -208,6 +443,140 @@ object DMM: TDMM
         ParamType = ptInput
         SQLType = stInteger
       end>
+    object qMainInfoIdRip: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRip'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoKodekVideoIpf: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'KodekVideoIpf'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 50
+    end
+    object qMainInfoKodekAudioIpf: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'KodekAudioIpf'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 50
+    end
+    object qMainInfoKontenerIpf: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'KontenerIpf'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 50
+    end
+    object qMainInfoFormatIpf: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'FormatIpf'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoWysokoscIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'WysokoscIpf'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoSzerokoscIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'SzerokoscIpf'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoDlugoscIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'DlugoscIpf'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainInfoIloscStrumIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IloscStrumIpf'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainInfoIloscUruchomienIpf: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IloscUruchomienIpf'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainInfoDaneIpf: TZRawCLobField
+      FieldKind = fkData
+      FieldName = 'DaneIpf'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qMainInfoOpisIpf: TZRawCLobField
+      FieldKind = fkData
+      FieldName = 'OpisIpf'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qMainInfoIdRodzaju: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRodzaju'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoCDlugosc: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'CDlugosc'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 30
+    end
   end
   object dsJezyki: TDataSource
     DataSet = qJezyki
@@ -276,8 +645,8 @@ object DMM: TDMM
     Top = 72
   end
   object qJezyki: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaJzk'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdJzk, NazwaJzk, OpisJzk FROM Jezyki'
     )
@@ -288,6 +657,7 @@ object DMM: TDMM
     Top = 368
   end
   object qMainPlik: TZQuery
+    OnCalcFields = qMainPlikCalcFields
     Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdPl, IdFld, IdRip, IdTypPl, NazwaPl, ScPl, WzgScPl, IdRozszPl, RozmiarPl, StatusPl, DataDodPl, DataModPl, OpisPl '
@@ -310,6 +680,139 @@ object DMM: TDMM
         ParamType = ptInput
         SQLType = stInteger
       end>
+    object qMainPlikIdPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdPl'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainPlikIdFld: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdFld'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikIdRip: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRip'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikIdTypPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdTypPl'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikNazwaPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'NazwaPl'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 300
+    end
+    object qMainPlikScPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'ScPl'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 300
+    end
+    object qMainPlikWzgScPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'WzgScPl'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 300
+    end
+    object qMainPlikIdRozszPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdRozszPl'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainPlikRozmiarPl: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'RozmiarPl'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikStatusPl: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'StatusPl'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 1
+    end
+    object qMainPlikDataDodPl: TZDateTimeField
+      FieldKind = fkData
+      FieldName = 'DataDodPl'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikDataModPl: TZDateTimeField
+      FieldKind = fkData
+      FieldName = 'DataModPl'
+      Index = 11
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object qMainPlikOpisPl: TZRawCLobField
+      FieldKind = fkData
+      FieldName = 'OpisPl'
+      Index = 12
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qMainPlikC_Rozmiar: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'C_Rozmiar'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 30
+    end
   end
   object dsMainPlik: TDataSource
     DataSet = qMainPlik
@@ -317,8 +820,8 @@ object DMM: TDMM
     Top = 72
   end
   object qSerie: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaSerii'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdSerii, NazwaSerii, OpisSerii'
       'FROM Serie'
@@ -330,8 +833,8 @@ object DMM: TDMM
     Top = 368
   end
   object qKraje: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaKraju'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdKraju, nazwaKraju, OpisKraju'
       'FROM Kraje'
@@ -353,8 +856,8 @@ object DMM: TDMM
     Top = 416
   end
   object qRodzaje: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaRodzaju'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdRodzaju, NazwaRodzaju, OpisRodzaju '
       'FROM Rodzaje'
@@ -394,8 +897,8 @@ object DMM: TDMM
       end>
   end
   object qMainFiltrAkt: TZReadOnlyQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaAkt'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT A.IdAkt, A.NazwaAkt, IFNULL(L.ILOSCF,0) Ilosc'
       'FROM Aktorzy A'
@@ -414,5 +917,76 @@ object DMM: TDMM
     DataSet = qMainFiltrAkt
     Left = 24
     Top = 544
+  end
+  object qMainFiltrTag: TZReadOnlyQuery
+    SortedFields = 'NazwaTag'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdTag, NazwaTag '
+      'FROM Tagi'
+    )
+    Params = <>
+    IndexFieldNames = 'NazwaTag Asc'
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 104
+    Top = 488
+  end
+  object qMainFiltrGat: TZReadOnlyQuery
+    SortedFields = 'NazwaGat'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdGat, NazwaGat'
+      'FROM Gatunki'
+    )
+    Params = <>
+    IndexFieldNames = 'NazwaGat Asc'
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 184
+    Top = 488
+  end
+  object qMainFiltrSer: TZReadOnlyQuery
+    SortedFields = 'NazwaSerii'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdSerii, NazwaSerii'
+      'FROM Serie'
+    )
+    Params = <>
+    IndexFieldNames = 'NazwaSerii Asc'
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 264
+    Top = 488
+  end
+  object dsMFTag: TDataSource
+    DataSet = qMainFiltrTag
+    Left = 104
+    Top = 544
+  end
+  object dsMFGat: TDataSource
+    DataSet = qMainFiltrGat
+    Left = 184
+    Top = 544
+  end
+  object dsMFSer: TDataSource
+    DataSet = qMainFiltrSer
+    Left = 264
+    Top = 544
+  end
+  object qOceny: TZReadOnlyQuery
+    SortedFields = 'IdOceny'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdOceny, NazwaOceny FROM OCENY'
+    )
+    Params = <>
+    IndexFieldNames = 'IdOceny Asc'
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 248
+    Top = 368
+  end
+  object dsOceny: TDataSource
+    DataSet = qOceny
+    Left = 248
+    Top = 416
   end
 end

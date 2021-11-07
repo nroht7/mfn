@@ -13,7 +13,8 @@ uses
   Forms, main, dmgl, funkcje, dlgslownik, dlgpozsl, dlgaktorzy, dmakt, dlgwlasc,
   dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan, dlgRozszPl,
   dlgedycjarozsz, ulstplrec, usqlqryb, dlgflmdod, dlgfilmlista, dlginfotxt,
-  dlgrok, dlgczasfilm, dlgimgview, ulnkopen, dlgaktor, dlglstpoztxt, dlgpzlntxt;
+  dlgrok, dlgczasfilm, dlgimgview, ulnkopen, dlgaktor, dlglstpoztxt, dlgpzlntxt,
+  upozsl, umgrpoz, ubyteconv, dlgslpoz;
 
 {$R *.res}
 
@@ -25,7 +26,6 @@ begin
   Application.CreateForm(TDMA, DMA);
   Application.CreateForm(TDMM, DMM);
   Application.CreateForm(TFrmMain, FrmMain);
-  Application.CreateForm(TFrmPozLinTxt, FrmPozLinTxt);
   Application.Run;
 end.
 

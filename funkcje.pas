@@ -12,6 +12,10 @@ function GetAppDir(): string;
 function CrcFileStr(filename: string): string;
 function IsDigit(c: char): boolean;
 function IsNumberInteger(s: string): boolean;
+procedure SekToMin(ASek: integer; var m, s: byte);
+procedure SekToGodz(ASek: integer; var g, m, s: byte);
+function SekToMinStr(ASek: integer): string;
+function SekToGodzStr(ASek: integer): string;
 
 implementation
 
@@ -76,6 +80,74 @@ begin
       end;
     end;
   end;
+end;
+
+procedure SekToMin(ASek: integer; var m, s: byte);
+begin
+  m := 0;
+  s := 0;
+  if (ASek > 0) then
+  begin
+    m := ASek div 60;
+    s := ASek mod 60;
+  end;
+end;
+
+procedure SekToGodz(ASek: integer; var g, m, s: byte);
+begin
+  g := 0;
+  m := 0;
+  s := 0;
+  if (ASek > 0) then
+  begin
+    g := ASek div 3600;
+    m := (ASek div 60) - g;
+    s := ASek mod 60;
+  end;
+end;
+
+function SekToMinStr(ASek: integer): string;
+var
+  m, s: byte;
+  czas: string;
+begin
+  czas:= '';
+  SekToMin(ASek, m, s);
+  if (m > 0) then
+    czas := czas + Format('%d min', [m]);
+  if (czas <> '') then
+    czas := czas + ' ';
+  if (s > 0) then
+    czas := czas + Format('%d sek', [s]);
+  if czas <> '' then
+    Result := czas
+  else
+    Result := '0 sek';
+end;
+
+function SekToGodzStr(ASek: integer): string;
+var
+  g, m, s: byte;
+  czas: string;
+begin
+  czas:= '';
+  SekToGodz(ASek, g, m, s);
+
+  if (g > 0) then
+    czas := czas + Format('%d g', [g]);
+  if (czas <> '') then
+    czas := czas + ' ';
+  if (m > 0) then
+    czas := czas + Format('%d m', [m]);
+  if (czas <> '') then
+    czas := czas + ' ';
+  if (s > 0) then
+    czas := czas + Format('%d s', [s]);
+
+  if czas <> '' then
+    Result := czas
+  else
+    Result := '0 sek';
 end;
 
 end.
