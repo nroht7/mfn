@@ -9,7 +9,7 @@ uses
   ActnList, Menus, ComboEx, Buttons, DBGrids, RxDBGrid, rxcurredit, rxspin,
   RxTimeEdit, RxMDI, LSControls,
   IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls, ukatalog, Contnrs, DB, ukatmgr,
-  Grids, DBActns, ShellAPI, Clipbrd, LCLIntf, LCLType, StrUtils, umgrpoz, upozsl;
+  Grids, DBActns, {ShellAPI,} Clipbrd, LCLIntf, LCLType, StrUtils, umgrpoz, upozsl;
 
 type
   TWybranyFiltr = (twfOcena, twfRok, twfAktor, twfTag, twfGatunek, twfSeria);
@@ -968,7 +968,7 @@ end;
 procedure TFrmMain.acFilmDodajExecute(Sender: TObject);
 var
   frm: TFrmFilmDodaj;
-  idFilmu: longint;
+  //idFilmu: longint;
 begin
   if not DMM.qMain.IsEmpty then
   begin
@@ -979,11 +979,11 @@ begin
       begin
         if DMM.CzyTytulFilmuIstniejeDlaRejPl(frm.TytulFilmu, fIdRipWybPl, 0) then
         begin
-          MessageDlg('Informacja', 'Film o takim tytul już jest dla tego pliku', mtInformation, [mbOK], 0);
+          MessageDlg('Informacja', 'Film o takim tytule już jest dla tego pliku', mtInformation, [mbOK], 0);
         end
         else
         begin
-          idFilmu := DMM.DodajFilm(fIdRipWybPl, frm.TytulFilmu, frm.RokFilmu);
+          {idFilmu := }DMM.DodajFilm(fIdRipWybPl, frm.TytulFilmu, frm.RokFilmu);
           PokazDaneZaklFilm;
         end;
       end;
@@ -1043,8 +1043,13 @@ begin
       idpl := DMM.qMain.FieldByName('IdPl').AsInteger;
       if (FileExists(s)) then
       begin
-        ShellExecute(0, PChar('open'), PChar(s),
-          PChar(''), PChar(''), 1);
+        {ShellExecute(0, PChar('open'), PChar(s),
+          PChar(''), PChar(''), 1);}
+        {if RunCommand(s,r) then
+          ShowMessage('OK - '+r)
+        else
+          ShowMessage('Problem - '+r);}
+        OpenDocument(s);
         {DMM.DodajOdtworzenieFilmu(DMM.qMain.FieldByName('IdRip').AsInteger);
         DMM.qMain.Close;
         DMM.qMain.Open;

@@ -28,9 +28,9 @@ object FrmMain: TFrmMain
       Height = 300
       Top = 501
       Width = 934
-      ActivePage = tsPlikTagi
+      ActivePage = tsPlikInfo
       Align = alBottom
-      TabIndex = 3
+      TabIndex = 0
       TabOrder = 0
       OnChange = pcDanePlChange
       object tsPlikInfo: TTabSheet
