@@ -1,0 +1,10 @@
+*.o
+*.ppu
+*.exe
+*.dll
+*.jpg
+*.png
+*.s3db
+*.fdb
+*.db
+lib
