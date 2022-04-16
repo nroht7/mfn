@@ -8,7 +8,7 @@ object FrmSlPoz: TFrmSlPoz
   ClientWidth = 400
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '7.5'
+  LCLVersion = '7.7'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23

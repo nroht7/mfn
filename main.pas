@@ -360,6 +360,8 @@ type
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     procedure acAktDodajExecute(Sender: TObject);
+    procedure acAktDodajTxtExecute(Sender: TObject);
+    procedure acAktEdycjaExecute(Sender: TObject);
     procedure acAktUsunExecute(Sender: TObject);
     procedure acDaneAktorzyExecute(Sender: TObject);
     procedure acDaneGatunkiExecute(Sender: TObject);
@@ -455,6 +457,7 @@ type
     procedure UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
     procedure PokazFiltrLata;
     procedure PokazDanePliku;
+    procedure PokazZakladkiTypu(IdTypu: longint);
     procedure PokazDaneWybranejZakladki;
     procedure PokazDaneZaklInfo;
     procedure PokazDaneZaklParam(Wymus: boolean);
@@ -474,6 +477,7 @@ type
     function GetMgrPozFiltra(filtr: TWybranyFiltr): TManagerPozycji;
     function FiltrAktywny(filtr: TWybranyFiltr): boolean;
     function WybranePozycjeFiltra(MgrPoz: TManagerPozycji; var LstWartosci: TStringList): integer;
+    procedure UsunTagi;
   public
 
   end;
@@ -486,7 +490,7 @@ implementation
 uses
   funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dlgkatalogi, dlgskan, dlgRozszPl, dlgwlasc, usqlqryb,
   dmmain, dlgflmdod, dlgfilmlista, dlginfotxt, dlgrok, dlgczasfilm, dlgimgview, dlgpozsl, ulnkopen, dmakt,
-  dlgpzlntxt, dlgslpoz;
+  dlgpzlntxt, dlgslpoz, dlgakttxt;
 
 {$R *.frm}
 
@@ -573,32 +577,101 @@ end;
 
 procedure TFrmMain.acTagDodajExecute(Sender: TObject);
 var
-  frm : TFrmSlPoz;
+  frm: TFrmSlPoz;
+  lstPoz: TStringList;
+  idTag: longint;
+  s: string;
 begin
-  frm:= TFrmSlPoz.Create(self);
-  try
-    frm.TytulOkna:= 'Dodaj tagi';
-    frm.ShowModal;
-  finally
-    FreeAndNil(frm);
+  if (fIdRipWybPl < 1) then
+  begin
+    MessageDlg('Brak IdRip wybranej pozycji', mtError, [mbOK], 0);
+    Exit;
+  end;
+  if (DMM.qMain.Active) and (not DMM.qMain.IsEmpty) then
+  begin
+    //DMG.OdswiezDataSet(DMM.qTagi);
+    DMG.OdswiezQueryZParam(DMM.qTagiExcp, 'IDRIP', fIdRipWybPl);
+    frm := TFrmSlPoz.Create(self);
+    try
+      frm.TytulOkna := 'Dodaj tagi';
+      frm.UstawDataSet(DMM.qTagiExcp, 'IdTag', 'NazwaTag');
+      if (frm.ShowModal = mrOk) then
+      begin
+        lstPoz := TStringList.Create;
+        try
+          if (frm.ListaIdZaznaczoncychPozycji(lstPoz) > 0) then
+          begin
+            for s in lstPoz do
+            begin
+              idTag := StrToInt(s);
+              DMM.DodajTag(fIdRipWybPl, idTag);
+            end;
+            DMG.OdswiezDataSet(DMM.qMainTag);
+          end;
+        finally
+          lstPoz.Clear;
+          FreeAndNil(lstPoz);
+        end;
+      end;
+    finally
+      FreeAndNil(frm);
+    end;
   end;
 end;
 
 procedure TFrmMain.acTagUsunExecute(Sender: TObject);
+var
+  nazwa: string;
 begin
   if (DMM.qMainTag.Active and (not DMM.qMainTag.IsEmpty)) then
   begin
     if DMM.qMainTag.RecordCount > 1 then
     begin
-
+      UsunTagi;
     end
     else
     begin
-      if (MessageDlg('Usuń tag z z pliku',Format('Czy napewno usunąć tag "%s" przypisany do pliku?',[]),mtConfirmation,[mbOk,mbCancel],0) = mrOk) then
+      nazwa := DMM.qMainTag.FieldByName('NazwaTag').AsString;
+      if (MessageDlg('Usuń tag z z pliku', Format('Czy napewno usunąć tag "%s" przypisany do pliku?', [nazwa]), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
       begin
-
+        DMM.UsunTag(DMM.qMainTag.FieldByName('IdRip').AsInteger, DMM.qMainTag.FieldByName('IdTag').AsInteger);
+        DMG.OdswiezDataSet(DMM.qMainTag);
       end;
     end;
+  end;
+end;
+
+procedure TFrmMain.UsunTagi;
+var
+  frm: TFrmSlPoz;
+  lstPoz: TStringList;
+  idTag: longint;
+  s: string;
+begin
+  frm := TFrmSlPoz.Create(self);
+  try
+    frm.TytulOkna := 'Usuń tagi';
+    frm.UstawDataSet(DMM.qMainTag, 'IdTag', 'NazwaTag');
+    if (frm.ShowModal = mrOk) then
+    begin
+      lstPoz := TStringList.Create;
+      try
+        if (frm.ListaIdZaznaczoncychPozycji(lstPoz) > 0) then
+        begin
+          for s in lstPoz do
+          begin
+            idTag := StrToInt(s);
+            DMM.UsunTag(fIdRipWybPl, idTag);
+          end;
+          DMG.OdswiezDataSet(DMM.qMainTag);
+        end;
+      finally
+        lstPoz.Clear;
+        FreeAndNil(lstPoz);
+      end;
+    end;
+  finally
+    FreeAndNil(frm);
   end;
 end;
 
@@ -701,6 +774,7 @@ begin
   DMM.qMainLinki.Close;
   DMM.qMainAkaF.Close;
 
+  tmrMain.Enabled := False;
   tmrMain.Enabled := True;
 end;
 
@@ -721,11 +795,11 @@ end;
 
 procedure TFrmMain.MenuItem33Click(Sender: TObject);
 var
-  ocena : integer;
+  ocena: integer;
 begin
-  ocena:= (Sender as TMenuItem).Tag;
+  ocena := (Sender as TMenuItem).Tag;
   UstawOceneFilm(ocena);
-  lbOcenaFOpis.Caption:= DMM.OpisOceny(ocena);
+  lbOcenaFOpis.Caption := DMM.OpisOceny(ocena);
 end;
 
 procedure TFrmMain.pcDanePlChange(Sender: TObject);
@@ -939,6 +1013,7 @@ begin
     frm.Tabela := 'Tagi';
     //frm.Generator := 'SEQ_TAGI';
     frm.ShowModal;
+    DMG.OdswiezDataSet(DMM.qTagi);
   finally
     FreeAndNil(frm);
   end;
@@ -1135,6 +1210,27 @@ begin
   end;
 end;
 
+procedure TFrmMain.acAktDodajTxtExecute(Sender: TObject);
+var
+  frm : TFrmAktTxt;
+begin
+  if not DMM.qMainFilm.IsEmpty then
+  begin
+    frm:= TFrmAktTxt.Create(self);
+    try
+      frm.IdFilmu:= DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+      frm.ShowModal;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
+end;
+
+procedure TFrmMain.acAktEdycjaExecute(Sender: TObject);
+begin
+
+end;
+
 procedure TFrmMain.acAktUsunExecute(Sender: TObject);
 var
   nazwa: string;
@@ -1144,8 +1240,7 @@ begin
   if ((DMM.qMainAkt.Active) and (not DMM.qMainAkt.IsEmpty)) then
   begin
     nazwa := DMM.qMainAkt.FieldByName('NazwaAkt').AsString;
-    if MessageDlg('Potwierdzenie usunięcia aktora', Format('Czy napweno usunąć "%s" z filmu?', [nazwa]),
-      mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
+    if MessageDlg('Potwierdzenie usunięcia aktora', Format('Czy napweno usunąć "%s" z filmu?', [nazwa]), mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
     begin
       idAkt := DMM.qMainAkt.FieldByName('IdAkt').AsInteger;
       idFilmu := DMM.qMainAkt.FieldByName('IdFilmu').AsInteger;
@@ -1316,8 +1411,7 @@ begin
 
   if not DMM.qMainAkaF.IsEmpty then
   begin
-    if (MessageDlg(Format('Czy napewno usunąć tytuł:' + sLineBreak + '"%s"?', [DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString]),
-      mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
+    if (MessageDlg(Format('Czy napewno usunąć tytuł:' + sLineBreak + '"%s"?', [DMM.qMainAkaF.FieldByName('NazwaAKAF').AsString]), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
     begin
       if DMM.qMainAkaF.State in [dsInsert, dsEdit] then
         DMM.qMainAkaF.Cancel;
@@ -1441,8 +1535,7 @@ begin
 
   if not DMM.qMainLinki.IsEmpty then
   begin
-    if (MessageDlg(Format('Czy napewno usunąć link:' + sLineBreak + '"%s"?', [DMM.qMainLinki.FieldByName('TrescLnk').AsString]),
-      mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
+    if (MessageDlg(Format('Czy napewno usunąć link:' + sLineBreak + '"%s"?', [DMM.qMainLinki.FieldByName('TrescLnk').AsString]), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
     begin
       if DMM.qMainLinki.State in [dsInsert, dsEdit] then
         DMM.qMainLinki.Cancel;
@@ -1504,8 +1597,7 @@ begin
         else
           Exit;
       end;
-      if ((pytanie) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '') and
-        (FileExists(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString))) then
+      if ((pytanie) and (DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString <> '') and (FileExists(DMM.qMainFilm.FieldByName('OkladkaScFilmu').AsString))) then
       begin
         if (MessageDlg('Nadpisać istniejącą okładkę?', mtWarning, [mbOK, mbCancel], 0) <> mrOk) then
           Exit;
@@ -1884,6 +1976,7 @@ begin
     DMM.qMainInfo.Close;
     DMM.qMainInfo.ParamByName('IDRIP').AsInteger := fIdRipWybPl;
     DMM.qMainInfo.Open;
+    PokazZakladkiTypu(DMM.qMain.FieldByName('IdTypPl').AsInteger);
     PokazDaneWybranejZakladki;
   end
   else
@@ -1892,6 +1985,33 @@ begin
     DMM.qMainPlik.Close;
     DMM.qMainFilm.Close;
     DMM.qMainInfo.Close;
+  end;
+end;
+
+procedure TFrmMain.PokazZakladkiTypu(IdTypu: longint);
+begin
+  case IdTypu of
+    TYP_FILM:
+    begin
+      if not tsPlikParam.TabVisible then
+        tsPlikParam.TabVisible := True;
+      if not tsPlikFilm.TabVisible then
+        tsPlikFilm.TabVisible := True;
+    end;
+    TYP_GRAF_TXT:
+    begin
+      if tsPlikParam.TabVisible then
+        tsPlikParam.TabVisible := False;
+      if tsPlikFilm.TabVisible then
+        tsPlikFilm.TabVisible := False;
+    end;
+    TYP_DZWIEK:
+    begin
+      if tsPlikParam.TabVisible then
+        tsPlikParam.TabVisible := False;
+      if tsPlikFilm.TabVisible then
+        tsPlikFilm.TabVisible := False;
+    end;
   end;
 end;
 
@@ -1952,8 +2072,8 @@ procedure TFrmMain.PokazDaneZaklFilm;
 var
   jestRekordFilm: boolean;
   iloscF: integer;
-  ocf,ocpl : longint;
-  jestOcenaFilmu : boolean;
+  ocf, ocpl: longint;
+  jestOcenaFilmu: boolean;
 begin
   if (not fAktualnyFilm) then
   begin
@@ -1979,26 +2099,26 @@ begin
         sbnFilm.Hint := 'Zarządzaj filmami';
         ocf := DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger;
         ocpl := DMM.qMain.FieldByName('OcenaRip').AsInteger;
-        jestOcenaFilmu:= (ocf > 0);
-        btnDodOceneFilmu.Enabled:= not jestOcenaFilmu;
-        btnDodOceneFilmu.Visible:= not jestOcenaFilmu;
-        pnlFilmOcena.Visible:= jestOcenaFilmu;
+        jestOcenaFilmu := (ocf > 0);
+        btnDodOceneFilmu.Enabled := not jestOcenaFilmu;
+        btnDodOceneFilmu.Visible := not jestOcenaFilmu;
+        pnlFilmOcena.Visible := jestOcenaFilmu;
         UstawOceneGraf(ocpl, ImgOcenaPlF, DMG.ilStars16);
         if (ocf > 0) then
         begin
           UstawOceneGraf(ocf, ImgOcenaF, DMG.ilStars16);
-          lbOcenaFOpis.Caption:= DMM.OpisOceny(ocf);
+          lbOcenaFOpis.Caption := DMM.OpisOceny(ocf);
         end;
       end
       else
       begin
         sbnFilm.ImageIndex := 1;
         sbnFilm.Hint := 'Dodaj film';
-        btnDodOceneFilmu.Enabled:= False;
-        btnDodOceneFilmu.Visible:= True;
-        pnlFilmOcena.Visible:= False;
+        btnDodOceneFilmu.Enabled := False;
+        btnDodOceneFilmu.Visible := True;
+        pnlFilmOcena.Visible := False;
         UstawOceneGraf(0, ImgOcenaPlF, DMG.ilStars16);
-        lbOcenaFOpis.Caption:= '';
+        lbOcenaFOpis.Caption := '';
         ImgOkladka.Picture.Clear;
       end;
 
@@ -2113,25 +2233,25 @@ end;
 
 function TFrmMain.UstawOceneFilm(Ocena: byte): boolean;
 var
-  jestOcenaFilmu : boolean;
+  jestOcenaFilmu: boolean;
 begin
   Result := False;
   if ((DMM.qMainFilm.Active) and (not DMM.qMainFilm.IsEmpty) and (Ocena in [0..6])) then
   begin
     if (DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger <> Ocena) then
     begin
-    if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
-      DMM.qMainFilm.Edit;
-    DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger := Ocena;
-    DMM.qMainFilm.Post;
+      if not (DMM.qMainFilm.State in [dsInsert, dsEdit]) then
+        DMM.qMainFilm.Edit;
+      DMM.qMainFilm.FieldByName('OcenaFilmu').AsInteger := Ocena;
+      DMM.qMainFilm.Post;
 
-    jestOcenaFilmu:= (Ocena > 0);
-    btnDodOceneFilmu.Enabled:= not jestOcenaFilmu;
-    btnDodOceneFilmu.Visible:= not jestOcenaFilmu;
-    pnlFilmOcena.Visible:= jestOcenaFilmu;
-    UstawOceneGraf(Ocena, ImgOcenaF, DMG.ilStars16);
+      jestOcenaFilmu := (Ocena > 0);
+      btnDodOceneFilmu.Enabled := not jestOcenaFilmu;
+      btnDodOceneFilmu.Visible := not jestOcenaFilmu;
+      pnlFilmOcena.Visible := jestOcenaFilmu;
+      UstawOceneGraf(Ocena, ImgOcenaF, DMG.ilStars16);
 
-    Result := True;
+      Result := True;
     end;
   end;
 end;
@@ -2154,8 +2274,7 @@ begin
   end;
 end;
 
-procedure TFrmMain.UstawOceneGraf(AOcena: byte; AImg: TImage;
-  AImgLst: TImageList);
+procedure TFrmMain.UstawOceneGraf(AOcena: byte; AImg: TImage; AImgLst: TImageList);
 var
   bmp: TBitmap;
 begin
@@ -2307,6 +2426,7 @@ begin
     LstWartosci.EndUpdate;
   end;
 end;
+
 
 function TFrmMain.WczytajTabDoFiltra(filtr: TWybranyFiltr; ds: TDataSet; postfix: string): integer;
 var

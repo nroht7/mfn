@@ -44,6 +44,7 @@ type
     function OdswiezDaneDataSet: integer;
     procedure UstawDataSet(ADataSet : TDataSet; APoleId,APoleNazwa:string);
     function DodajPozycje(AId: longint; ANazwa:string; AStan: boolean): boolean;
+    function ListaIdZaznaczoncychPozycji(var LstPoz:TStringList): integer;
   end;
 
 var
@@ -195,6 +196,31 @@ begin
   else
   begin
     FreeAndNil(poz);
+  end;
+end;
+
+function TFrmSlPoz.ListaIdZaznaczoncychPozycji(var LstPoz: TStringList): integer;
+var
+  i : integer;
+  poz : TPozycjaSlownika;
+begin
+  result:= 0;
+  if (Assigned(LstPoz)) then
+  begin
+    LstPoz.Clear;
+    for i:=0 to fMgrPoz.IloscPozycji-1 do
+    begin
+      if (fMgrPoz.ZaznaczonaPozycja[i]) then
+      begin
+        poz:= fMgrPoz.Pozycja[i];
+        LstPoz.Add(IntToStr(poz.NrId));
+        Inc(result);
+      end;
+    end;
+  end
+  else
+  begin
+    raise Exception.Create('Nie przekazano listy do zapisu.');
   end;
 end;
 

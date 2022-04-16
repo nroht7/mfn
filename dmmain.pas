@@ -13,11 +13,16 @@ const
   STATUS_ZMIENIONY = 'Z';
   STATUS_NORMALNY  = 'N';
 
+  TYP_FILM = 1;
+  TYP_GRAF_TXT = 2;
+  TYP_DZWIEK = 3;
+
 type
 
   { TDMM }
 
   TDMM = class(TDataModule)
+    dsTagi: TDataSource;
     dsOceny: TDataSource;
     dsMFTag: TDataSource;
     dsMFGat: TDataSource;
@@ -111,6 +116,8 @@ type
     qMainFiltrGat: TZReadOnlyQuery;
     qMainFiltrSer: TZReadOnlyQuery;
     qOceny: TZReadOnlyQuery;
+    qTagi: TZReadOnlyQuery;
+    qTagiExcp: TZReadOnlyQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
     procedure qMainAfterScroll(DataSet: TDataSet);
@@ -118,7 +125,10 @@ type
     procedure qMainInfoCalcFields(DataSet: TDataSet);
     procedure qMainPlikCalcFields(DataSet: TDataSet);
   private
+    // Lista TDataSet do otwarcia na poczatku i zamkniecia na koncu
     fLstAktDataSet: TObjectList;
+    // Lista TDataSet tylko do zamknięcia na koniec jesli sa otwarte
+    fLstCloseDataSet: TObjectList;
     fLstOcen : TStringList;
   public
     function DodajOdtworzenieFilmu(IdRip: longint): integer;
@@ -127,14 +137,18 @@ type
     procedure UsunFilm(IdFilmu:longint);
     procedure ZmienTytulFilmu(IdFilmu: longint; NowyTytul:string);
     procedure UstawStanObjListyAktDataSet(stan: boolean);
+    procedure UstawStanObjListyDataSet(var LstDS:TObjectList; stan: boolean);
     procedure UstawStatusPliku(IdPl: longint; Status: string);
     function CzyTytulFilmuIstniejeDlaRejPl(aTytulFilmu: string; aIdRip,aIdFilmu: longint): boolean;
     function FilmMaTakaOkladke(IdFilmu: longint; OkladkaScFilmu: string): boolean;
     function FilmMaTakiLink(IdFilmu:longint; url:string):boolean;
     function DodajInnyTytul(IdFilmu:longint; InnyTytul: string): longint;
+    function DodajTag(IdRip,IdTag:longint):longint;
+    procedure UsunTag(IdRip,IdTag:longint);
     function FilmMaTakiInnyTytul(IdFilmu:longint; InnyTytul: string): boolean;
     procedure UstawOcenePliku(IdRip: longint; Ocena: longint);
     function OpisOceny(Ocena: integer): string;
+    function GetTytulIRokFilmu(IdFilmu:longint):string;
   end;
 
 var
@@ -152,6 +166,7 @@ uses
 procedure TDMM.DataModuleCreate(Sender: TObject);
 begin
   fLstAktDataSet := TObjectList.Create(False);
+  fLstCloseDataSet:= TObjectList.Create(False);
   fLstOcen:= TStringList.Create;
 
   fLstAktDataSet.Add(qJezyki);
@@ -160,14 +175,22 @@ begin
   fLstAktDataSet.Add(qRodzaje);
   fLstAktDataSet.Add(qOceny);
 
-  UstawStanObjListyAktDataSet(True);
+  fLstCloseDataSet.Add(qTagi);
+  fLstCloseDataSet.Add(qTagiExcp);
+
+  //UstawStanObjListyAktDataSet(True);
+  UstawStanObjListyDataSet(fLstAktDataSet, True);
 end;
 
 procedure TDMM.DataModuleDestroy(Sender: TObject);
 begin
-  UstawStanObjListyAktDataSet(False);
+  UstawStanObjListyDataSet(fLstAktDataSet, False);
+  UstawStanObjListyDataSet(fLstCloseDataSet, False);
+  //UstawStanObjListyAktDataSet(False);
   fLstAktDataSet.Clear;
   FreeAndNil(fLstAktDataSet);
+  fLstCloseDataSet.Clear;
+  FreeAndNil(fLstCloseDataSet);
   fLstOcen.Clear;
   FreeAndNil(fLstOcen);
 end;
@@ -216,6 +239,24 @@ begin
     ds.Active := stan;
   end;
 end;
+
+procedure TDMM.UstawStanObjListyDataSet(var LstDS: TObjectList; stan: boolean);
+var
+  i:  integer;
+  ds: TDataSet;
+begin
+  if (Assigned(LstDS)) then
+  begin
+    for i := 0 to LstDS.Count - 1 do
+    begin
+      ds := TDataSet(LstDS.Items[i]);
+      ds.Active := stan;
+    end;
+  end
+  else
+    raise Exception.Create('Błąd w procedurze UstawStanObjListyDataSet - przekazano liste = nil');
+end;
+
 
 procedure TDMM.UstawStatusPliku(IdPl: longint; Status: string);
 begin
@@ -282,6 +323,32 @@ begin
   end
 end;
 
+function TDMM.DodajTag(IdRip, IdTag: longint): longint;
+begin
+  result:= 0;
+  if (IdTag = 0) then
+    Exit;
+
+  qCmd.Close;
+  qCmd.SQL.Text := Format('select IdTag from RejPlTag where IdRip  = %d and IdTag = %d ', [IdRip, IdTag]);
+  qCmd.Open;
+  if qCmd.IsEmpty then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('INSERT INTO RejPlTag(IdRip,IdTag) VALUES(%d,%d)', [IdRip, IdTag]);
+    qCmd.ExecSQL;
+    Result := DMG.GetLastId;
+  end
+end;
+
+procedure TDMM.UsunTag(IdRip, IdTag: longint);
+begin
+  qCmd.Close;
+
+  qCmd.SQL.Text:= Format('DELETE FROM RejPlTag WHERE IdRip = %d and IdTag = %d',[IdRip]);
+  qCmd.ExecSQL;
+end;
+
 function TDMM.FilmMaTakiInnyTytul(IdFilmu: longint; InnyTytul: string): boolean;
 begin
   result:= False;
@@ -323,6 +390,21 @@ begin
   end
   else
     result:= '';
+end;
+
+function TDMM.GetTytulIRokFilmu(IdFilmu: longint): string;
+begin
+  result:= '';
+  qCmd.Close;
+  qCmd.SQL.Text:= Format('SELECT TytulFilmu, RokFilmu FROM Filmy WHERE IdFilmu = %d',[IdFilmu]);
+  qCmd.Open;
+  if not qCmd.IsEmpty then
+  begin
+    result:= qCmd.FieldByName('TytulFilmu').AsString;
+    if qCmd.FieldByName('RokFilmu').AsInteger > 0 then
+      result:= result + Format(' (%d)',[qCmd.FieldByName('RokFilmu').AsInteger]);
+  end;
+  qCmd.Close;
 end;
 
 function TDMM.DodajOdtworzenieFilmu(IdRip: longint): integer;

@@ -5,8 +5,8 @@ object DMA: TDMA
   VerticalOffset = 86
   Width = 293
   object qAkt: TZQuery
-    Connection = DMG.ZConn
     SortedFields = 'NAZWAAKT'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT * FROM AKTORZY'
     )
@@ -34,12 +34,12 @@ object DMA: TDMA
   end
   object tbAkt: TZTable
     TableName = 'AKTORZY'
-    Left = 240
-    Top = 16
+    Left = 72
+    Top = 192
   end
   object qAkaA: TZQuery
-    Connection = DMG.ZConn
     SortedFields = 'NazwaAKAA'
+    Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdAKAA, NazwaAKAA FROM AKA_A'
       'WHERE IdAkt = :IDAKT'
@@ -67,5 +67,34 @@ object DMA: TDMA
     Params = <>
     Left = 24
     Top = 192
+  end
+  object qAktUrl: TZQuery
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdAlu, IdAkt, UrlAlu, OpisAlu'
+      'FROM AktLinkiUrl'
+      'WHERE IdAkt = :IDAKT'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDAKT'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    Left = 216
+    Top = 16
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDAKT'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object dsAktUrl: TDataSource
+    DataSet = qAktUrl
+    Left = 216
+    Top = 80
   end
 end

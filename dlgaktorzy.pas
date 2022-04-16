@@ -23,6 +23,9 @@ type
     acDodajAkaA:  TAction;
     acFilmIdz:    TAction;
     acFiltrInneNazw: TAction;
+    acLnkDodaj: TAction;
+    acLnkUsun: TAction;
+    acLnkIdz: TAction;
     acUsunAkaA:   TAction;
     acZdjSchowek: TAction;
     acZdjWybierz: TAction;
@@ -33,15 +36,20 @@ type
     ButtonPanel1: TButtonPanel;
     DataSetCancel1: TDataSetCancel;
     DataSetCancel2: TDataSetCancel;
+    acLnkDBAnuluj: TDataSetCancel;
     DataSetDelete1: TDataSetDelete;
     DataSetEdit1: TDataSetEdit;
     DataSetEdit2: TDataSetEdit;
+    acLnkDBEdytuj: TDataSetEdit;
     DataSetFirst1: TDataSetFirst;
     DataSetFirst2: TDataSetFirst;
     DataSetLast1: TDataSetLast;
     DataSetLast2: TDataSetLast;
     DataSetPost1: TDataSetPost;
     DataSetPost2: TDataSetPost;
+    acLnkDBZatw: TDataSetPost;
+    DBGrid4: TDBGrid;
+    DBMemo2: TDBMemo;
     DBNavigator1: TDBNavigator;
     DBNavigator2: TDBNavigator;
     dsAkt:        TDataSource;
@@ -62,23 +70,31 @@ type
     lbOcena:      TLabel;
     MenuItem1:    TMenuItem;
     MenuItem2:    TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
     OpenDlg:      TOpenDialog;
     PageControl1: TPageControl;
     Panel1:       TPanel;
     Panel3:       TPanel;
     pnlSort:      TPanel;
     pmSort:       TPopupMenu;
+    pmLinki: TPopupMenu;
     RxDBTrackBar1: TRxDBTrackBar;
+    Separator1: TMenuItem;
     Splitter1:    TSplitter;
+    Splitter2: TSplitter;
     TabSheet1:    TTabSheet;
     TabSheet2:    TTabSheet;
     Opis:         TTabSheet;
+    TabSheet3: TTabSheet;
     tmrF:         TTimer;
     Tmr:          TTimer;
     ToolBar1:     TToolBar;
     ToolBar2:     TToolBar;
     ToolBar3:     TToolBar;
     ToolBar4:     TToolBar;
+    ToolBar5: TToolBar;
     ToolBar7:     TToolBar;
     ToolButton1:  TToolButton;
     ToolButton10: TToolButton;
@@ -93,6 +109,14 @@ type
     ToolButton19: TToolButton;
     ToolButton2:  TToolButton;
     ToolButton20: TToolButton;
+    ToolButton21: TToolButton;
+    ToolButton22: TToolButton;
+    ToolButton23: TToolButton;
+    ToolButton24: TToolButton;
+    ToolButton25: TToolButton;
+    ToolButton26: TToolButton;
+    ToolButton27: TToolButton;
+    ToolButton28: TToolButton;
     ToolButton3:  TToolButton;
     ToolButton33: TToolButton;
     ToolButton34: TToolButton;
@@ -112,6 +136,9 @@ type
     procedure acFiltrExecute(Sender: TObject);
     procedure acFiltrInneNazwExecute(Sender: TObject);
     procedure acFiltrWyczyscExecute(Sender: TObject);
+    procedure acLnkDodajExecute(Sender: TObject);
+    procedure acLnkIdzExecute(Sender: TObject);
+    procedure acLnkUsunExecute(Sender: TObject);
     procedure acSortNazwaExecute(Sender: TObject);
     procedure acSortOcenaExecute(Sender: TObject);
     procedure acUsunAkaAExecute(Sender: TObject);
@@ -272,6 +299,7 @@ begin
   end
   else
     ImgZdjAkt.Picture.Clear;
+
 end;
 
 procedure TFrmAktorzy.DodajNazwiskaZListy(Lista: TStringList);
@@ -393,7 +421,7 @@ begin
   frm := TFrmLstPozTxt.Create(self);
   try
     frm.TytulOkna := 'Dodaj wiele innych nazwisk';
-    frm.SprawdzaniePozycji := @SprawdzNazwiskoIstnieje;
+    frm.IstniejePozycja := @SprawdzNazwiskoIstnieje;
     if frm.ShowModal = mrOk then
     begin
       lst := TStringList.Create;
@@ -455,6 +483,61 @@ begin
   tmrF.Enabled := False;
   edFiltruj.Clear;
   RefreshQuery;
+end;
+
+procedure TFrmAktorzy.acLnkDodajExecute(Sender: TObject);
+var
+  frm : TFrmPozSlownika;
+  idAkt: longint;
+begin
+  if (DMA.qAkt.Active) and (not DMA.qAkt.IsEmpty) then
+  begin
+    idAkt := DMA.qAkt.FieldByName('IdAkt').AsInteger;
+    frm:= TFrmPozSlownika.Create(self);
+    try
+      frm.TytulOkna:= 'Nowy link';
+      frm.TytulNazwy:= 'Adres:';
+      frm.Ikona:= 4;
+      frm.OpisWidoczny:= False;
+      if (frm.ShowModal = mrOk) then
+      begin
+        if DMA.DodajLinkDoAktora(idAkt,frm.Nazwa) then
+        begin
+          DMG.OdswiezDataSet(DMA.qAktUrl,'UrlAlu',frm.Nazwa);
+        end
+        else
+          ShowMessage('Taki link już jest.');
+      end;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
+end;
+
+procedure TFrmAktorzy.acLnkIdzExecute(Sender: TObject);
+var
+  link : string;
+begin
+  if ((DMA.qAkt.Active) and (not DMA.qAkt.IsEmpty) and (not DMA.qAktUrl.IsEmpty)) then
+  begin
+    link:= DMA.qAktUrl.FieldByName('UrlAlu').AsString;
+    DMG.LinkOpen.Open(link);
+  end;
+end;
+
+procedure TFrmAktorzy.acLnkUsunExecute(Sender: TObject);
+var
+  link : string;
+begin
+  if ((DMA.qAkt.Active) and (not DMA.qAkt.IsEmpty) and (not DMA.qAktUrl.IsEmpty)) then
+  begin
+    link:= DMA.qAktUrl.FieldByName('UrlAlu').AsString;
+    if (MessageDlg(Format('Napewno usunąć link "%s"?',[link]),mtConfirmation,[mbOk],0) = mrOk) then
+    begin
+      DMA.UsunLinkAktora(DMA.qAktUrl.FieldByName('IdAlu').AsInteger);
+      DMG.OdswiezDataSet(DMA.qAktUrl);
+    end;
+  end;
 end;
 
 procedure TFrmAktorzy.acSortOcenaExecute(Sender: TObject);
@@ -611,11 +694,13 @@ begin
   begin
     fIdWybAkt := DMA.qAkt.FieldByName('IdAkt').AsInteger;
     DMA.PokazInneNazwiskaAktora(fIdWybAkt);
+    DMA.PokazUrlAktora(fIdWybAkt);
   end;
 end;
 
 procedure TFrmAktorzy.edFiltrujKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
+  tmrF.Enabled := False;
   tmrF.Enabled := True;
 end;
 

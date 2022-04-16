@@ -56,11 +56,14 @@ type
     function OdswiezDataSet(aDataSet: TDataSet; aPole: string): boolean; overload;
     function OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc:variant): boolean; overload;
     function OdswiezQueryZSql(aQuery: TZQuery; aSql, aPole: string): boolean;
+    function OdswiezQueryZParam(aQuery: TZQuery; aParamName: string; aValue:variant): boolean; overload;
+    function OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string; aValue:variant): boolean; overload;
     function UtworzListeKatalogow(var aLstKat: TObjectList): integer;
     function DodajRekord(aTabela: string; aListaPol: TStringList): longint;
     function GetLstOblTypowAsStr: string;
     procedure GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
     procedure DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
+    function GetOperatorLikeOrEqual(aLike: boolean): string;
   end;
 
 var
@@ -248,6 +251,28 @@ begin
   end;
 end;
 
+function TDMG.OdswiezQueryZParam(aQuery: TZQuery; aParamName: string;
+  aValue: variant): boolean;
+begin
+  if Assigned(aQuery) then
+  begin
+    aQuery.Close;
+    aQuery.ParamByName(aParamName).Value:= aValue;
+    aQuery.Open;
+  end;
+end;
+
+function TDMG.OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string;
+  aValue: variant): boolean;
+begin
+  if Assigned(aQuery) then
+  begin
+    aQuery.Close;
+    aQuery.ParamByName(aParamName).Value:= aValue;
+    aQuery.Open;
+  end;
+end;
+
 function TDMG.UtworzListeKatalogow(var aLstKat: TObjectList): integer;
 var
   kat: TKatalog;
@@ -378,6 +403,14 @@ begin
       end;
     end;
   end;
+end;
+
+function TDMG.GetOperatorLikeOrEqual(aLike: boolean): string;
+begin
+  if (aLike) then
+    result:= 'LIKE'
+  else
+    result:= '=';
 end;
 
 function TDMG.PrzygotujSqlDodajRekord(aTabela: string; aListaPol: TStringList): string;

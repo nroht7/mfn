@@ -11,7 +11,7 @@ object FrmMain: TFrmMain
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '7.5'
+  LCLVersion = '7.7'
   object pnlMain: TPanel
     Left = 266
     Height = 801
@@ -28,9 +28,9 @@ object FrmMain: TFrmMain
       Height = 300
       Top = 501
       Width = 934
-      ActivePage = tsPlikInfo
+      ActivePage = tsPlikFilm
       Align = alBottom
-      TabIndex = 0
+      TabIndex = 2
       TabOrder = 0
       OnChange = pcDanePlChange
       object tsPlikInfo: TTabSheet
@@ -753,9 +753,9 @@ object FrmMain: TFrmMain
               Height = 230
               Top = 40
               Width = 868
-              ActivePage = tsFilmPodstawy
+              ActivePage = tsFilmAktorzy
               Align = alClient
-              TabIndex = 0
+              TabIndex = 1
               TabOrder = 0
               object tsFilmPodstawy: TTabSheet
                 Caption = 'Podstawy'
@@ -1811,7 +1811,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton41: TToolButton
                       Left = 47
-                      Height = 8
+                      Height = 22
                       Top = 2
                       Caption = 'ToolButton41'
                       Style = tbsSeparator
@@ -1823,7 +1823,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton43: TToolButton
                       Left = 78
-                      Height = 8
+                      Height = 22
                       Top = 2
                       Caption = 'ToolButton43'
                       Style = tbsSeparator
@@ -1923,7 +1923,6 @@ object FrmMain: TFrmMain
                     DrawFullLine = False
                     FocusColor = clRed
                     SelectedColor = clHighlight
-                    GridLineStyle = psSolid
                     DataSource = DMM.dsMainAkt
                     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                     TabOrder = 1
@@ -2104,7 +2103,6 @@ object FrmMain: TFrmMain
                   DrawFullLine = False
                   FocusColor = clRed
                   SelectedColor = clHighlight
-                  GridLineStyle = psSolid
                   DataSource = DMM.dsMainLinki
                   Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                   TabOrder = 3
@@ -2195,7 +2193,6 @@ object FrmMain: TFrmMain
                   DrawFullLine = False
                   FocusColor = clRed
                   SelectedColor = clHighlight
-                  GridLineStyle = psSolid
                   Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                   TabOrder = 1
                 end
@@ -2360,7 +2357,6 @@ object FrmMain: TFrmMain
                   DrawFullLine = False
                   FocusColor = clRed
                   SelectedColor = clHighlight
-                  GridLineStyle = psSolid
                   DataSource = DMM.dsMainAkaF
                   Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                   TabOrder = 1
@@ -2664,7 +2660,6 @@ object FrmMain: TFrmMain
             DrawFullLine = False
             FocusColor = clRed
             SelectedColor = clHighlight
-            GridLineStyle = psSolid
             DataSource = DMM.dsMainTag
             Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
             PopupMenu = pmTagi
@@ -3096,7 +3091,6 @@ object FrmMain: TFrmMain
       DrawFullLine = False
       FocusColor = clRed
       SelectedColor = clHighlight
-      GridLineStyle = psSolid
       DataSource = dsMain
       Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
       TabOrder = 2
@@ -3477,7 +3471,7 @@ object FrmMain: TFrmMain
                   Left = 8
                   Height = 19
                   Top = 4
-                  Width = 69
+                  Width = 67
                   Caption = 'Wszystko'
                   Checked = True
                   OnChange = chbxFiltrWszystkoChange
@@ -3618,7 +3612,6 @@ object FrmMain: TFrmMain
                 DrawFullLine = False
                 FocusColor = clRed
                 SelectedColor = clHighlight
-                GridLineStyle = psSolid
                 DataSource = DMM.dsMFAkt
                 Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                 ReadOnly = True
@@ -3823,7 +3816,7 @@ object FrmMain: TFrmMain
       Hint = 'Aktorzy'
       ImageIndex = 9
       OnExecute = acDaneAktorzyExecute
-      ShortCut = 16449
+      ShortCut = 49217
     end
     object acDaneTagi: TAction
       Category = 'Dane'
@@ -5571,11 +5564,13 @@ object FrmMain: TFrmMain
       Caption = 'Dodaj txt'
       Hint = 'Dodaj aktorów jako tekst'
       ImageIndex = 45
+      OnExecute = acAktDodajTxtExecute
     end
     object acAktEdycja: TAction
       Category = 'Aktorzy'
       Caption = 'Podgląd'
       ImageIndex = 43
+      OnExecute = acAktEdycjaExecute
     end
     object acInnyTytDodaj: TAction
       Category = 'InneTytuly'

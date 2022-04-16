@@ -23,8 +23,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1303"/>
-        <CursorPos X="43" Y="1137"/>
+        <TopLine Value="1180"/>
+        <CursorPos X="45" Y="1214"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,10 +36,9 @@
         <ComponentName Value="DMG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="185"/>
-        <CursorPos X="67" Y="225"/>
+        <TopLine Value="34"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -47,7 +46,7 @@
       <Unit>
         <Filename Value="funkcje.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <CursorPos X="58" Y="18"/>
         <UsageCount Value="205"/>
@@ -73,10 +72,13 @@
         <ComponentName Value="FrmPozSlownika"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="18" Y="15"/>
+        <TopLine Value="110"/>
+        <CursorPos X="78" Y="112"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgaktorzy.pas"/>
@@ -87,8 +89,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="167"/>
-        <CursorPos X="90" Y="206"/>
+        <TopLine Value="146"/>
+        <CursorPos X="15" Y="169"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -100,10 +102,10 @@
         <ComponentName Value="DMA"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="69"/>
-        <CursorPos X="56" Y="84"/>
+        <TopLine Value="9"/>
+        <CursorPos Y="41"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -128,10 +130,10 @@
         <ComponentName Value="DMM"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="161"/>
-        <CursorPos X="59" Y="190"/>
+        <TopLine Value="346"/>
+        <CursorPos X="62" Y="402"/>
         <UsageCount Value="211"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -295,13 +297,11 @@
         <ComponentName Value="FrmCzasFilm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="197"/>
         <CursorPos Y="226"/>
         <UsageCount Value="210"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgimgview.pas"/>
@@ -320,11 +320,11 @@
         <Filename Value="ulnkopen.pas"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="17"/>
-        <CursorPos X="14"/>
+        <CursorPos X="7" Y="32"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgaktor.pas"/>
@@ -348,8 +348,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="100"/>
-        <CursorPos X="3" Y="111"/>
+        <TopLine Value="137"/>
+        <CursorPos Y="154"/>
         <UsageCount Value="201"/>
       </Unit>
       <Unit>
@@ -368,10 +368,10 @@
         <Filename Value="umgrpoz.pas"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="35"/>
-        <CursorPos X="27" Y="50"/>
+        <TopLine Value="16"/>
+        <CursorPos X="17" Y="40"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -379,9 +379,9 @@
         <Filename Value="upozsl.pas"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="43" Y="13"/>
+        <CursorPos X="98" Y="8"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -392,12 +392,11 @@
         <ComponentName Value="FrmSlPoz"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="107"/>
-        <CursorPos X="62" Y="117"/>
-        <UsageCount Value="137"/>
+        <TopLine Value="68"/>
+        <CursorPos X="48" Y="110"/>
+        <UsageCount Value="202"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -405,57 +404,53 @@
         <Filename Value="ubyteconv.pas"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="62"/>
+        <TopLine Value="29"/>
         <CursorPos X="25" Y="89"/>
-        <UsageCount Value="137"/>
+        <UsageCount Value="202"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgakttxt.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmAktTxt"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="61"/>
+        <CursorPos X="83" Y="171"/>
+        <UsageCount Value="117"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\controls.pp"/>
+        <Filename Value="dlgpozseptxt.pas"/>
         <FRMtype Value="0"/>
-        <UnitName Value="Controls"/>
-        <EditorIndex Value="-1"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmPozSepTxt"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1148"/>
-        <CursorPos X="18" Y="1168"/>
-        <UsageCount Value="4"/>
+        <TopLine Value="81"/>
+        <CursorPos X="83" Y="108"/>
+        <UsageCount Value="87"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\classes\classesh.inc"/>
+        <Filename Value="unazakt.pas"/>
         <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="777"/>
-        <CursorPos X="3" Y="817"/>
-        <UsageCount Value="7"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\containedaction.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="68"/>
-        <CursorPos X="73" Y="79"/>
-        <UsageCount Value="6"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\control.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="2265"/>
-        <CursorPos Y="2288"/>
-        <UsageCount Value="7"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\sysutils\osutilsh.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <CursorPos X="10" Y="47"/>
-        <UsageCount Value="3"/>
+        <TopLine Value="2"/>
+        <CursorPos X="22" Y="31"/>
+        <UsageCount Value="74"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\codetyphon\typhon\lcl\lclintf.pas"/>
@@ -465,129 +460,138 @@
         <WindowIndex Value="0"/>
         <TopLine Value="60"/>
         <CursorPos X="53" Y="69"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="4"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-base\src\contnrs.pp"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="Contnrs"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <CursorPos X="13" Y="19"/>
+        <UsageCount Value="5"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
-        <Filename Value="funkcje.pas"/>
-        <Caret Line="18" Column="58"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="249" Column="39" TopLine="218"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="51" Column="13" TopLine="23"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="294" Column="5" TopLine="251"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="78" TopLine="43"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="237" Column="68" TopLine="204"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="264" Column="37" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="265" Column="37" TopLine="217"/>
+      </Position>
+      <Position>
+        <Filename Value="dmgl.pas"/>
+        <Caret Line="134" Column="9" TopLine="93"/>
+      </Position>
+      <Position>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="151" Column="56" TopLine="116"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="74" Column="30" TopLine="37"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="62" Column="36" TopLine="42"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="323" Column="32" TopLine="300"/>
+      </Position>
+      <Position>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="98" Column="44" TopLine="90"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="1063" Column="50" TopLine="1030"/>
+        <Caret Line="1422" Column="73" TopLine="1381"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="489" Column="32" TopLine="460"/>
+        <Caret Line="1218" Column="27" TopLine="1213"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1048" Column="22" TopLine="1021"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="327" Column="16" TopLine="246"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="12" Column="90"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="180" TopLine="144"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1053" Column="25" TopLine="1033"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="232" Column="54" TopLine="224"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="582" Column="50" TopLine="556"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="173" Column="3" TopLine="153"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="12" Column="30"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="176" TopLine="156"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="488" Column="23" TopLine="467"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="103" Column="3" TopLine="77"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1034" Column="4" TopLine="1013"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="69" Column="61" TopLine="42"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="979" Column="74" TopLine="949"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="387" Column="38" TopLine="339"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="987" Column="25" TopLine="964"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="191" TopLine="178"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="461" Column="15" TopLine="441"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="72" Column="33" TopLine="45"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1959" Column="5" TopLine="1959"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="418" Column="39" TopLine="397"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="963" Column="80" TopLine="953"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="197" Column="21" TopLine="176"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1038" Column="3" TopLine="1026"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="106" Column="21" TopLine="81"/>
       </Position>
       <Position>
-        <Filename Value="dlgslpoz.pas"/>
-        <Caret Line="147" Column="92" TopLine="81"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="407" Column="33" TopLine="379"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1032" Column="31" TopLine="948"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="500" Column="14" TopLine="489"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="501" Column="14" TopLine="489"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="520" Column="27" TopLine="489"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="522" Column="16" TopLine="489"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="523" Column="27" TopLine="489"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2198" Column="24" TopLine="2160"/>
-      </Position>
-      <Position>
-        <Filename Value="umgrpoz.pas"/>
-        <Caret Line="50" Column="27" TopLine="35"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2205" Column="16" TopLine="2181"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="471" Column="14" TopLine="450"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2303" Column="22" TopLine="2282"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="681" Column="54" TopLine="669"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1052" Column="15" TopLine="1027"/>
+        <Filename Value="dlgakttxt.pas"/>
+        <Caret Line="110" TopLine="106"/>
       </Position>
     </JumpHistory>
     <RunParams>

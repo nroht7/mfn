@@ -2,7 +2,7 @@ object DMM: TDMM
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
-  Height = 619
+  Height = 699
   HorizontalOffset = 86
   VerticalOffset = 86
   Width = 497
@@ -988,5 +988,51 @@ object DMM: TDMM
     DataSet = qOceny
     Left = 248
     Top = 416
+  end
+  object qTagi: TZReadOnlyQuery
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdTag, NazwaTag, OpisTag FROM Tagi'
+      ''
+    )
+    Params = <>
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 296
+    Top = 368
+  end
+  object dsTagi: TDataSource
+    DataSet = qTagi
+    Left = 296
+    Top = 416
+  end
+  object qTagiExcp: TZReadOnlyQuery
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT T.IdTag, T.NazwaTag, T.OpisTag'
+      'FROM Tagi T'
+      'JOIN ('
+      'SELECT TE.IdTag FROM Tagi TE'
+      'EXCEPT'
+      'SELECT RE.IdTag FROM RejPlTag RE'
+      'WHERE RE.IdRip = :IDRIP'
+      ') E ON E.IdTag = T.IdTag'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDRIP'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 24
+    Top = 616
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDRIP'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
   end
 end

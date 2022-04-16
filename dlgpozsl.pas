@@ -17,7 +17,7 @@ type
     edNazwa: TEdit;
     Image1: TImage;
     ImageList1: TImageList;
-    Label1: TLabel;
+    lbNazwa: TLabel;
     Label2: TLabel;
     meOpis: TMemo;
     procedure edNazwaChange(Sender: TObject);
@@ -28,11 +28,13 @@ type
     function GetNazwa: string;
     function GetOpis: string;
     function GetOpisWidoczny: boolean;
+    function GetTytulNazwy: string;
     function GetTytulOkna: string;
     procedure SetIkona(AValue: integer);
     procedure SetNazwa(AValue: string);
     procedure SetOpis(AValue: string);
     procedure SetOpisWidoczny(AValue: boolean);
+    procedure SetTytulNazwy(AValue: string);
     procedure SetTytulOkna(AValue: string);
     function DaneWprOk:boolean;
     function WczytajObrazek(Index:integer): boolean;
@@ -42,6 +44,7 @@ type
     property Opis: string read GetOpis write SetOpis;
     property OpisWidoczny: boolean read GetOpisWidoczny write SetOpisWidoczny;
     property Ikona : integer read GetIkona write SetIkona;
+    property TytulNazwy : string read GetTytulNazwy write SetTytulNazwy;
   end;
 
 var
@@ -83,6 +86,11 @@ begin
   Result := meOpis.Visible;
 end;
 
+function TFrmPozSlownika.GetTytulNazwy: string;
+begin
+  Result:= lbNazwa.Caption;
+end;
+
 function TFrmPozSlownika.GetTytulOkna: string;
 begin
   Result := Caption;
@@ -113,6 +121,11 @@ begin
   begin
     Height:= Height - (meOpis.Height + Label2.Height);
   end;
+end;
+
+procedure TFrmPozSlownika.SetTytulNazwy(AValue: string);
+begin
+  lbNazwa.Caption:= AValue;
 end;
 
 procedure TFrmPozSlownika.SetTytulOkna(AValue: string);
