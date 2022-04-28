@@ -28,9 +28,9 @@ object FrmMain: TFrmMain
       Height = 300
       Top = 501
       Width = 934
-      ActivePage = tsPlikFilm
+      ActivePage = tsPlikInfo
       Align = alBottom
-      TabIndex = 2
+      TabIndex = 0
       TabOrder = 0
       OnChange = pcDanePlChange
       object tsPlikInfo: TTabSheet
@@ -753,9 +753,9 @@ object FrmMain: TFrmMain
               Height = 230
               Top = 40
               Width = 868
-              ActivePage = tsFilmAktorzy
+              ActivePage = tsFilmPodstawy
               Align = alClient
-              TabIndex = 1
+              TabIndex = 0
               TabOrder = 0
               object tsFilmPodstawy: TTabSheet
                 Caption = 'Podstawy'
@@ -1811,7 +1811,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton41: TToolButton
                       Left = 47
-                      Height = 22
+                      Height = 8
                       Top = 2
                       Caption = 'ToolButton41'
                       Style = tbsSeparator
@@ -1823,7 +1823,7 @@ object FrmMain: TFrmMain
                     end
                     object ToolButton43: TToolButton
                       Left = 78
-                      Height = 22
+                      Height = 8
                       Top = 2
                       Caption = 'ToolButton43'
                       Style = tbsSeparator
@@ -1923,7 +1923,7 @@ object FrmMain: TFrmMain
                     DrawFullLine = False
                     FocusColor = clRed
                     SelectedColor = clHighlight
-                    DataSource = DMM.dsMainAkt
+                    DataSource = dsMainAkt
                     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
                     TabOrder = 1
                   end
@@ -5450,8 +5450,8 @@ object FrmMain: TFrmMain
   object tmrMain: TTimer
     Interval = 500
     OnTimer = tmrMainTimer
-    Left = 688
-    Top = 123
+    Left = 792
+    Top = 128
   end
   object ActionList3: TActionList
     Images = DMG.ilCommon
@@ -5570,7 +5570,6 @@ object FrmMain: TFrmMain
       Category = 'Aktorzy'
       Caption = 'Podgląd'
       ImageIndex = 43
-      OnExecute = acAktEdycjaExecute
     end
     object acInnyTytDodaj: TAction
       Category = 'InneTytuly'
@@ -5803,5 +5802,11 @@ object FrmMain: TFrmMain
       Caption = '6 - Legendarny'
       OnClick = MenuItem33Click
     end
+  end
+  object dsMainAkt: TDataSource
+    DataSet = DMM.qMainAkt
+    OnDataChange = dsMainAktDataChange
+    Left = 696
+    Top = 123
   end
 end

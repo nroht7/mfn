@@ -2,10 +2,10 @@ object FrmAktorzy: TFrmAktorzy
   Left = 472
   Height = 600
   Top = 171
-  Width = 805
+  Width = 900
   Caption = 'Aktorzy'
   ClientHeight = 600
-  ClientWidth = 805
+  ClientWidth = 900
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -16,65 +16,50 @@ object FrmAktorzy: TFrmAktorzy
     Left = 0
     Height = 26
     Top = 0
-    Width = 805
+    Width = 900
     Caption = 'ToolBar1'
     Images = DMG.ilCommon
+    List = True
+    ShowCaptions = True
     TabOrder = 0
-    object ToolButton3: TToolButton
+    object ToolButton8: TToolButton
       Left = 1
       Top = 2
-      Action = DataSetFirst1
-    end
-    object ToolButton4: TToolButton
-      Left = 70
-      Top = 2
-      Action = DataSetEdit1
-    end
-    object ToolButton5: TToolButton
-      Left = 93
-      Top = 2
-      Action = DataSetPost1
-    end
-    object ToolButton6: TToolButton
-      Left = 116
-      Top = 2
-      Action = DataSetCancel1
-    end
-    object ToolButton7: TToolButton
-      Left = 139
-      Top = 2
-      Action = DataSetLast1
-    end
-    object ToolButton8: TToolButton
-      Left = 24
-      Top = 2
-      Action = acDodaj
+      Action = acAktDodaj
     end
     object ToolButton9: TToolButton
-      Left = 47
+      Left = 81
       Top = 2
-      Action = acUsun
-    end
-    object ToolButton10: TToolButton
-      Left = 162
-      Height = 22
-      Top = 2
-      Caption = 'ToolButton10'
-      Style = tbsSeparator
+      Action = acAktUsun
+      ShowCaption = False
     end
     object ToolButton11: TToolButton
-      Left = 170
+      Left = 112
       Top = 2
       Caption = 'ToolButton11'
       DropdownMenu = pmSort
       ImageIndex = 12
+      ShowCaption = False
+    end
+    object ToolButton4: TToolButton
+      Left = 58
+      Top = 2
+      Action = acAktEdytuj
+      ShowCaption = False
+    end
+    object ToolButton5: TToolButton
+      Left = 104
+      Height = 22
+      Top = 2
+      Caption = 'ToolButton5'
+      Style = tbsSeparator
     end
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34
     Top = 560
-    Width = 793
+    Width = 888
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -95,24 +80,7 @@ object FrmAktorzy: TFrmAktorzy
     ClientHeight = 528
     ClientWidth = 339
     TabOrder = 2
-    object DBGrid1: TDBGrid
-      Left = 1
-      Height = 485
-      Top = 27
-      Width = 337
-      Align = alClient
-      Color = clWindow
-      Columns = <      
-        item
-          Title.Caption = 'Nazwisko'
-          Width = 300
-          FieldName = 'NAZWAAKT'
-        end>
-      DataSource = dsAkt
-      ReadOnly = True
-      TabOrder = 0
-    end
-    object pnlSort: TPanel
+    object pnlListInfo: TPanel
       Left = 1
       Height = 15
       Top = 512
@@ -120,8 +88,25 @@ object FrmAktorzy: TFrmAktorzy
       Align = alBottom
       Alignment = taLeftJustify
       BevelOuter = bvNone
-      Caption = 'Sortuj wg. nazwy'
-      TabOrder = 1
+      ClientHeight = 15
+      ClientWidth = 337
+      TabOrder = 0
+      object lbSort: TLabel
+        Left = 1
+        Height = 15
+        Top = 0
+        Width = 86
+        Caption = 'Sortuj wg nazwy'
+      end
+      object lbZaznPoz: TLabel
+        Left = 275
+        Height = 15
+        Top = 0
+        Width = 59
+        Alignment = taRightJustify
+        Anchors = [akTop, akRight]
+        Caption = 'Wybrane: 0'
+      end
     end
     object ToolBar4: TToolBar
       Left = 1
@@ -132,42 +117,75 @@ object FrmAktorzy: TFrmAktorzy
       Images = DMG.ilCommon
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 2
+      TabOrder = 1
       object edFiltruj: TEdit
         Left = 1
         Height = 23
         Top = 2
-        Width = 271
+        Width = 239
         OnKeyDown = edFiltrujKeyDown
         TabOrder = 0
         TextHint = '(Nazwisko) <Ctrl-F>'
       end
       object ToolButton16: TToolButton
-        Left = 272
+        Left = 240
         Height = 22
         Top = 2
         Caption = 'ToolButton16'
         Style = tbsSeparator
       end
       object ToolButton18: TToolButton
-        Left = 280
+        Left = 248
         Top = 2
         Action = acFiltrWyczysc
         ShowCaption = False
       end
-      object ToolButton19: TToolButton
-        Left = 311
-        Top = 2
-        Action = acFiltrInneNazw
-        Style = tbsCheck
-      end
       object ToolButton20: TToolButton
-        Left = 303
+        Left = 271
         Height = 22
         Top = 2
         Caption = 'ToolButton20'
         Style = tbsSeparator
       end
+      object ToolButton3: TToolButton
+        Left = 310
+        Hint = 'Ustawienia wyszukiwania'
+        Top = 2
+        DropdownMenu = pmWysz
+        ImageIndex = 50
+      end
+      object tbnWyb: TToolButton
+        Left = 279
+        Top = 2
+        Action = acWybrane
+      end
+      object ToolButton7: TToolButton
+        Left = 302
+        Height = 22
+        Top = 2
+        Caption = 'ToolButton7'
+        Style = tbsSeparator
+      end
+    end
+    object lvAkt: TListView
+      Left = 1
+      Height = 485
+      Top = 27
+      Width = 337
+      Align = alClient
+      Columns = <      
+        item
+          Caption = 'Nazwisko'
+          Width = 300
+        end>
+      HideSelection = False
+      PopupMenu = pmLstAkt
+      RowSelect = True
+      SmallImages = ImgLstAkt
+      TabOrder = 2
+      ViewStyle = vsReport
+      OnItemChecked = lvAktItemChecked
+      OnSelectItem = lvAktSelectItem
     end
   end
   object Splitter1: TSplitter
@@ -180,72 +198,46 @@ object FrmAktorzy: TFrmAktorzy
     Left = 344
     Height = 528
     Top = 26
-    Width = 461
+    Width = 556
     Align = alClient
     ClientHeight = 528
-    ClientWidth = 461
+    ClientWidth = 556
     TabOrder = 4
     object Label1: TLabel
       Left = 8
       Height = 15
       Top = 8
       Width = 53
-      Caption = 'Nazwisko:'
-    end
-    object DBEdit1: TDBEdit
-      Left = 8
-      Height = 23
-      Top = 24
-      Width = 233
-      DataField = 'NAZWAAKT'
-      DataSource = dsAkt
-      Anchors = [akTop, akLeft, akRight]
-      Font.CharSet = EASTEUROPE_CHARSET
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      MaxLength = 100
-      ParentFont = False
-      TabOrder = 0
+      Caption = '&Nazwisko:'
+      FocusControl = edNazwisko
     end
     object GroupBox1: TGroupBox
       Left = 8
-      Height = 104
+      Height = 80
       Top = 64
-      Width = 240
+      Width = 328
+      Anchors = [akTop, akLeft, akRight]
       Caption = 'Ocena'
-      ClientHeight = 84
-      ClientWidth = 236
+      ClientHeight = 60
+      ClientWidth = 324
       TabOrder = 1
-      object RxDBTrackBar1: TRxDBTrackBar
-        Left = 8
-        Height = 25
-        Top = 12
-        Width = 168
-        Max = 6
-        OnChange = RxDBTrackBar1Change
-        Position = 0
-        DataField = 'OcenaAkt'
-        DataSource = dsAkt
-        TabOrder = 0
-      end
       object lbOcena: TLabel
-        Left = 184
-        Height = 45
-        Top = -8
-        Width = 121
+        Left = 264
+        Height = 47
+        Top = 0
+        Width = 135
         Caption = 'lbOcena'
         Font.CharSet = EASTEUROPE_CHARSET
-        Font.Height = -32
+        Font.Height = -35
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         Font.Style = [fsBold]
         ParentFont = False
       end
       object ImgOcena: TImage
-        Left = 16
+        Left = 56
         Height = 32
-        Top = 48
+        Top = 8
         Width = 192
         Picture.Data = {
           1754506F727461626C654E6574776F726B477261706869638F0B000089504E47
@@ -344,28 +336,55 @@ object FrmAktorzy: TFrmAktorzy
           00000049454E44AE426082
         }
       end
+      object udOcena: TUpDown
+        Left = 8
+        Height = 32
+        Top = 8
+        Width = 17
+        Max = 6
+        Min = 0
+        OnChangingEx = udOcenaChangingEx
+        Position = 0
+        TabOrder = 0
+      end
+      object sbnOcena: TSpeedButton
+        Left = 28
+        Height = 32
+        Top = 8
+        Width = 17
+        Glyph.Data = {
+          BE000000424DBE00000000000000760000002800000009000000090000000100
+          0400000000004800000000000000000000000000000000000000000000000000
+          8000008000000080800080000000800080008080000080808000C0C0C0000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333000
+          0000333333333000000033330333300000003330003330000000330000033000
+          0000300000003000000033333333300000003333333330000000333333333000
+          0000
+        }
+        OnClick = sbnOcenaClick
+      end
     end
     object PageControl1: TPageControl
       Left = 1
       Height = 247
       Top = 280
-      Width = 459
+      Width = 554
       ActivePage = TabSheet1
       Align = alBottom
       Anchors = [akTop, akLeft, akRight, akBottom]
       Images = ImageList1
       TabIndex = 0
-      TabOrder = 2
+      TabOrder = 3
       object TabSheet1: TTabSheet
         Caption = 'Inne nazwiska'
         ClientHeight = 219
-        ClientWidth = 451
+        ClientWidth = 546
         ImageIndex = 0
         object ToolBar2: TToolBar
           Left = 0
           Height = 26
           Top = 0
-          Width = 451
+          Width = 546
           Caption = 'ToolBar2'
           Images = DMG.ilCommon
           ParentShowHint = False
@@ -424,7 +443,7 @@ object FrmAktorzy: TFrmAktorzy
           Left = 0
           Height = 193
           Top = 26
-          Width = 451
+          Width = 546
           Align = alClient
           Color = clWindow
           Columns = <          
@@ -440,13 +459,13 @@ object FrmAktorzy: TFrmAktorzy
       object TabSheet2: TTabSheet
         Caption = 'Filmy'
         ClientHeight = 219
-        ClientWidth = 451
+        ClientWidth = 546
         ImageIndex = 1
         object ToolBar3: TToolBar
           Left = 0
           Height = 26
           Top = 0
-          Width = 451
+          Width = 546
           Caption = 'ToolBar3'
           Images = DMG.ilCommon
           TabOrder = 0
@@ -464,13 +483,14 @@ object FrmAktorzy: TFrmAktorzy
             ChildSizing.ControlsPerLine = 100
             ClientHeight = 22
             ClientWidth = 95
+            DataSource = DMA.dsAktFilmy
             Options = []
             TabOrder = 0
             VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
           end
           object ToolButton14: TToolButton
             Left = 96
-            Height = 8
+            Height = 22
             Top = 2
             Caption = 'ToolButton14'
             Style = tbsSeparator
@@ -485,24 +505,61 @@ object FrmAktorzy: TFrmAktorzy
           Left = 0
           Height = 193
           Top = 26
-          Width = 451
+          Width = 546
           Align = alClient
           Color = clWindow
-          Columns = <>
+          Columns = <          
+            item
+              Title.Caption = 'Tytuł'
+              Width = 250
+              FieldName = 'TytulFilmu'
+            end          
+            item
+              Title.Caption = 'Rok'
+              Width = 60
+              FieldName = 'RokFilmu'
+            end          
+            item
+              Title.Caption = 'Długość'
+              Width = 60
+              FieldName = 'DlugoscFilmu'
+            end          
+            item
+              Title.Caption = 'Ocena'
+              Width = 100
+              FieldName = 'NazwaOceny'
+            end          
+            item
+              Title.Caption = 'Kraj'
+              FieldName = 'Kraj'
+            end          
+            item
+              Title.Caption = 'Język'
+              FieldName = 'Jezyk'
+            end          
+            item
+              Title.Caption = 'Napisy'
+              FieldName = 'Napisy'
+            end          
+            item
+              Title.Caption = 'Dubbing'
+              FieldName = 'Dubbing'
+            end>
           DataSource = DMA.dsAktFilmy
+          ReadOnly = True
           TabOrder = 1
         end
       end
       object TabSheet3: TTabSheet
         Caption = 'Linki'
         ClientHeight = 219
-        ClientWidth = 451
+        ClientWidth = 546
         ImageIndex = 3
         object DBMemo2: TDBMemo
           Left = 0
           Height = 62
           Top = 157
-          Width = 451
+          Width = 546
           Align = alBottom
           DataField = 'OpisAlu'
           DataSource = DMA.dsAktUrl
@@ -514,7 +571,7 @@ object FrmAktorzy: TFrmAktorzy
           Left = 0
           Height = 5
           Top = 152
-          Width = 451
+          Width = 546
           Align = alBottom
           ResizeAnchor = akBottom
         end
@@ -522,7 +579,7 @@ object FrmAktorzy: TFrmAktorzy
           Left = 0
           Height = 126
           Top = 26
-          Width = 451
+          Width = 546
           Align = alClient
           Color = clWindow
           Columns = <          
@@ -539,7 +596,7 @@ object FrmAktorzy: TFrmAktorzy
           Left = 0
           Height = 26
           Top = 0
-          Width = 451
+          Width = 546
           Caption = 'ToolBar5'
           Images = DMG.ilCommon
           List = True
@@ -563,14 +620,14 @@ object FrmAktorzy: TFrmAktorzy
           end
           object ToolButton24: TToolButton
             Left = 81
-            Height = 8
+            Height = 22
             Top = 2
             Caption = 'ToolButton24'
             Style = tbsSeparator
           end
           object ToolButton25: TToolButton
             Left = 158
-            Height = 8
+            Height = 22
             Top = 2
             Caption = 'ToolButton25'
             Style = tbsSeparator
@@ -598,13 +655,13 @@ object FrmAktorzy: TFrmAktorzy
       object Opis: TTabSheet
         Caption = 'Opis'
         ClientHeight = 219
-        ClientWidth = 451
+        ClientWidth = 546
         ImageIndex = 2
         object DBMemo1: TDBMemo
           Left = 0
           Height = 219
           Top = 0
-          Width = 451
+          Width = 546
           Align = alClient
           DataField = 'OpisAkt'
           DataSource = dsAkt
@@ -614,14 +671,15 @@ object FrmAktorzy: TFrmAktorzy
       end
     end
     object GroupBox3: TGroupBox
-      Left = 256
+      Left = 351
       Height = 220
       Top = 8
       Width = 200
+      Anchors = [akTop, akRight]
       Caption = 'Zdjęcie'
       ClientHeight = 200
       ClientWidth = 196
-      TabOrder = 3
+      TabOrder = 2
       object ToolBar7: TToolBar
         Left = 0
         Height = 200
@@ -913,25 +971,28 @@ object FrmAktorzy: TFrmAktorzy
         }
       end
     end
+    object edNazwisko: TEdit
+      Left = 8
+      Height = 23
+      Top = 27
+      Width = 328
+      Font.Style = [fsBold]
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+    end
   end
   object ActionList1: TActionList
     Images = DMG.ilCommon
     Left = 384
     Top = 256
-    object acDodaj: TAction
-      Category = 'Database'
+    object acAktDodaj: TAction
+      Category = 'ListaAktorow'
       Caption = 'Dodaj'
       Hint = 'Dodaj nowego aktora'
       ImageIndex = 1
-      OnExecute = acDodajExecute
+      OnExecute = acAktDodajExecute
       ShortCut = 16462
-    end
-    object acUsun: TAction
-      Category = 'Database'
-      Caption = 'Usuń'
-      Hint = 'Usuń aktora'
-      ImageIndex = 2
-      ShortCut = 16430
     end
     object DataSetFirst1: TDataSetFirst
       Category = 'Database'
@@ -1093,7 +1154,7 @@ object FrmAktorzy: TFrmAktorzy
     end
     object acFiltrInneNazw: TAction
       Category = 'Filtr'
-      Caption = 'Inne nazwiska'
+      Caption = 'Uwzględniaj inne nazwiska przy wyszukiwaniu'
       Checked = True
       Hint = 'Uwzględniaj inne nazwiska przy wyszukiwaniu'
       ImageIndex = 48
@@ -1141,6 +1202,63 @@ object FrmAktorzy: TFrmAktorzy
       ImageIndex = 0
       DataSource = DMA.dsAktUrl
     end
+    object acAktEdytuj: TAction
+      Category = 'ListaAktorow'
+      Caption = 'Edytuj'
+      Hint = 'Zmień nazwisko aktora'
+      ImageIndex = 3
+      OnExecute = acAktEdytujExecute
+    end
+    object acAktUsun: TAction
+      Category = 'ListaAktorow'
+      Caption = 'Usuń'
+      Hint = 'Usuń aktora'
+      ImageIndex = 2
+      OnExecute = acAktUsunExecute
+      ShortCut = 16430
+    end
+    object acFiltrWyszCzescPocz: TAction
+      Category = 'Filtr'
+      Caption = 'Wyszukiwanie częściowe na początku nazwy'
+      Hint = 'Wyszukiwanie częściowe na początku nazwy'
+      OnExecute = acFiltrWyszCzescPoczExecute
+    end
+    object acFiltrWyszCzescDow: TAction
+      Category = 'Filtr'
+      Caption = 'Wyszukiwanie częściowe w dowolnym miejscu nazwy'
+      Checked = True
+      Hint = 'Wyszukiwanie częściowe w dowolnym miejscu nazwy'
+      OnExecute = acFiltrWyszCzescDowExecute
+    end
+    object acZaznaczWszystko: TAction
+      Category = 'Zaznaczanie'
+      Caption = 'Zaznacz wszystko widoczne'
+      Hint = 'Zaznacz wszystkie widoczne pozycje'
+      OnExecute = acZaznaczWszystkoExecute
+    end
+    object acOdznaczWszystko: TAction
+      Category = 'Zaznaczanie'
+      Caption = 'Odznacz wszystko widoczne'
+      Hint = 'Odznacz wszystkie widoczne pozycje'
+      OnExecute = acOdznaczWszystkoExecute
+    end
+    object acZaznOdwroc: TAction
+      Category = 'Zaznaczanie'
+      Caption = 'Odwróc zaznaczone'
+      OnExecute = acZaznOdwrocExecute
+    end
+    object acZamknij: TAction
+      Caption = 'Zamknij'
+      OnExecute = acZamknijExecute
+      ShortCut = 27
+    end
+    object acWybrane: TAction
+      Category = 'ListaAktorow'
+      Caption = 'Wybrane'
+      Hint = 'Pokaż wszystkie wybrane pozycje'
+      ImageIndex = 51
+      OnExecute = acWybraneExecute
+    end
   end
   object pmSort: TPopupMenu
     Images = DMG.ilCommon
@@ -1159,62 +1277,84 @@ object FrmAktorzy: TFrmAktorzy
     Left = 503
     Top = 256
     Bitmap = {
-      4C7A040000001000000010000000CB0600000000000078DAA597F94F545714C7
-      F927FAAB6DB43FB66993A6FDA56968ADA05DC40566DF0718289B8822A820A0A6
-      76096DD3B48E8811A5104B19B60202DA5A11B54DAAB515ED6613954685618665
-      9C99371B7E7BCE9D190B6FC0217A9293FBDEBDE773CF3DE7DDFBCE7BADADADD3
-      CDCDCD3876EC18E971D266D136D17D5353D3A2CAB6CCB4C6D8C795B85F96DB77
-      C67173F4022ED53D879B974FE1CEB80B13E3E398744EC03931FE50C7EFDDC5BF
-      63B705732CB646963BCE69DC6848C33F4D1BF04F633A266725AC4D5B03834E83
-      2DC585D8BE750B2C263DDE5EB71613340F4B3C1E9671D70C6E5E398D5FF6BF28
-      5AF78C1733D3D3989D59A8D3536EB10E39EF9C9A81DBF7005341C0ED075C331E
-      B8C9F6A1BAA3ADCBED82936292F3D31E3FF93D854B7B5F10FE3DBE20FC3E1F24
-      FF42F579EFD3BAA612F8597F047F37AC11F1DF389C06690E487B7335741A154A
-      8A0A50565A0293418B75E969F0F9BC09BC570A0BBF97F745FD4B21201C0A2112
-      5EA8A16040AC41CEFB831150E8204CB452680E52208040405AA092E4879FE290
-      F3C107107E7FAE7B5EB49147EC9B502894C053B8F8CBBE1A378E66883CB0AC7E
-      23155A9502450579282D29A4BDA0463AE5242EF379965BE4F712F9BF75E5BB65
-      ED5F669F74FFDBEDF6B3DC8AF3163B7FDC36352D7DFEE27E994D49495945FAD2
-      63EA2A5A460AAB5EABE9D169D4B45F346D294B088DB7B10DDBC6B9B872BF46AD
-      824AADC1862C1DDEDDACC33B9BD47867A312EF6E5460C36605544A15342A15D8
-      56CE6BA9EFFCC51F9191A5058E3F03B4D3331C3000C35B419B02F8E353646CCA
-      C2F90B17A15D84376835502994589FA9035A5E01BA75089F2EC7DCC801E0D297
-      C09F47B09ED6A15228C0B609BC4E8B73E72F627D961EE8780BA1C15248C3FBE1
-      3FB307C11E2BD09389F59B356473016C2BE74D063DAD8B625710DFAF4178A814
-      DEFE22DCEF2F46A08BE2684FC7468541D8B0AD9CB7501FCF9DA522DB930AA0CF
-      80C8991D080D5703833914CF5B50A80DC2C6B2086F359960D4EBA1D19991A1CA
-      C5DACC1CA46FB2207DA3096B379990A13043A335C2A8D3836DE57CB6C58CE191
-      F350EAB381A34F036D6F521CE4E78752E0A75AE05A3D941A03D98C806DE57CAE
-      D50233CDABD4D35A5B5E06BA28FFA7B653FEDFA7FC7F41CFAF917823CC4623D8
-      56CEDBB2AD387B8EFCEB8877AC5B98FFEE68FE955AB2191E01DBCAF9BCDC1C58
-      AD56688CB9943B35F15B44FE3D9CFF4ECAE9376BA031D9840DDBCAF9F76CB9E4
-      7F04468B8DF29F4973E83177A61C9178FEBBD6C164C913366C2BE78BF2F35090
-      67437E5E3EB26D8530E714C09C1D554B4EA1E8E331B661DB45F2375C5258C0B9
-      3DB5D479E531B6615B393FEF3DB032656959293FF7BDBD3DD3DDDD1DE8EC7490
-      B62F531D6086D9AEAE8EC77EFF31CB73B18CDDBA29EAFABF6363B136AA63F3AE
-      C5FDED5BB84DB62CF1358BFA7DEF1E5C2EAEAF6E4C52EB74519D9D649DA47AEB
-      14FD3C3E41D7F7EEDE89F1EDE8E888F26EF714D4A9AB3070B80EFD876AD177A8
-      067DF63DE83B5885598F8FC69EC5C9861A7CFBC52E9A6F5230CCC6F9D9991948
-      C110D5BD087C8110BCFE00A944D741F824AA9952101EAF0FD364E77225F2F77D
-      511F8347F6919F3AF25D4D738545DF4063F43ECE4FD177849CF793AF39AAA15C
-      37A9F482CA3182E10708CF45EFB90D50A7D7E787C7E349E08354DB55AFADC410
-      FBA71C9C6CA8453FC5DB4F39E039796C80FA387E9FDF9FC0472273499F37AF2F
-      44F9094852024F4350BCFA34061BF752FE6BD04B7947AC6FE0702D7ABFDC8D08
-      4D10A4DA1F0C0613F8E5C81CF1E17098D61A79C8C7F7CFB2E5C1FF97CC3EE9FE
-      6F69693ECB6D3C96E56A9C7DD2FA9FB20CE9EEEA385857538D9AEA2A54EDAA44
-      4BF3713BF7C7DE3B8F94AB577F3DB1BB7207A6E8BBF7FAE8558C9C3B8B6D5B4B
-      D0D860B727E347AFFE6ADF59512EBE57F7ECDE89CACACA03FC2D3734D087627A
-      0F26E36BAA770BBF35D5BB108BF7A9FAFAFA43DF7677A220DFB60CBE0ABF5F1B
-      05AFA1A4E83D616C32E8D0D5DE065B4E7652BE9AD65C515E062F9D5BFEEEB09A
-      8DE8A667C7F5B3625B992319BF8BF2E6A3F782322B1303FDBDE8727C038BD984
-      CF3FFB64888657CCE729570739DEDA3D55E056B0744EB52A25525353C53F400E
-      D5CDFA8F3F74C46B449CBF36FADB89CA1DE522577F5CBF2EE215AC5A8945F6CC
-      8AB84FE6FB7A7B1CECCB39E9C4FEBDB5C2EFD0E000D4CA2CA4BEFEFA2303649E
-      9F0DFBDD5757237C1517E413AB14F1F27F5B329EF723EFAB8A8A8A0F62DD2F6D
-      2F2B15B9B2E55893F23BB6976178F88CC8D9572D2DF49B588CA3471AE85FD188
-      FA8F3E7024E3DB4EB43A782FF17A795F75B67F2DD8CF3FAD1F9A9FABA578B669
-      3AD2E8E06F1256DE1B94C3EF93D4F114D9F95B217B462B9773AE99FF0F929236
-      AA
+      4C7A0600000010000000100000009F0900000000000078DACD585950945716A6
+      52A5539387BCCDAB99E8D454A56A16536ACC989921A382267143A09B66EB6657
+      5044A3820B02EA98380E3A6EAC2A88E046B3098810076D50A2151D1911349A0A
+      DBA0D034ABBD2F7C73CE8576A0A105F1656ED557F7FCE79EEF9E7BCE7FCF7F6F
+      775E5E5E5F4E4E0EB2B3B309670939A2CFA2E7ACACAC09C1B6CCC91BE14EB7D9
+      FD726BEDE84473C36DDC4BFA0D9AEF57A1A35383AECE4E74ABBBA0EEEA7C85CE
+      17CFD1DED62A38D9236BE4D6A1EEC3B37437FC98B51A3F66BAA37BC080656E4B
+      11E027C3A68D51D8BA791382E4FEF862F93274D13CDCECF170EBD4F4A3F9C1B7
+      F8D7FEB9A2EFE9D7A2BFAF0F03FD63D1D7DB23D6E1C857F7F6A34737845E13D0
+      A30734FD83E821DB57E819EE353D1AA82926477EDFA09EFC56E1DEDEDF0BFF83
+      3A13F43A1D0CFAB1D0695FD2BA7AC7F107F4563C4D5F2AE27F96E106830D705B
+      B2187E3229A23744624B4C34E401BE58EEEE069D4E3B8EAF355884DFFBFB86FD
+      1BCC80C56C86D53216669351ACC191AF375941A18368A237986D30188D301A0D
+      636030E8A1A7381CF9A62108BFDF27FD56F4D6D7EC1BB3D93C8E4FE1E287D4C5
+      78766695C803B7C57F7185AFD41B1B222310131D457BC107EE94137B1BCDE7D6
+      427EEF91FF9607D7A7B47F99FBB6FB3F3535F526F7A2DE46EA8FFBAC2CE7F567
+      F7CB5C171797398479D3C41C5A860BC3DF5756E227F3A1FD22BBE4E2A4D1F825
+      B6615B3BCF0ED6CB7CA490FAC8B0DACB0F2BD6FAE14B0F1F7CB94682156BBCB1
+      7AAD37A41229645229D8D691EF4BBA5B75DF6195972F70F697403EBDC38A0040
+      B519B42980C747B0CAC30BB76ED7C177027E80AF0C526F09567AFA01B91F03C5
+      7EB07CBB0DB6DAAF817B278127A7B092D621F5F606DB8EE3FBF9A2E6561D567A
+      F903059FC37C2D0606D57EE8ABF7C054120C947862E55A19D9DC06DB3AF2E501
+      FEB42E8ADD9BF8E532582A63A02DDF8097E51B612CA238F2DDB1C63B40D8B0AD
+      233F88743CB797946CAF7A036501B0566F8759150F5C0BA5783E87B74F80B009
+      9A801F2C9723D0DF1F323F055649C3B0CC3314EE1E41705F23C7320F3956792B
+      20F30D44A09F3FD8D6911F12A480AAF61624FE21C099F7814B4B280EF2732306
+      B893083C4A8644164036B5605B477E5870101434AFC49FD69ABB0028A2FC576D
+      A5FC1FA0FC9FA0F79749FC40280203C1B68EFCF09060DCAC21FF7EC4572E1F9B
+      FFE2E1FC4B7CC946550BB675E447848522383818B2C030CA9D0FF13789FC0F72
+      FE0B29A7979742260F17366CEBC85F1F1E46FE6B1118144EF9F7A439FC61ABDE
+      06AB3DFF45CB210F8A10366CEBC8DFB02E029111E15817B10E21E15150844642
+      11328CA0D028A1E331B661DB09F2A78A8E8AE4DC5639AB571E631BB675E48FFA
+      0ECC7671DE663BD67D6969495F7171010A0B9584FC294209E630B7A8A860DADF
+      3FE6F25CDCDA5A9AC5B9DEDED636D20FA36D942C9E5B5BD04AB6DCEC6B16E7F7
+      8B17D068F87CED4137F56A0D9DB3DD8C6E3A6FD542CFE35D24BF78DE31C2CF47
+      41C130BFA7A7173EAE7350919184F2B44494A525A02C750FCA52766360504763
+      BFC2D5F4045C39B193E6EB161CE6DAF903FDFD3098CC74EE59A1339AA1D51B09
+      06924DD019E8CC349830A8D5A18FEC349AF1FC97BA611FD74EED233F49E43B9E
+      E6B2085D45E6F0B39DDF4BF70847BE9E7CD9E80CE573938E5ED0710C93650816
+      DBF033F746526A757A0C0E0E8EE39BE86C97FE69362AD93FE5E06A7A22CA29DE
+      72CA01CFC96315A4E3F8757AFD38BED56A9BF47DF3FACC941FA3C1308E4F43F0
+      FEF47D5CCBDC4BF94F4029E51D23BA8A8C44949EDC052B4D60A2B3DF64328DE3
+      4FA5D9886FB15868ADD6577CFBFE99721BFA9FC8DCB7DDFFB9B93937B9B7C732
+      55D8B96F7BFEBB4CA1151715A42425C423217E3776EF8C436ECED954D68F7C77
+      5EDB1E3EACBFB02B6E3B7AE9DEDBD8F010B53537F1D5E66864A6A7A64EC66F78
+      589FBA23769BB8AFEED9B5037171715FF35DAEB2A20C1BE93B38193F217E97F0
+      9B10BF1323F1FE22393939ED4A712122D7854F81BF1B4D8F1AC06B88DEB05E18
+      CB03FC50947F09E1A12193F2E369CDB1DBB6404B75CBF78E6045208AE9DDF1F9
+      19FBD516E564FC9D94371D7D17245E9EA8282F4591F2328214721CFBC7E14A1A
+      9E359A4FB94AE17813F7EC06F7824B75EA2B95C0D5D555FC0608A57333F9D041
+      A5FD8CB0F31F35FCFB42DCF66D22578F1B1B45BC82EB23C1047B6696DD27F3CB
+      4A4B94EC4BDDADC6FEBD89C26FE5B50AF848BCE0FAD967AF0D90F9FC6ED8EFBE
+      A404E16B63E43AE24A44BCFCBB6D323EEF47DE57B1B1B1DF8CA8E76DDD122372
+      151E1A3C297FFBD62D50A9AA45CECEE5E6D2CFC48D38732A9D7E2B0622F96FDF
+      2827E35FBA90A7E4BDC4EBE57D55987F51708F1D49AE1C9D2B677CB6C93A95A9
+      E43B0983F706E5F09F939CE32E0EF537CBE11DCD9E4A5D8FBA3B4CD81665AB23
+      0847A7CB5FFF9DCE16764B8BE9F0E79DEE4A2A69B780C1F29BF03FC956BFEB7E
+      BE1BDFD3CF4406CB6FC29F7FEA454E4ABD0E073A6D022CCF3FDD75D619FFD39C
+      EE9C8559EA7A5A27E66676E18FD95D28ECB460FD4FC36099751FD118CD834FC8
+      963976FE1FB2BBB4E94F8DB867A1ABB67108CFCC434868B522E2A9598065D6F1
+      98CA0824361AB08838A3D63F7741E67FD49EB7B508FEC10CC56313829B4C087B
+      3C0C96858EE6F2229B8F333BD4CC7188FF771FFDBDBECC8BDED781160BE48D46
+      048D80E503AD1678A85E826DD876A2FCBD33E3671FF8DC18C4097A67010F0D90
+      8F80E5A36DE4FBDA00D8C659FE179E51CBE229B628826FBD5EF0182C473519B1
+      E3BE8E732773CACF68CEF86BB30992077A78501CAEE735022CB32E81723C3FE5
+      A70C677CCF324D675883016EA57D5898D6FCE49D993F5FC06099759B9A0CF822
+      BFBBD3197F45712F169DEBB6FD7A5D7A243D7E386AAB7CC8BA3F9FD7D8965CEE
+      C16BF69FBD7EDF9B60BBBE376A7C0CFF6DE1AC1D3B762C8230EDFA2F2A2AB215
+      14144CABFE0F1F3E9CD4D4D40406CB6FC23F7AF4E8BBE9E9E9E8E8E81060F94D
+      F8E42FA7AEAE0E353535022C1F3972C469FD1F3F7E3C877CD6130F74BF003DA3
+      91CED12B57AE08B0CC3A1EA379C0B6CCB1F3E9597BF7EE5D3C7FFE1CEDEDEDE2
+      BFC2EAEA6A94949408B0CC3A1E6B6969C1F5EBD741EF654CFDD3DCEADCDC5CBA
+      93168273CE3DE55F60B48E6D689D13D67F525252198FAB542A28954AC161B0CC
+      3AFECF896D9CD5FF8C19333EC8CBCBC39D3B7770F9F265E4E7E70BB0CC393C77
+      EE1CD8C659FE290FB2AAAA2A11F3C58B17058FC132E7B1A2A28273E7B4FE0F1D
+      3A9471E3C60D9C3F7F5EF84A4949116099759CB783070F3AADFFECECEC4ECE51
+      46460668AE273367CE5CC0609975A5A5A5C8CCCC745AFFA74F9FE6F76C532814
+      E3EA9F75274F9EB4A5A5A5FD5FD5FF7F0174AEDCA8
     }
   end
   object dsAkt: TDataSource
@@ -1410,6 +1550,123 @@ object FrmAktorzy: TFrmAktorzy
     end
     object MenuItem5: TMenuItem
       Action = acLnkUsun
+    end
+  end
+  object ImgLstAkt: TImageList
+    Left = 501
+    Top = 208
+    Bitmap = {
+      4C7A0200000010000000100000005F0400000000000078DAA5947B4C935718C6
+      D93FDB4C3632F50FE7D0CD8C646671C62D2486645902D9C0B13919622633616C
+      C48288331B8589325CA520669339AE522D722B4CA094B65CC3AD2D7289E22450
+      0814458A854AB914686BA1057CF67E5FC034200CB3377972FABDEFF9BD3DE739
+      DFF90038AD0C972F630EEC0E4EC59E9074ECFE36D1BED3EBCCE72BE780B86539
+      C6B603D16EFB7F2D8157523D7C2ED7C2839B830F0FC5C0E5D35FDC36C2EF3C74
+      DEEE915809BF54158EA528F0556436DC0F9FC70EAF28FB46F81D5F5FC09ED034
+      7C149282BD017CF8F244F8C0E727ECFA2C12FFC5BFE3738EB7DD2B0A87AF5421
+      BE59872B9D53886B198677442ADEF4E4C2F5602C6F3D7EBB7734DEF68CC00F02
+      05FEEA3221B6F121A22ABAE1FD733A5C989A4F0CD6E3377B70699F67B0C79F8F
+      84D61170E56A848A5AB0D79F875DC46EF58C5A977FC58D73E765B710CD1B1F9F
+      C6D9B23604A5C9F149781C9CDDC3B0697F9886EAEDEBF1EE47395E9C4C795E84
+      A403C9DD269CAD542320498C53F92A700415229AF2DE5A7CB8A8A981DFA48570
+      10100E01D71F2E22BE558FF89611640F534E0B30F55385B7D256F2A1398DA589
+      6D7A5CBA6DC04586691E46228D7C1AE39A1E21817A3079A6CECC0B1735973AF2
+      5CC95DFD6F8A4170656AA4F458201858A0D10CAEB4D3E1D98248F293A7D422F8
+      5AB5DE918F94DE43DE2870F4F702C4A974E029867041F508DF0B1BD891A71C62
+      F34712F2F0B711389E5507473E30B954C9B9510F7FBE1061856DEC999D2071B2
+      6AD9917966F247A81E92DD80EF524A952BFC7325B9BD805C1DF9FF2326CA25C2
+      D7652582A2B2A20C486EA6A3F466DA9A62EAD2E2AB28975CBFC4F0C4BE5B569C
+      8107FD5D7891908905AC8765C557153AED7D3CC53C4CA65198CD06CCCE4D636E
+      CE049BCD02BBFD092B9BED09E5CCB05AA7B0B8684385246B9967FBE9F55D181B
+      BB8FD9D9292C2C5849362C2CDA699C63353F3FC7F6B3D94CB0CE8E435A92F98C
+      B75AC76018EB457797028DB5C550D6974051578C8EF65A180C1A4C4FEB6034EA
+      303939803B6D55A8A9C8255E30C3F0D2E24C582C7AFC73BB1A45A254ED8F2783
+      8E071EF30BF8C6FF0BFF5CE11F8D2D2A294CE65156F7A85F6ED665D5D62D9BDD
+      C9F67D2C4FEB301A1FD0FF15C1CFD7DB9BF2AF9136915E8D381DECCBACC53A6B
+      244FA6685D62849F083C48B59796EF10C34F4EF693FF6A880B5365E4EBFB72B1
+      601BEDEB9CA24E4C7B637C9BA6FD5B50575988A5DE4E8EFCF88486F5B0BFAF03
+      B7145256EACE5636C7FA4FBE3D25CF1B6A8A567D434B0AD3F5DAC1BB98991959
+      75C66633F96AE8A7F35A609F99F5ACE4F36FFC59DDD5514FF3FAC8E7114C4DE9
+      96348CC78FBBE94C35CFFA55CB7357F117E3A2826AAB44181FD7D0FC1E522F46
+      477BE97D50B3675A5290822A590E6AE479C8CF4E52AEE4299CE90C6D0303EDB4
+      86DEA51E3DEC6FC3581F98F375BC77CFE19DA2A3C24ED694E7423FA2C6C4443F
+      2B86ADAB2E4046729CD0698D70F8F63AC7F3B8B132F135E6BD6245F7111929FC
+      2CAABDB5019E892DCFF94EACC92EF3FF02A97F9631
+    }
+  end
+  object pmWysz: TPopupMenu
+    Left = 704
+    Top = 256
+    object MenuItem6: TMenuItem
+      Action = acFiltrInneNazw
+    end
+    object Separator2: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem7: TMenuItem
+      Action = acFiltrWyszCzescDow
+    end
+    object MenuItem8: TMenuItem
+      Action = acFiltrWyszCzescPocz
+    end
+  end
+  object pmOceny: TPopupMenu
+    Images = ImageList1
+    Left = 760
+    Top = 256
+    object MenuItem9: TMenuItem
+      Caption = 'Brak'
+      ImageIndex = 5
+      OnClick = MenuItem9Click
+    end
+    object MenuItem10: TMenuItem
+      Tag = 1
+      Caption = '1'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+    object MenuItem11: TMenuItem
+      Tag = 2
+      Caption = '2'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+    object MenuItem12: TMenuItem
+      Tag = 3
+      Caption = '3'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+    object MenuItem13: TMenuItem
+      Tag = 4
+      Caption = '4'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+    object MenuItem14: TMenuItem
+      Tag = 5
+      Caption = '5'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+    object MenuItem15: TMenuItem
+      Tag = 6
+      Caption = '6'
+      ImageIndex = 4
+      OnClick = MenuItem9Click
+    end
+  end
+  object pmLstAkt: TPopupMenu
+    Left = 180
+    Top = 431
+    object MenuItem16: TMenuItem
+      Action = acZaznaczWszystko
+    end
+    object MenuItem17: TMenuItem
+      Action = acOdznaczWszystko
+    end
+    object MenuItem18: TMenuItem
+      Action = acZaznOdwroc
     end
   end
 end

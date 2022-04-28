@@ -38,6 +38,17 @@ type
     function DodajLinkDoAktora(IdAkt: longint; Link: string): boolean;
     procedure UsunLinkAktora(IdAlu: longint);
     function ZnajdzWystNazwiska(Nazwa: string; var listaNazwisk: TObjectList): boolean;
+    function DodajAktora(Nazwa: string): longint;
+    procedure UsunAktora(IdAkt: longint);
+    function JestAktor(Nazwa: string): boolean;
+    function IloscFilmowAktora(IdAkt: longint): longint;
+    procedure UsunWszystkiePowiazaniaZFilmamiAktora(IdAkt: longint);
+    procedure UsunWszystkieLinkiAktora(IdAkt: longint);
+    procedure UsunWszystkieInneNazwyAktora(IdAkt: longint);
+    procedure UstawOceneAktora(IdAkt: longint; Ocena: byte);
+    function ZnajdzAktoraWgNazwy(NazwaAkt: string): longint;
+    procedure ZmienNazweAktora(IdAkt: longint; NowaNazwaAkt: string);
+    procedure PokazFilmyAktora(IdAkt: longint);
   end;
 
 var
@@ -218,6 +229,130 @@ begin
     qCmd.Close;
     Result := (listaNazwisk.Count > 0);
   end;
+end;
+
+function TDMA.DodajAktora(Nazwa: string): longint;
+begin
+  Result := 0;
+  Nazwa := Trim(Nazwa);
+  if (Nazwa <> '') and (not JestAktor(Nazwa)) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('INSERT INTO Aktorzy(NazwaAkt) Values(''%s'')', [Nazwa]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+
+    Result := DMG.GetLastId;
+  end;
+
+end;
+
+procedure TDMA.UsunAktora(IdAkt: longint);
+begin
+  if (IdAkt > 0) then
+  begin
+    UsunWszystkiePowiazaniaZFilmamiAktora(IdAkt);
+    UsunWszystkieLinkiAktora(IdAkt);
+    UsunWszystkieInneNazwyAktora(IdAkt);
+
+    qCmd.Close;
+    qCmd.SQL.Text := Format('DELETE FROM Aktorzy WHERE IdAkt = %d', [IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+function TDMA.JestAktor(Nazwa: string): boolean;
+begin
+  Result := (ZnajdzAktoraWgNazwy(Nazwa) > 0);
+end;
+
+function TDMA.IloscFilmowAktora(IdAkt: longint): longint;
+begin
+  Result := -1;
+  if (IdAkt > 0) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('SELECT COUNT(*) AS Ilosc FROM FilmyAkt WHERE IdAkt = %d', [IdAkt]);
+    qCmd.Open;
+    Result := qCmd.FieldByName('Ilosc').AsInteger;
+    qCmd.Close;
+  end;
+end;
+
+procedure TDMA.UsunWszystkiePowiazaniaZFilmamiAktora(IdAkt: longint);
+begin
+  if (IdAkt > 0) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('DELETE FROM FilmyAkt WHERE IdAkt = %d', [IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+procedure TDMA.UsunWszystkieLinkiAktora(IdAkt: longint);
+begin
+  if (IdAkt > 0) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('DELETE FROM AktLinkiUrl WHERE IdAkt = %d', [IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+procedure TDMA.UsunWszystkieInneNazwyAktora(IdAkt: longint);
+begin
+  if (IdAkt > 0) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('DELETE FROM AKA_A WHERE IdAkt = %d', [IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+procedure TDMA.UstawOceneAktora(IdAkt: longint; Ocena: byte);
+begin
+  if (IdAkt > 0) then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('UPDATE Aktorzy SET OcenaAkt = %d WHERE IdAkt = %d', [Ocena, IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+function TDMA.ZnajdzAktoraWgNazwy(NazwaAkt: string): longint;
+begin
+  Result := 0;
+
+  NazwaAkt := AnsiUpperCase(Trim(NazwaAkt));
+  qCmd.Close;
+  qCmd.SQL.Text := Format('SELECT IdAkt FROM Aktorzy WHERE Upper(NazwaAkt) = ''%s'' ', [NazwaAkt]);
+  qCmd.Open;
+  Result := qCmd.FieldByName('IdAkt').AsInteger;
+  qCmd.Close;
+end;
+
+procedure TDMA.ZmienNazweAktora(IdAkt: longint; NowaNazwaAkt: string);
+begin
+  NowaNazwaAkt := Trim(NowaNazwaAkt);
+  if (NowaNazwaAkt <> '') then
+  begin
+    qCmd.Close;
+    qCmd.SQL.Text := Format('UPDATE Aktorzy SET NazwaAkt = ''%s'' WHERE IdAkt = %d', [NowaNazwaAkt, IdAkt]);
+    qCmd.ExecSQL;
+    qCmd.Close;
+  end;
+end;
+
+procedure TDMA.PokazFilmyAktora(IdAkt: longint);
+begin
+  qrAktFilmy.Close;
+  qrAktFilmy.ParamByName('IdAkt').AsInteger := IdAkt;
+  qrAktFilmy.Open;
 end;
 
 

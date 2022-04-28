@@ -9,7 +9,7 @@ object FrmKatalogi: TFrmKatalogi
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '7.2'
+  LCLVersion = '7.7'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26

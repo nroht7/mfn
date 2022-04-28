@@ -45,8 +45,8 @@ type
     procedure lvKatSelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
   private
     fLstKat: TObjectList;
-    fZmiany : boolean;
-    fFiltr : string;
+    fZmiany: boolean;
+    fFiltr: string;
 
     procedure UtworzWidokKatalogow(aFiltr: string);
     function KatalogPasujeDoFiltra(aKat: TKatalog; aFiltr: string): boolean;
@@ -54,7 +54,7 @@ type
     function WybierzKatalog(aIdKat: longint): boolean;
     function GetKatById(aIdKat: longint): TKatalog;
   public
-    property Zmiany : boolean read fZmiany;
+    property Zmiany: boolean read fZmiany;
   end;
 
 var
@@ -90,7 +90,7 @@ begin
         if frm.Opis <> '' then
           DMG.tbKat.FieldByName('OPISFLD').AsString := frm.Opis;
         DMG.tbKat.Post;
-        id:= DMG.GetLastId;
+        id := DMG.GetLastId;
 
         kat := TKatalog.Create(frm.Katalog);
         kat.IdKatalogu := id;
@@ -101,8 +101,7 @@ begin
       end
       else
       begin
-        MessageDlg('Katalog jest częścią innego katalogu który jest już w bazie danych i nie może zostać dodany:' +
-          sLineBreak + s, mtInformation, [mbOK], 0);
+        MessageDlg('Katalog jest częścią innego katalogu który jest już w bazie danych i nie może zostać dodany:' + sLineBreak + s, mtInformation, [mbOK], 0);
       end;
     end;
   finally
@@ -129,7 +128,7 @@ begin
         fLstKat.Remove(kat);
 
       DMG.tbKat.Delete;
-      fZmiany:= True;
+      fZmiany := True;
       UtworzWidokKatalogow(edFiltr.Text);
     end;
   end;
@@ -154,12 +153,12 @@ end;
 
 procedure TFrmKatalogi.edFiltrEnter(Sender: TObject);
 begin
-  fFiltr:= edFiltr.Text;
+  fFiltr := edFiltr.Text;
 end;
 
 procedure TFrmKatalogi.FormCreate(Sender: TObject);
 begin
-  fZmiany:= False;
+  fZmiany := False;
   fLstKat := TObjectList.Create;
 end;
 
@@ -293,6 +292,3 @@ begin
 end;
 
 end.
-
-
-

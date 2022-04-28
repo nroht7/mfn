@@ -10,43 +10,45 @@ uses
 
 type
   TTrybOtwarciaOkna = (tooPrzegladanie, tooWybor);
+  TTrybWyboruPozycji = (twpJednaPoz, twpWielePoz);
+
   TFilmPlInfo = class
   private
-    fIdFilmu : longint;
-    fIdRip : longint;
+    fIdFilmu: longint;
+    fIdRip: longint;
   public
-    property IdFilmu : longint read fIdFilmu write fIdFilmu;
-    property IdRip : longint read fIdRip write fIdRip;
+    property IdFilmu: longint read fIdFilmu write fIdFilmu;
+    property IdRip: longint read fIdRip write fIdRip;
   end;
 
   { TDMG }
 
   TDMG = class(TDataModule)
-    dsKat:       TDataSource;
-    ilCommon:    TImageList;
-    ilRozne:     TImageList;
-    ilRozszPl:   TImageList;
-    ilTypyPl:    TImageList;
-    ilStatus:    TImageList;
+    dsKat: TDataSource;
+    ilCommon: TImageList;
+    ilRozne: TImageList;
+    ilRozszPl: TImageList;
+    ilTypyPl: TImageList;
+    ilStatus: TImageList;
     ilRozszPl32: TImageList;
     ilStars: TImageList;
     ilStars16: TImageList;
-    tbTypyPl:    TZTable;
-    ZConn:       TZConnection;
-    tbKat:       TZTable;
-    rqLastId:    TZReadOnlyQuery;
-    tbRozszPl:   TZTable;
+    tbTypyPl: TZTable;
+    ZConn: TZConnection;
+    tbKat: TZTable;
+    rqLastId: TZReadOnlyQuery;
+    tbRozszPl: TZTable;
     qLataDekFld: TZReadOnlyQuery;
-    qLataDek:    TZReadOnlyQuery;
+    qLataDek: TZReadOnlyQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
     fLstDSDoZamkniecia: TObjectList;
-    fUstawieniaLst : TStringList;
-    fLnkOpen : TLinkOpen;
+    fUstawieniaLst: TStringList;
+    fLnkOpen: TLinkOpen;
     function PrzygotujSqlDodajRekord(aTabela: string; aListaPol: TStringList): string;
   public
-    property Ustawienia : TStringList read  fUstawieniaLst write fUstawieniaLst;
+    property Ustawienia: TStringList read fUstawieniaLst write fUstawieniaLst;
     property LinkOpen: TLinkOpen read fLnkOpen;
 
     procedure OtworzPolaczenieZBazaDanych(ListaUstawien: TStringList; Force: boolean = False);
@@ -54,10 +56,10 @@ type
     function GetLastId: longint;
     procedure OdswiezDataSet(aDataSet: TDataSet);
     function OdswiezDataSet(aDataSet: TDataSet; aPole: string): boolean; overload;
-    function OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc:variant): boolean; overload;
+    function OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc: variant): boolean; overload;
     function OdswiezQueryZSql(aQuery: TZQuery; aSql, aPole: string): boolean;
-    function OdswiezQueryZParam(aQuery: TZQuery; aParamName: string; aValue:variant): boolean; overload;
-    function OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string; aValue:variant): boolean; overload;
+    function OdswiezQueryZParam(aQuery: TZQuery; aParamName: string; aValue: variant): boolean; overload;
+    function OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string; aValue: variant): boolean; overload;
     function UtworzListeKatalogow(var aLstKat: TObjectList): integer;
     function DodajRekord(aTabela: string; aListaPol: TStringList): longint;
     function GetLstOblTypowAsStr: string;
@@ -80,7 +82,7 @@ uses
 
 procedure TDMG.DataModuleDestroy(Sender: TObject);
 var
-  i:  integer;
+  i: integer;
   ds: TDataSet;
 begin
   for i := 0 to fLstDSDoZamkniecia.Count - 1 do
@@ -208,8 +210,7 @@ begin
   end;
 end;
 
-function TDMG.OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc: variant
-  ): boolean;
+function TDMG.OdswiezDataSet(aDataSet: TDataSet; aPole: string; wartosc: variant): boolean;
 begin
   Result := False;
 
@@ -251,25 +252,27 @@ begin
   end;
 end;
 
-function TDMG.OdswiezQueryZParam(aQuery: TZQuery; aParamName: string;
-  aValue: variant): boolean;
+function TDMG.OdswiezQueryZParam(aQuery: TZQuery; aParamName: string; aValue: variant): boolean;
 begin
+  Result := False;
   if Assigned(aQuery) then
   begin
     aQuery.Close;
-    aQuery.ParamByName(aParamName).Value:= aValue;
+    aQuery.ParamByName(aParamName).Value := aValue;
     aQuery.Open;
+    Result := True;
   end;
 end;
 
-function TDMG.OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string;
-  aValue: variant): boolean;
+function TDMG.OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string; aValue: variant): boolean;
 begin
+  Result := False;
   if Assigned(aQuery) then
   begin
     aQuery.Close;
-    aQuery.ParamByName(aParamName).Value:= aValue;
+    aQuery.ParamByName(aParamName).Value := aValue;
     aQuery.Open;
+    Result := True;
   end;
 end;
 
@@ -319,8 +322,7 @@ begin
       except
         on e: Exception do
         begin
-          raise Exception.Create('Błąd podczas wykonywania edycji bazy danych o treści:' + sLineBreak + e.Message +
-            sLineBreak + 'Zapytanie:' + sLineBreak + sql);
+          raise Exception.Create('Błąd podczas wykonywania edycji bazy danych o treści:' + sLineBreak + e.Message + sLineBreak + 'Zapytanie:' + sLineBreak + sql);
         end;
       end;
     finally
@@ -375,8 +377,8 @@ end;
 
 procedure TDMG.DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
 var
-  item : TComboExItem;
-  fi : TFilmPlInfo;
+  item: TComboExItem;
+  fi: TFilmPlInfo;
 begin
   if (Assigned(ComboBox)) then
   begin
@@ -388,13 +390,13 @@ begin
         DataSet.First;
         while not DataSet.EOF do
         begin
-          item:= ComboBox.ItemsEx.Add;
-          item.Caption:= DataSet.FieldByName(PoleOpis).AsString;
-          fi:= TFilmPlInfo.Create;
-          fi.IdFilmu:= DataSet.FieldByName(PoleId).AsInteger;
-          item.Data:= Pointer(fi);
-          item.ImageIndex:= ImgIdx;
-          item.SelectedImageIndex:= ImgIdx;
+          item := ComboBox.ItemsEx.Add;
+          item.Caption := DataSet.FieldByName(PoleOpis).AsString;
+          fi := TFilmPlInfo.Create;
+          fi.IdFilmu := DataSet.FieldByName(PoleId).AsInteger;
+          item.Data := Pointer(fi);
+          item.ImageIndex := ImgIdx;
+          item.SelectedImageIndex := ImgIdx;
 
           DataSet.Next;
         end;
@@ -408,9 +410,9 @@ end;
 function TDMG.GetOperatorLikeOrEqual(aLike: boolean): string;
 begin
   if (aLike) then
-    result:= 'LIKE'
+    Result := 'LIKE'
   else
-    result:= '=';
+    Result := '=';
 end;
 
 function TDMG.PrzygotujSqlDodajRekord(aTabela: string; aListaPol: TStringList): string;
@@ -431,8 +433,8 @@ begin
     for i := 0 to aListaPol.Count - 1 do
     begin
       poleNazwa := aListaPol.Names[i];
-      poleWart  := aListaPol.ValueFromIndex[i];
-      toLiczba  := (poleNazwa[1] = '#');
+      poleWart := aListaPol.ValueFromIndex[i];
+      toLiczba := (poleNazwa[1] = '#');
       if (toLiczba) then
       begin
         Delete(poleNazwa, 1, 1);

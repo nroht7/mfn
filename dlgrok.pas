@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Spin, StdCtrls, ComCtrls, rxspin;
+  StdCtrls, ComCtrls, rxspin;
 
 type
 

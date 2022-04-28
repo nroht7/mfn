@@ -8,7 +8,7 @@ object FrmRok: TFrmRok
   ClientHeight = 129
   ClientWidth = 282
   Position = poOwnerFormCenter
-  LCLVersion = '7.3'
+  LCLVersion = '7.7'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34
@@ -123,7 +123,7 @@ object FrmRok: TFrmRok
     Left = 64
     Height = 19
     Top = 16
-    Width = 43
+    Width = 41
     Caption = 'Brak'
     Checked = True
     TabOrder = 4
@@ -133,7 +133,7 @@ object FrmRok: TFrmRok
     Left = 64
     Height = 19
     Top = 44
-    Width = 66
+    Width = 64
     Caption = 'Wartość:'
     TabOrder = 3
   end

@@ -109,6 +109,7 @@ type
     DBText7: TDBText;
     DBText8: TDBText;
     DBText9: TDBText;
+    dsMainAkt: TDataSource;
     gbxOcena1: TGroupBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -361,7 +362,6 @@ type
     ToolButton1: TToolButton;
     procedure acAktDodajExecute(Sender: TObject);
     procedure acAktDodajTxtExecute(Sender: TObject);
-    procedure acAktEdycjaExecute(Sender: TObject);
     procedure acAktUsunExecute(Sender: TObject);
     procedure acDaneAktorzyExecute(Sender: TObject);
     procedure acDaneGatunkiExecute(Sender: TObject);
@@ -408,6 +408,7 @@ type
     procedure cbxTypPlChange(Sender: TObject);
     procedure chbxFiltrWszystkoChange(Sender: TObject);
     procedure dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
+    procedure dsMainAktDataChange(Sender: TObject; Field: TField);
     procedure dsMainDataChange(Sender: TObject; Field: TField);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -478,6 +479,7 @@ type
     function FiltrAktywny(filtr: TWybranyFiltr): boolean;
     function WybranePozycjeFiltra(MgrPoz: TManagerPozycji; var LstWartosci: TStringList): integer;
     procedure UsunTagi;
+    procedure PokazZdjecieAktora;
   public
 
   end;
@@ -675,6 +677,27 @@ begin
   end;
 end;
 
+procedure TFrmMain.PokazZdjecieAktora;
+begin
+  ImgBrakZdjAkt.Visible := False;
+  if (not DMM.qMainAkt.IsEmpty) and (DMM.qMainAkt.FieldByName('ZdjecieScAkt').AsString <> '') then
+  begin
+    if (FileExists(DMM.qMainAkt.FieldByName('ZdjecieScAkt').AsString)) then
+    begin
+      ImgZdjAkt.Picture.LoadFromFile(DMM.qMainAkt.FieldByName('ZdjecieScAkt').AsString);
+    end
+    else
+    begin
+      ImgZdjAkt.Picture.Clear;
+      ImgBrakZdjAkt.Visible := True;
+    end;
+  end
+  else
+  begin
+    ImgZdjAkt.Picture.Clear;
+  end;
+end;
+
 procedure TFrmMain.acWidokOdswiezExecute(Sender: TObject);
 var
   idWybPl: longint;
@@ -759,6 +782,11 @@ begin
   end
   else
     dbg.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TFrmMain.dsMainAktDataChange(Sender: TObject; Field: TField);
+begin
+  PokazZdjecieAktora;
 end;
 
 procedure TFrmMain.dsMainDataChange(Sender: TObject; Field: TField);
@@ -1187,15 +1215,44 @@ end;
 procedure TFrmMain.acAktDodajExecute(Sender: TObject);
 var
   frm: TFrmAktorzy;
-  idAkt: longint;
+  //idAkt: longint;
   idFilmu: longint;
+  lstWybIdAkt: TStringList;
+  dodanoAktora: boolean;
+  i: integer;
 begin
-  frm := TFrmAktorzy.Create(self);
-  try
-    frm.TrybOtwarcia := tooWybor;
-    if frm.ShowModal = mrOk then
-    begin
-      idAkt := frm.WybraneIdAktora;
+  if ((DMM.qMainAkt.Active) and (not DMM.qMainFilm.IsEmpty)) then
+  begin
+    idFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+
+    frm := TFrmAktorzy.Create(self);
+    try
+      dodanoAktora := False;
+      frm.TrybOtwarcia := tooWybor;
+      frm.TrybWyboruPozycji := twpWielePoz;
+      if frm.ShowModal = mrOk then
+      begin
+        if (frm.SaWybranePozycje) then
+        begin
+          lstWybIdAkt := TStringList.Create;
+          try
+            frm.WybranePozycje(lstWybIdAkt);
+            for i := 0 to lstWybIdAkt.Count - 1 do
+            begin
+              if DMA.DodajAktoraDoFilmu(StrToInt(lstWybIdAkt[i]), idFilmu) then
+                dodanoAktora := True;
+            end;
+          finally
+            lstWybIdAkt.Clear;
+            FreeAndNil(lstWybIdAkt);
+          end;
+          if (dodanoAktora) then
+            DMG.OdswiezDataSet(DMM.qMainAkt);
+        end
+        else
+          ShowMessage('Nie wybrano aktora');
+
+      {idAkt := frm.WybraneIdAktora;
       if idAkt > 0 then
       begin
         idFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
@@ -1203,32 +1260,28 @@ begin
           DMG.OdswiezDataSet(DMM.qMainAkt, 'IdAkt', IdAkt);
       end
       else
-        ShowMessage('Nie wybrano aktora');
-    end;
-  finally
-    FreeAndNil(frm);
-  end;
-end;
-
-procedure TFrmMain.acAktDodajTxtExecute(Sender: TObject);
-var
-  frm : TFrmAktTxt;
-begin
-  if not DMM.qMainFilm.IsEmpty then
-  begin
-    frm:= TFrmAktTxt.Create(self);
-    try
-      frm.IdFilmu:= DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
-      frm.ShowModal;
+        ShowMessage('Nie wybrano aktora');}
+      end;
     finally
       FreeAndNil(frm);
     end;
   end;
 end;
 
-procedure TFrmMain.acAktEdycjaExecute(Sender: TObject);
+procedure TFrmMain.acAktDodajTxtExecute(Sender: TObject);
+var
+  frm: TFrmAktTxt;
 begin
-
+  if not DMM.qMainFilm.IsEmpty then
+  begin
+    frm := TFrmAktTxt.Create(self);
+    try
+      frm.IdFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+      frm.ShowModal;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
 end;
 
 procedure TFrmMain.acAktUsunExecute(Sender: TObject);
@@ -2202,6 +2255,8 @@ begin
       DMM.qMainAkaF.Close;
       DMM.qMainAkaF.ParamByName('IdFilmu').AsInteger := id;
       DMM.qMainAkaF.Open;
+
+      PokazZdjecieAktora;
     end
     else
     begin

@@ -94,10 +94,8 @@ begin
 end;
 
 function ByteToAutoSize(AByte: int64; AMscPoPrzec: byte): string;
-var
-  format: string;
 begin
-  format := FormatMiejscPoPrzec(AMscPoPrzec);
+  //format := FormatMiejscPoPrzec(AMscPoPrzec);
   if (AByte >= GIGABYTE) then
     Result := ByteToGigaByteStr(AByte, AMscPoPrzec) + ' GB'
   else if (AByte >= MEGABYTE) then

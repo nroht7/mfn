@@ -75,30 +75,6 @@ object DMM: TDMM
     Left = 240
     Top = 176
   end
-  object qMainLinki: TZReadOnlyQuery
-    Connection = DMG.ZConn
-    SQL.Strings = (
-      'SELECT IdLnk, TrescLnk, OpisLnk FROM LinkiWWW'
-      'WHERE IdFilmu = :IDFILMU'
-    )
-    Params = <    
-      item
-        DataType = ftInteger
-        Name = 'IDFILMU'
-        ParamType = ptInput
-        SQLType = stInteger
-      end>
-    Options = [doCalcDefaults, doPreferPrepared]
-    Left = 312
-    Top = 176
-    ParamData = <    
-      item
-        DataType = ftInteger
-        Name = 'IDFILMU'
-        ParamType = ptInput
-        SQLType = stInteger
-      end>
-  end
   object qMainAkaF2: TZReadOnlyQuery
     SortedFields = 'NazwaAKAF'
     Connection = DMG.ZConn
@@ -138,11 +114,6 @@ object DMM: TDMM
   object dsMainGat: TDataSource
     DataSet = qMainGat
     Left = 96
-    Top = 232
-  end
-  object dsMainAkt: TDataSource
-    DataSet = qMainAkt
-    Left = 168
     Top = 232
   end
   object dsMainSerie: TDataSource
@@ -1031,6 +1002,29 @@ object DMM: TDMM
       item
         DataType = ftInteger
         Name = 'IDRIP'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object qMainLinki: TZQuery
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdLnk, TrescLnk, OpisLnk FROM LinkiWWW'
+      'WHERE IdFilmu = :IDFILMU'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFILMU'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    Left = 312
+    Top = 176
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFILMU'
         ParamType = ptInput
         SQLType = stInteger
       end>
