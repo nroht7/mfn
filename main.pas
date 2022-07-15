@@ -63,6 +63,9 @@ type
     acInnyTytDodaj: TAction;
     acInnyTytUsun: TAction;
     acInnyTytDodWiele: TAction;
+    acGatDodaj: TAction;
+    acGatUsun: TAction;
+    acGatEdycja: TAction;
     acWidokOdswiez: TAction;
     ActionList2: TActionList;
     ActionList3: TActionList;
@@ -301,6 +304,8 @@ type
     ToolButton34: TToolButton;
     ToolButton35: TToolButton;
     ToolButton36: TToolButton;
+    ToolButton37: TToolButton;
+    ToolButton38: TToolButton;
     ToolButton39: TToolButton;
     ToolButton4: TToolButton;
     ToolButton40: TToolButton;
@@ -308,6 +313,7 @@ type
     ToolButton42: TToolButton;
     ToolButton43: TToolButton;
     ToolButton44: TToolButton;
+    ToolButton45: TToolButton;
     ToolButton5: TToolButton;
     ToolButton7: TToolButton;
     ToolButton9: TToolButton;
@@ -362,6 +368,7 @@ type
     ToolButton1: TToolButton;
     procedure acAktDodajExecute(Sender: TObject);
     procedure acAktDodajTxtExecute(Sender: TObject);
+    procedure acAktEdycjaExecute(Sender: TObject);
     procedure acAktUsunExecute(Sender: TObject);
     procedure acDaneAktorzyExecute(Sender: TObject);
     procedure acDaneGatunkiExecute(Sender: TObject);
@@ -380,6 +387,8 @@ type
     procedure acFolderSkanujExecute(Sender: TObject);
     procedure acFolderWeryfikujExecute(Sender: TObject);
     procedure acFolderyExecute(Sender: TObject);
+    procedure acGatDodajExecute(Sender: TObject);
+    procedure acGatEdycjaExecute(Sender: TObject);
     procedure acInnyTytDodajExecute(Sender: TObject);
     procedure acInnyTytDodWieleExecute(Sender: TObject);
     procedure acInnyTytUsunExecute(Sender: TObject);
@@ -712,6 +721,7 @@ begin
     if not DMM.qMain.Locate('IdPl', idWybPl, []) then
       MessageDlg('Problem', 'Nie udało się odnaleźć wybranego rekordu po podświeżeniu', mtError, [mbOK], 0);
   end;
+  DMM.OdswiezSlowniki;
 end;
 
 procedure TFrmMain.aDaneJezykiExecute(Sender: TObject);
@@ -725,6 +735,10 @@ begin
     frm.Tabela := 'Jezyki';
     //frm.Generator := 'SEQ_JEZYKI';
     frm.ShowModal;
+    if (frm.SaZmiany) then
+    begin
+      acWidokOdswiez.Execute;
+    end;
   finally
     FreeAndNil(frm);
   end;
@@ -801,6 +815,7 @@ begin
   DMM.qMainAkt.Close;
   DMM.qMainLinki.Close;
   DMM.qMainAkaF.Close;
+  DMM.qMainGat.Close;
 
   tmrMain.Enabled := False;
   tmrMain.Enabled := True;
@@ -1284,6 +1299,22 @@ begin
   end;
 end;
 
+procedure TFrmMain.acAktEdycjaExecute(Sender: TObject);
+var
+  frm: TFrmAktorzy;
+begin
+  if ((DMM.qMainAkt.Active) and (not DMM.qMainAkt.IsEmpty)) then
+  begin
+    frm := TFrmAktorzy.Create(self);
+    try
+      //frm.WybraneIdAktora:= DMM.qMainAkt.FieldByName('IdAkt').AsInteger;
+      frm.ShowModal;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
+end;
+
 procedure TFrmMain.acAktUsunExecute(Sender: TObject);
 var
   nazwa: string;
@@ -1386,6 +1417,64 @@ begin
   frm := TFrmKatalogi.Create(self);
   try
     frm.ShowModal;
+  finally
+    FreeAndNil(frm);
+  end;
+end;
+
+procedure TFrmMain.acGatDodajExecute(Sender: TObject);
+var
+  frm: TFrmSlPoz;
+  lstPoz: TStringList;
+  idGat: longint;
+  idFilmu: longint;
+  s: string;
+begin
+  if (DMM.qMainFilm.Active) and (not DMM.qMainFilm.IsEmpty) and (DMM.qMainGat.Active) then
+  begin
+    idFilmu := DMM.qMainFilm.FieldByName('IdFilmu').AsInteger;
+    DMG.OdswiezQueryZParam(DMM.qGatExcp, 'IdFilmu', idFilmu);
+    frm := TFrmSlPoz.Create(self);
+    try
+      frm.TytulOkna := 'Dodaj gatunki';
+      frm.UstawDataSet(DMM.qGatExcp, 'IdGat', 'NazwaGat');
+      if (frm.ShowModal = mrOk) then
+      begin
+        lstPoz := TStringList.Create;
+        try
+          if (frm.ListaIdZaznaczoncychPozycji(lstPoz) > 0) then
+          begin
+            for s in lstPoz do
+            begin
+              idGat := StrToInt(s);
+              DMM.DodajGatunek(idGat, idFilmu);
+            end;
+            DMG.OdswiezDataSet(DMM.qMainGat);
+          end;
+        finally
+          lstPoz.Clear;
+          FreeAndNil(lstPoz);
+        end;
+      end;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
+end;
+
+procedure TFrmMain.acGatEdycjaExecute(Sender: TObject);
+var
+  frm: TFrmPozSlownika;
+begin
+  frm := TFrmPozSlownika.Create(self);
+  try
+    frm.TytulOkna := 'Edycja opisu gatunku';
+    frm.Ikona := 7;
+    frm.OpisWidoczny := True;
+    frm.EdycjaNazwy:= False;
+    if frm.ShowModal = mrOk then
+    begin
+    end;
   finally
     FreeAndNil(frm);
   end;
@@ -2255,6 +2344,9 @@ begin
       DMM.qMainAkaF.Close;
       DMM.qMainAkaF.ParamByName('IdFilmu').AsInteger := id;
       DMM.qMainAkaF.Open;
+      DMM.qMainGat.Close;
+      DMM.qMainGat.ParamByName('IdFilmu').AsInteger := id;
+      DMM.qMainGat.Open;
 
       PokazZdjecieAktora;
     end

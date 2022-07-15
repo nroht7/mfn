@@ -17,6 +17,7 @@ procedure SekToGodz(ASek: integer; var g, m, s: byte);
 function SekToMinStr(ASek: integer): string;
 function SekToGodzStr(ASek: integer): string;
 
+
 implementation
 
 function GetConfigDir(): string;

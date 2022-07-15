@@ -35,10 +35,29 @@ object DMM: TDMM
   end
   object qMainGat: TZReadOnlyQuery
     Connection = DMG.ZConn
-    Params = <>
+    SQL.Strings = (
+      'SELECT G.IdGat, G.NazwaGat, G.OpisGat'
+      'FROM Gatunki G'
+      'JOIN FilmyGatunki FG ON FG.IdGat = G.IdGat'
+      'WHERE FG.IdFilmu = :IDFILMU'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFILMU'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
     Options = [doCalcDefaults, doPreferPrepared]
     Left = 96
     Top = 176
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFILMU'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
   end
   object qMainAkt: TZReadOnlyQuery
     SortedFields = 'NazwaAkt'
@@ -1009,7 +1028,8 @@ object DMM: TDMM
   object qMainLinki: TZQuery
     Connection = DMG.ZConn
     SQL.Strings = (
-      'SELECT IdLnk, TrescLnk, OpisLnk FROM LinkiWWW'
+      'SELECT IdLnk, IdFilmu, TrescLnk, OpisLnk '
+      'FROM LinkiWWW'
       'WHERE IdFilmu = :IDFILMU'
     )
     Params = <    
@@ -1025,6 +1045,36 @@ object DMM: TDMM
       item
         DataType = ftInteger
         Name = 'IDFILMU'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object qGatExcp: TZReadOnlyQuery
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT G.IdGat, G.NazwaGat, G.OpisGat'
+      'FROM Gatunki G'
+      'JOIN ('
+      'SELECT GE.IdGat FROM Gatunki GE'
+      'EXCEPT'
+      'SELECT FE.IdGat FROM FilmyGatunki FE'
+      'WHERE FE.IdFilmu = :IdFilmu'
+      ') E ON E.IdGat = G.IdGat'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IdFilmu'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 104
+    Top = 616
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IdFilmu'
         ParamType = ptInput
         SQLType = stInteger
       end>

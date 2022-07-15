@@ -40,6 +40,7 @@ type
     tbRozszPl: TZTable;
     qLataDekFld: TZReadOnlyQuery;
     qLataDek: TZReadOnlyQuery;
+    qCmd: TZQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -66,6 +67,7 @@ type
     procedure GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
     procedure DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
     function GetOperatorLikeOrEqual(aLike: boolean): string;
+
   end;
 
 var
@@ -114,6 +116,7 @@ begin
   fLnkOpen := TLinkOpen.Create;
 
   fLstDSDoZamkniecia.Add(tbRozszPl);
+  fLstDSDoZamkniecia.Add(qCmd);
 end;
 
 procedure TDMG.OtworzPolaczenieZBazaDanych(ListaUstawien: TStringList; Force: boolean = False);

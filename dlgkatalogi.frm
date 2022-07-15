@@ -24,21 +24,32 @@ object FrmKatalogi: TFrmKatalogi
       Action = acKatDodaj
     end
     object ToolButton2: TToolButton
-      Left = 24
+      Left = 47
       Top = 2
       Action = acKatUsun
     end
     object ToolButton3: TToolButton
-      Left = 55
+      Left = 101
       Top = 2
       Action = acZamknij
     end
     object ToolButton4: TToolButton
-      Left = 47
+      Left = 93
       Height = 22
       Top = 2
       Caption = 'ToolButton4'
       Style = tbsSeparator
+    end
+    object ToolButton5: TToolButton
+      Left = 24
+      Top = 2
+      Action = acKatZmien
+    end
+    object ToolButton6: TToolButton
+      Left = 70
+      Top = 2
+      Caption = 'ToolButton6'
+      OnClick = ToolButton6Click
     end
   end
   object Panel1: TPanel
@@ -111,6 +122,7 @@ object FrmKatalogi: TFrmKatalogi
         Width = 500
       end>
     HideSelection = False
+    PopupMenu = PopupMenu1
     ReadOnly = True
     RowSelect = True
     SmallImages = DMG.ilCommon
@@ -128,6 +140,12 @@ object FrmKatalogi: TFrmKatalogi
       ImageIndex = 20
       OnExecute = acKatDodajExecute
       ShortCut = 16462
+    end
+    object acKatZmien: TAction
+      Caption = 'Zmień'
+      ImageIndex = 52
+      OnExecute = acKatZmienExecute
+      ShortCut = 16453
     end
     object acKatUsun: TAction
       Caption = 'Usuń'
@@ -156,6 +174,9 @@ object FrmKatalogi: TFrmKatalogi
     object MenuItem1: TMenuItem
       Action = acKatDodaj
       Caption = 'Dodaj...'
+    end
+    object MenuItem3: TMenuItem
+      Action = acKatZmien
     end
     object MenuItem2: TMenuItem
       Action = acKatUsun

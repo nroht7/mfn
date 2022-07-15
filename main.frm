@@ -1216,7 +1216,7 @@ object FrmMain: TFrmMain
                   Height = 23
                   Top = 71
                   Width = 208
-                  DataField = 'IdSerii'
+                  DataField = 'IdKraju'
                   DataSource = DMM.dsMainFilm
                   KeyField = 'IdKraju'
                   ListField = 'NazwaKraju'
@@ -2000,7 +2000,7 @@ object FrmMain: TFrmMain
                   Top = 152
                   Width = 860
                   Align = alBottom
-                  DataField = 'TrescLnk'
+                  DataField = 'OpisLnk'
                   DataSource = DMM.dsMainLinki
                   ReadOnly = True
                   TabOrder = 1
@@ -2118,7 +2118,29 @@ object FrmMain: TFrmMain
                   Top = 0
                   Width = 860
                   Caption = 'ToolBar9'
+                  Images = DMG.ilCommon
+                  List = True
+                  ParentShowHint = False
+                  ShowCaptions = True
+                  ShowHint = True
                   TabOrder = 0
+                  object ToolButton37: TToolButton
+                    Left = 1
+                    Top = 2
+                    Action = acGatDodaj
+                  end
+                  object ToolButton38: TToolButton
+                    Left = 81
+                    Top = 2
+                    Action = acGatUsun
+                    ShowCaption = False
+                  end
+                  object ToolButton45: TToolButton
+                    Left = 58
+                    Top = 2
+                    Action = acGatEdycja
+                    ShowCaption = False
+                  end
                 end
                 object RxDBGrid4: TRxDBGrid
                   Left = 0
@@ -2128,6 +2150,21 @@ object FrmMain: TFrmMain
                   ColumnDefValues.BlobText = '(blob)'
                   TitleButtons = False
                   AutoSort = True
+                  Columns = <                  
+                    item
+                      Title.Alignment = taCenter
+                      Title.Orientation = toHorizontal
+                      Title.Caption = 'Nazwa'
+                      FieldName = 'NazwaGat'
+                      EditButtons = <>
+                      Filter.DropDownRows = 0
+                      Filter.EmptyValue = '(Pusty)'
+                      Filter.NotEmptyValue = '(Nie pusty)'
+                      Filter.AllValue = '(Wszystkie wartości)'
+                      Filter.EmptyFont.Style = [fsItalic]
+                      Filter.ItemIndex = -1
+                      Footers = <>
+                    end>
                   KeyStrokes = <                  
                     item
                       Command = rxgcShowFindDlg
@@ -2193,7 +2230,9 @@ object FrmMain: TFrmMain
                   DrawFullLine = False
                   FocusColor = clRed
                   SelectedColor = clHighlight
+                  DataSource = DMM.dsMainGat
                   Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+                  ReadOnly = True
                   TabOrder = 1
                 end
               end
@@ -3436,7 +3475,7 @@ object FrmMain: TFrmMain
             Height = 458
             Top = 18
             Width = 253
-            PageIndex = 0
+            PageIndex = 1
             Align = alClient
             TabOrder = 1
             object ListView: TPage
@@ -3502,9 +3541,10 @@ object FrmMain: TFrmMain
                 Width = 253
                 Align = alClient
                 Images = ilFiltry
+                MultiSelect = True
                 RowSelect = True
                 TabOrder = 0
-                Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+                Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
               end
             end
             object Aktorzy: TPage
@@ -3631,7 +3671,7 @@ object FrmMain: TFrmMain
                   Left = 8
                   Height = 19
                   Top = 4
-                  Width = 69
+                  Width = 67
                   Caption = 'Wszystko'
                   Checked = True
                   State = cbChecked
@@ -5570,6 +5610,7 @@ object FrmMain: TFrmMain
       Category = 'Aktorzy'
       Caption = 'Podgląd'
       ImageIndex = 43
+      OnExecute = acAktEdycjaExecute
     end
     object acInnyTytDodaj: TAction
       Category = 'InneTytuly'
@@ -5591,6 +5632,26 @@ object FrmMain: TFrmMain
       Hint = 'Dodaj wiele innych tytułów'
       ImageIndex = 46
       OnExecute = acInnyTytDodWieleExecute
+    end
+    object acGatDodaj: TAction
+      Category = 'Gatunki'
+      Caption = 'Dodaj'
+      Hint = 'Dodaj gatunki do filmu'
+      ImageIndex = 1
+      OnExecute = acGatDodajExecute
+    end
+    object acGatEdycja: TAction
+      Category = 'Gatunki'
+      Caption = 'Edycja'
+      Hint = 'Edycja opisu przypisanego gatunku'
+      ImageIndex = 3
+      OnExecute = acGatEdycjaExecute
+    end
+    object acGatUsun: TAction
+      Category = 'Gatunki'
+      Caption = 'Usuń'
+      Hint = 'Usuń gatunek z filmu'
+      ImageIndex = 2
     end
   end
   object ilOceny: TImageList

@@ -68,6 +68,7 @@ type
     edFiltruj: TEdit;
     edNazwisko: TEdit;
     GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     ImgLstAkt: TImageList;
     ImgOcena: TImage;
@@ -76,6 +77,14 @@ type
     ImgBrakZdjAkt: TImage;
     ImgZdjAkt: TImage;
     Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    lbJestOpis: TLabel;
+    lbIloscLinkow: TLabel;
+    lbIloscFilmow: TLabel;
+    lbIloscNazwisk: TLabel;
     lbZaznPoz: TLabel;
     lbSort: TLabel;
     lbOcena: TLabel;
@@ -231,6 +240,7 @@ type
     function WybierzNastepnaPozycje: boolean;
     procedure UstawieniaPoczatkowe;
     procedure PokazWybranePozycje;
+    procedure OdswiezOpis;
   public
     property TrybOtwarcia: TTrybOtwarciaOkna read fTrybOtwarcia write fTrybOtwarcia;
     property WybraneIdAktora: longint read fIdWybAkt;
@@ -639,6 +649,27 @@ begin
   end
   else
     MessageDlg('Nie wybrano żadnych pozycji.', mtInformation, [mbOK], 0);
+end;
+
+procedure TFrmAktorzy.OdswiezOpis;
+var
+  jestOpis: boolean;
+begin
+  if ((DMA.qAkt.Active) and (not DMA.qAkt.IsEmpty)) then
+  begin
+    lbIloscNazwisk.Caption := IntToStr(DMA.qAkaA.RecordCount);
+    lbIloscFilmow.Caption := IntToStr(DMA.qrAktFilmy.RecordCount);
+    lbIloscLinkow.Caption := IntToStr(DMA.qAktUrl.RecordCount);
+    jestOpis := ((not DMA.qAkt.FieldByName('OpisAkt').IsNull) and (DMA.qAkt.FieldByName('OpisAkt').AsString <> ''));
+    lbJestOpis.Caption := BoolToStr(jestOpis, 'Tak', 'Nie');
+  end
+  else
+  begin
+    lbIloscNazwisk.Caption := '';
+    lbIloscFilmow.Caption := '';
+    lbIloscLinkow.Caption := '';
+    lbJestOpis.Caption := '';
+  end;
 end;
 
 function TFrmAktorzy.WybranePozycje(var ListaPozycji: TStringList): integer;
@@ -1079,10 +1110,10 @@ begin
       frm.TytulOkna := 'Nowy link';
       frm.TytulNazwy := 'Adres:';
       frm.Ikona := 4;
-      frm.OpisWidoczny := False;
+      //frm.OpisWidoczny := False;
       if (frm.ShowModal = mrOk) then
       begin
-        if DMA.DodajLinkDoAktora(idAkt, frm.Nazwa) then
+        if DMA.DodajLinkDoAktora(idAkt, frm.Nazwa, frm.Opis) then
         begin
           DMG.OdswiezDataSet(DMA.qAktUrl, 'UrlAlu', frm.Nazwa);
         end
@@ -1312,6 +1343,7 @@ begin
     DMA.PokazUrlAktora(fIdWybAkt);
     DMA.PokazFilmyAktora(fIdWybAkt);
   end;
+  OdswiezOpis;
 end;
 
 procedure TFrmAktorzy.edFiltrujKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);

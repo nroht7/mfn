@@ -214,7 +214,7 @@ object FrmAktorzy: TFrmAktorzy
     object GroupBox1: TGroupBox
       Left = 8
       Height = 80
-      Top = 64
+      Top = 56
       Width = 328
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Ocena'
@@ -366,8 +366,8 @@ object FrmAktorzy: TFrmAktorzy
     end
     object PageControl1: TPageControl
       Left = 1
-      Height = 247
-      Top = 280
+      Height = 287
+      Top = 240
       Width = 554
       ActivePage = TabSheet1
       Align = alBottom
@@ -377,7 +377,7 @@ object FrmAktorzy: TFrmAktorzy
       TabOrder = 3
       object TabSheet1: TTabSheet
         Caption = 'Inne nazwiska'
-        ClientHeight = 219
+        ClientHeight = 259
         ClientWidth = 546
         ImageIndex = 0
         object ToolBar2: TToolBar
@@ -441,7 +441,7 @@ object FrmAktorzy: TFrmAktorzy
         end
         object DBGrid2: TDBGrid
           Left = 0
-          Height = 193
+          Height = 233
           Top = 26
           Width = 546
           Align = alClient
@@ -458,7 +458,7 @@ object FrmAktorzy: TFrmAktorzy
       end
       object TabSheet2: TTabSheet
         Caption = 'Filmy'
-        ClientHeight = 219
+        ClientHeight = 259
         ClientWidth = 546
         ImageIndex = 1
         object ToolBar3: TToolBar
@@ -490,7 +490,7 @@ object FrmAktorzy: TFrmAktorzy
           end
           object ToolButton14: TToolButton
             Left = 96
-            Height = 22
+            Height = 8
             Top = 2
             Caption = 'ToolButton14'
             Style = tbsSeparator
@@ -503,7 +503,7 @@ object FrmAktorzy: TFrmAktorzy
         end
         object DBGrid3: TDBGrid
           Left = 0
-          Height = 193
+          Height = 233
           Top = 26
           Width = 546
           Align = alClient
@@ -531,18 +531,22 @@ object FrmAktorzy: TFrmAktorzy
             end          
             item
               Title.Caption = 'Kraj'
+              Width = 100
               FieldName = 'Kraj'
             end          
             item
               Title.Caption = 'Język'
+              Width = 100
               FieldName = 'Jezyk'
             end          
             item
               Title.Caption = 'Napisy'
+              Width = 100
               FieldName = 'Napisy'
             end          
             item
               Title.Caption = 'Dubbing'
+              Width = 100
               FieldName = 'Dubbing'
             end>
           DataSource = DMA.dsAktFilmy
@@ -552,13 +556,13 @@ object FrmAktorzy: TFrmAktorzy
       end
       object TabSheet3: TTabSheet
         Caption = 'Linki'
-        ClientHeight = 219
+        ClientHeight = 259
         ClientWidth = 546
         ImageIndex = 3
         object DBMemo2: TDBMemo
           Left = 0
           Height = 62
-          Top = 157
+          Top = 197
           Width = 546
           Align = alBottom
           DataField = 'OpisAlu'
@@ -570,14 +574,14 @@ object FrmAktorzy: TFrmAktorzy
           Cursor = crVSplit
           Left = 0
           Height = 5
-          Top = 152
+          Top = 192
           Width = 546
           Align = alBottom
           ResizeAnchor = akBottom
         end
         object DBGrid4: TDBGrid
           Left = 0
-          Height = 126
+          Height = 166
           Top = 26
           Width = 546
           Align = alClient
@@ -654,12 +658,12 @@ object FrmAktorzy: TFrmAktorzy
       end
       object Opis: TTabSheet
         Caption = 'Opis'
-        ClientHeight = 219
+        ClientHeight = 259
         ClientWidth = 546
         ImageIndex = 2
         object DBMemo1: TDBMemo
           Left = 0
-          Height = 219
+          Height = 259
           Top = 0
           Width = 546
           Align = alClient
@@ -981,10 +985,76 @@ object FrmAktorzy: TFrmAktorzy
       ReadOnly = True
       TabOrder = 0
     end
+    object GroupBox2: TGroupBox
+      Left = 8
+      Height = 81
+      Top = 144
+      Width = 328
+      Caption = 'Podsumowanie'
+      ClientHeight = 61
+      ClientWidth = 324
+      TabOrder = 4
+      object Label2: TLabel
+        Left = 16
+        Height = 15
+        Top = 8
+        Width = 76
+        Caption = 'Inne nazwiska:'
+      end
+      object Label3: TLabel
+        Left = 55
+        Height = 15
+        Top = 32
+        Width = 32
+        Caption = 'Filmy:'
+      end
+      object Label4: TLabel
+        Left = 168
+        Height = 15
+        Top = 8
+        Width = 28
+        Caption = 'Linki:'
+      end
+      object Label5: TLabel
+        Left = 169
+        Height = 15
+        Top = 32
+        Width = 27
+        Caption = 'Opis:'
+      end
+      object lbIloscNazwisk: TLabel
+        Left = 96
+        Height = 15
+        Top = 8
+        Width = 6
+        Caption = '0'
+      end
+      object lbIloscFilmow: TLabel
+        Left = 96
+        Height = 15
+        Top = 32
+        Width = 6
+        Caption = '0'
+      end
+      object lbIloscLinkow: TLabel
+        Left = 200
+        Height = 15
+        Top = 8
+        Width = 6
+        Caption = '0'
+      end
+      object lbJestOpis: TLabel
+        Left = 200
+        Height = 15
+        Top = 32
+        Width = 18
+        Caption = 'Nie'
+      end
+    end
   end
   object ActionList1: TActionList
     Images = DMG.ilCommon
-    Left = 384
+    Left = 32
     Top = 256
     object acAktDodaj: TAction
       Category = 'ListaAktorow'
@@ -1262,7 +1332,7 @@ object FrmAktorzy: TFrmAktorzy
   end
   object pmSort: TPopupMenu
     Images = DMG.ilCommon
-    Left = 448
+    Left = 64
     Top = 256
     object MenuItem1: TMenuItem
       Action = acSortNazwa
@@ -1274,8 +1344,8 @@ object FrmAktorzy: TFrmAktorzy
     end
   end
   object ImageList1: TImageList
-    Left = 503
-    Top = 256
+    Left = 96
+    Top = 184
     Bitmap = {
       4C7A0600000010000000100000009F0900000000000078DACD585950945716A6
       52A5539387BCCDAB99E8D454A56A16536ACC989921A382267143A09B66EB6657
@@ -1360,34 +1430,34 @@ object FrmAktorzy: TFrmAktorzy
   object dsAkt: TDataSource
     DataSet = DMA.qAkt
     OnDataChange = dsAktDataChange
-    Left = 560
-    Top = 184
+    Left = 152
+    Top = 136
   end
   object OpenDlg: TOpenDialog
     Title = 'Otwórz plik ze zdjęciem'
     DefaultExt = '.jpg'
-    Filter = 'Obrazy jpeg|*.jpg,*.jpeg|Wsztstkie pliki|*.*'
-    Left = 568
-    Top = 256
+    Filter = 'Obrazy jpeg|*.jpg;*.jpeg|Wsztstkie pliki|*.*'
+    Left = 152
+    Top = 184
   end
   object Tmr: TTimer
     Interval = 300
     OnTimer = TmrTimer
-    Left = 384
-    Top = 208
+    Left = 32
+    Top = 136
   end
   object tmrF: TTimer
     Enabled = False
     Interval = 200
     OnTimer = tmrFTimer
-    Left = 432
-    Top = 208
+    Left = 64
+    Top = 136
   end
   object ImgLstStars: TImageList
     Height = 32
     Width = 192
-    Left = 641
-    Top = 263
+    Left = 184
+    Top = 136
     Bitmap = {
       4C7A07000000C000000020000000DA1100000000000078DAED9D097055D519C7
       0F825A75B03AA065DA32B5CED8298E081111ECD42594E9226251195040A3820B
@@ -1553,8 +1623,8 @@ object FrmAktorzy: TFrmAktorzy
     end
   end
   object ImgLstAkt: TImageList
-    Left = 501
-    Top = 208
+    Left = 96
+    Top = 136
     Bitmap = {
       4C7A0200000010000000100000005F0400000000000078DAA5947B4C935718C6
       D93FDB4C3632F50FE7D0CD8C646671C62D2486645902D9C0B13919622633616C
@@ -1595,7 +1665,7 @@ object FrmAktorzy: TFrmAktorzy
     }
   end
   object pmWysz: TPopupMenu
-    Left = 704
+    Left = 192
     Top = 256
     object MenuItem6: TMenuItem
       Action = acFiltrInneNazw
@@ -1612,7 +1682,7 @@ object FrmAktorzy: TFrmAktorzy
   end
   object pmOceny: TPopupMenu
     Images = ImageList1
-    Left = 760
+    Left = 232
     Top = 256
     object MenuItem9: TMenuItem
       Caption = 'Brak'

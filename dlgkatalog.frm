@@ -9,14 +9,13 @@ object FrmKatalog: TFrmKatalog
   ClientWidth = 320
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.2'
+  LCLVersion = '7.7'
   object Label1: TLabel
     Left = 8
     Height = 15
     Top = 8
     Width = 43
     Caption = 'Katalog:'
-    ParentColor = False
   end
   object Label2: TLabel
     Left = 8
@@ -24,13 +23,13 @@ object FrmKatalog: TFrmKatalog
     Top = 56
     Width = 27
     Caption = 'Opis:'
-    ParentColor = False
   end
   object meOpis: TMemo
     Left = 8
     Height = 114
     Top = 72
     Width = 304
+    OnChange = meOpisChange
     TabOrder = 1
   end
   object ButtonPanel1: TButtonPanel

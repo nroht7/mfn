@@ -5,7 +5,7 @@ unit dmakt;
 interface
 
 uses
-  Classes, SysUtils, DB, ZDataset, Dialogs, Contnrs;
+  Classes, SysUtils, DB, ZDataset, ZAbstractRODataset, Dialogs, Contnrs;
 
 type
 
@@ -17,6 +17,25 @@ type
     dsAktFilmy: TDataSource;
     qAkt: TZQuery;
     qrAktFilmy: TZReadOnlyQuery;
+    qrAktFilmyDlugoscFilmu: TZSmallIntField;
+    qrAktFilmyDubbing: TStringField;
+    qrAktFilmyDubingFilmu: TZInt64Field;
+    qrAktFilmyIdFilmu: TZInt64Field;
+    qrAktFilmyIdJzk: TZInt64Field;
+    qrAktFilmyIdKraju: TZInt64Field;
+    qrAktFilmyIdSerii: TZInt64Field;
+    qrAktFilmyJezyk: TStringField;
+    qrAktFilmyKomentarzFilmu: TZRawCLobField;
+    qrAktFilmyKraj: TStringField;
+    qrAktFilmyNapisy: TStringField;
+    qrAktFilmyNapisyFilmu: TZInt64Field;
+    qrAktFilmyNazwaOceny: TZRawStringField;
+    qrAktFilmyOcenaFilmu: TZSmallIntField;
+    qrAktFilmyOkladkaFilmu: TZBlobField;
+    qrAktFilmyOkladkaScFilmu: TZRawStringField;
+    qrAktFilmyOpisFilmu: TZRawCLobField;
+    qrAktFilmyRokFilmu: TZInt64Field;
+    qrAktFilmyTytulFilmu: TZRawStringField;
     tbAkt: TZTable;
     qAkaA: TZQuery;
     qCmd: TZQuery;
@@ -35,7 +54,7 @@ type
     procedure UsunInneNazwisko(IdAKAA: longint);
     procedure PokazUrlAktora(IdAkt: longint);
     function JestLinkDoAktora(IdAkt: longint; Link: string): boolean;
-    function DodajLinkDoAktora(IdAkt: longint; Link: string): boolean;
+    function DodajLinkDoAktora(IdAkt: longint; Link,Opis: string): boolean;
     procedure UsunLinkAktora(IdAlu: longint);
     function ZnajdzWystNazwiska(Nazwa: string; var listaNazwisk: TObjectList): boolean;
     function DodajAktora(Nazwa: string): longint;
@@ -160,13 +179,18 @@ begin
   end;
 end;
 
-function TDMA.DodajLinkDoAktora(IdAkt: longint; Link: string): boolean;
+function TDMA.DodajLinkDoAktora(IdAkt: longint; Link,Opis: string): boolean;
 begin
   Result := False;
   if not JestLinkDoAktora(IdAkt, Link) then
   begin
     qCmd.Close;
-    qCmd.SQL.Text := Format('INSERT INTO AktLinkiUrl(IdAkt,UrlAlu) VALUES(%d, ''%s'') ', [IdAkt, Link]);
+
+    if (Opis = '') then
+      qCmd.SQL.Text := Format('INSERT INTO AktLinkiUrl(IdAkt,UrlAlu) VALUES(%d, ''%s'') ', [IdAkt, Link])
+    else
+      qCmd.SQL.Text := Format('INSERT INTO AktLinkiUrl(IdAkt,UrlAlu,OpisAlu) VALUES(%d, ''%s'', ''%s'') ', [IdAkt, Link, Opis]);
+
     qCmd.ExecSQL;
 
     Result := True;

@@ -14,7 +14,8 @@ uses
   dmmain, dlgkatalogi, dlgkatalog, ukatalog, ukatmgr, dlgskan, dlgRozszPl,
   dlgedycjarozsz, ulstplrec, usqlqryb, dlgflmdod, dlgfilmlista, dlginfotxt,
   dlgrok, dlgczasfilm, dlgimgview, ulnkopen, dlgaktor, dlglstpoztxt, dlgpzlntxt,
-  upozsl, umgrpoz, ubyteconv, dlgslpoz, dlgakttxt, dlgpozseptxt, unazakt;
+  upozsl, umgrpoz, ubyteconv, dlgslpoz, dlgakttxt, dlgpozseptxt, unazakt, 
+dlgwating;
 
 {$R *.res}
 

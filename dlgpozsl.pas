@@ -24,12 +24,14 @@ type
     procedure FormShow(Sender: TObject);
   private
     fImgIdx : integer;
+    function GetEdycjaNazwy: boolean;
     function GetIkona: integer;
     function GetNazwa: string;
     function GetOpis: string;
     function GetOpisWidoczny: boolean;
     function GetTytulNazwy: string;
     function GetTytulOkna: string;
+    procedure SetEdycjaNazwy(AValue: boolean);
     procedure SetIkona(AValue: integer);
     procedure SetNazwa(AValue: string);
     procedure SetOpis(AValue: string);
@@ -45,6 +47,7 @@ type
     property OpisWidoczny: boolean read GetOpisWidoczny write SetOpisWidoczny;
     property Ikona : integer read GetIkona write SetIkona;
     property TytulNazwy : string read GetTytulNazwy write SetTytulNazwy;
+    property EdycjaNazwy : boolean read GetEdycjaNazwy  write SetEdycjaNazwy;
   end;
 
 var
@@ -71,6 +74,11 @@ begin
   result:= fImgIdx;
 end;
 
+function TFrmPozSlownika.GetEdycjaNazwy: boolean;
+begin
+  result:= edNazwa.Enabled;
+end;
+
 function TFrmPozSlownika.GetNazwa: string;
 begin
   Result := Trim(edNazwa.Text);
@@ -94,6 +102,11 @@ end;
 function TFrmPozSlownika.GetTytulOkna: string;
 begin
   Result := Caption;
+end;
+
+procedure TFrmPozSlownika.SetEdycjaNazwy(AValue: boolean);
+begin
+  edNazwa.Enabled:= AValue;
 end;
 
 procedure TFrmPozSlownika.SetIkona(AValue: integer);
