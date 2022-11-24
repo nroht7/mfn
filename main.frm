@@ -11,7 +11,7 @@ object FrmMain: TFrmMain
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '7.7'
+  LCLVersion = '7.8'
   object pnlMain: TPanel
     Left = 266
     Height = 801
