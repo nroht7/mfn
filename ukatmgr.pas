@@ -31,7 +31,7 @@ type
     property ListaKatalogow: TObjectList read fLstKat;
     property WybranyKatalogOpis: string read GetWybKatOpis;
     property WybranyKatalog: TKatalog read fWybKat;
-    property Poziom : integer read fPoziom;
+    property Poziom: integer read fPoziom;
 
     function PrzejdzWyzej: boolean;
     function PrzejdzNizej(aKatalog: string): boolean;
@@ -195,10 +195,9 @@ begin
   end;
 end;
 
-function TKatMgr.OdswiezListeKatalogow:integer;
+function TKatMgr.OdswiezListeKatalogow: integer;
 begin
-  result:=UtworzListeKatalogow;
+  Result := UtworzListeKatalogow;
 end;
 
 end.
-

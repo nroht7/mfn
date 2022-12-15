@@ -54,6 +54,7 @@ type
     procedure ZaznaczWszystkiePozycjeWidoczne;
     procedure OdznaczWszystkiePozycjeWidoczne;
     procedure UsunWszystkiePozycje;
+    function SaWybranePozycje: boolean;
 
     property Filtr: string read GetFiltr write SetFiltr;
     property RozrozniajWielokoscLiter: boolean read fWielkLiter write fWielkLiter;
@@ -418,6 +419,25 @@ end;
 procedure TManagerPozycji.UsunWszystkiePozycje;
 begin
   fLstPoz.Clear;
+end;
+
+function TManagerPozycji.SaWybranePozycje: boolean;
+var
+  i: integer;
+  poz: TPozycjaSlownika;
+  iloscWyb: integer;
+begin
+  result:= False;
+
+  for i := 0 to fLstPoz.Count - 1 do
+  begin
+    poz := TPozycjaSlownika(fLstPoz.Items[i]);
+    if poz.Zaznaczona then
+    begin
+      result:= True;
+      break;
+    end;
+  end;
 end;
 
 end.

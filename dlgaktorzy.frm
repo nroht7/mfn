@@ -11,7 +11,7 @@ object FrmAktorzy: TFrmAktorzy
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.7'
+  LCLVersion = '7.8'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -624,14 +624,14 @@ object FrmAktorzy: TFrmAktorzy
           end
           object ToolButton24: TToolButton
             Left = 81
-            Height = 22
+            Height = 8
             Top = 2
             Caption = 'ToolButton24'
             Style = tbsSeparator
           end
           object ToolButton25: TToolButton
             Left = 158
-            Height = 22
+            Height = 8
             Top = 2
             Caption = 'ToolButton25'
             Style = tbsSeparator

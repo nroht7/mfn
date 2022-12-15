@@ -8,20 +8,24 @@ uses
   Classes, SysUtils;
 
 type
-  TWhereOperator = (woAnd, woOr);
+  TLogicalJoinOperator = (woAnd, woOr);
   { TSqlQueryBuilder }
 
   TSqlQueryBuilder = class(TObject)
   private
     fLstField: TStringList;
-    fLstJoin:  TStringList;
+    fLstJoin: TStringList;
     fLstWhere: TStringList;
     fLstOrder: TStringList;
-    fFrom:     string;
-    fOperator : TWhereOperator;
+    fLstGroup: TStringList;
+    fLstHaving: TStringList;
+    fFrom: string;
+    fOperatorWhere: TLogicalJoinOperator;
+    fOperatorHaving: TLogicalJoinOperator;
 
     function ListToString(aLst: TStringList; aSeparator: string): string;
-    function WhereOperatorToString: string;
+    function LogicalJoinOperatorToString(aOperator: TLogicalJoinOperator): string;
+    function GetTableFromJoin(aJoin: string): string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -31,10 +35,13 @@ type
     function AddJoin(aJoin: string): integer;
     function AddWhere(aWhere: string): integer;
     function AddWhereFormat(const Fmt: string; const Args: array of const): integer;
+    function AddGroup(aGroup: string): integer;
+    function AddHaving(aHaving: string): integer;
     function AddOrder(aOrder: string): integer;
     procedure SetOrder(aOrder: string);
 
-    function IsWhere : boolean;
+    function IsWhere: boolean;
+    function IsJoin(aTableName: string): boolean;
 
     procedure ClearAll;
     procedure ClearFields;
@@ -44,8 +51,9 @@ type
 
     function AsString: string;
 
-    property From: string Read fFrom Write fFrom;
-    property WhereOperator : TWhereOperator read fOperator write fOperator;
+    property From: string read fFrom write fFrom;
+    property WhereOperator: TLogicalJoinOperator read fOperatorWhere write fOperatorWhere;
+    property HavingOperator: TLogicalJoinOperator read fOperatorHaving write fOperatorHaving;
   end;
 
 implementation
@@ -54,12 +62,14 @@ implementation
 
 constructor TSqlQueryBuilder.Create;
 begin
-  fOperator:= woAnd;
+  fOperatorWhere := woAnd;
+  fOperatorHaving := woAnd;
 
   fLstField := TStringList.Create;
   fLstField.CaseSensitive := False;
   fLstField.Delimiter := ',';
   fLstField.Duplicates := dupIgnore;
+  fLstField.StrictDelimiter := True;
 
   fLstJoin := TStringList.Create;
   fLstJoin.CaseSensitive := False;
@@ -70,6 +80,17 @@ begin
   fLstWhere.CaseSensitive := False;
   fLstField.Delimiter := ',';
   fLstWhere.Duplicates := dupIgnore;
+
+  fLstGroup := TStringList.Create;
+  fLstGroup.CaseSensitive := False;
+  fLstGroup.Delimiter := ',';
+  fLstGroup.Duplicates := dupIgnore;
+  fLstGroup.StrictDelimiter := True;
+
+  fLstHaving := TStringList.Create;
+  fLstHaving.CaseSensitive := False;
+  fLstHaving.Delimiter := ',';
+  fLstHaving.Duplicates := dupIgnore;
 
   fLstOrder := TStringList.Create;
   fLstOrder.CaseSensitive := False;
@@ -86,6 +107,10 @@ begin
   FreeAndNil(fLstJoin);
   fLstWhere.Clear;
   FreeAndNil(fLstWhere);
+  fLstGroup.Clear;
+  FreeAndNil(fLstGroup);
+  fLstHaving.Clear;
+  FreeAndNil(fLstHaving);
   fLstOrder.Clear;
   FreeAndNil(fLstOrder);
 
@@ -108,6 +133,7 @@ begin
   try
     lst.CaseSensitive := False;
     lst.Delimiter := ',';
+    lst.StrictDelimiter := True;
 
     lst.CommaText := aFields;
     for i := 0 to lst.Count - 1 do
@@ -148,6 +174,22 @@ begin
   Result := AddWhere(Format(Fmt, Args));
 end;
 
+function TSqlQueryBuilder.AddGroup(aGroup: string): integer;
+begin
+  if fLstGroup.IndexOf(aGroup) < 0 then
+    Result := fLstWhere.Add(aGroup)
+  else
+    Result := -1;
+end;
+
+function TSqlQueryBuilder.AddHaving(aHaving: string): integer;
+begin
+  if fLstHaving.IndexOf(aHaving) < 0 then
+    Result := fLstWhere.Add(aHaving)
+  else
+    Result := -1;
+end;
+
 function TSqlQueryBuilder.AddOrder(aOrder: string): integer;
 begin
   if fLstOrder.IndexOf(aOrder) < 0 then
@@ -164,7 +206,31 @@ end;
 
 function TSqlQueryBuilder.IsWhere: boolean;
 begin
-  result:= fLstWhere.Count > 0;
+  Result := fLstWhere.Count > 0;
+end;
+
+/// Sprawdza czy join do tabeli podanej w parametrze istnieje w zapytaniu
+/// Sprawdzana jest jedynie pierwsza nazwa tabeli występująca po słowie JOIN w zapytaniu
+/// Metoda sprawdza się najlepiej przy prostych join-ach (jeśli dodano całe podzapytanie już raczej nie)
+function TSqlQueryBuilder.IsJoin(aTableName: string): boolean;
+var
+  i: integer;
+  s: string;
+begin
+  Result := False;
+  aTableName := Trim(AnsiUpperCase(aTableName));
+  if (aTableName <> '') then
+  begin
+    for i := 0 to fLstJoin.Count - 1 do
+    begin
+      s := Trim(AnsiUpperCase(fLstJoin.Strings[i]));
+      if (GetTableFromJoin(s) = aTableName) then
+      begin
+        Result := True;
+        break;
+      end;
+    end;
+  end;
 end;
 
 procedure TSqlQueryBuilder.ClearAll;
@@ -198,8 +264,10 @@ end;
 function TSqlQueryBuilder.AsString: string;
 var
   select: string;
-  join:  string;
+  join: string;
   where: string;
+  group: string;
+  having: string;
   order: string;
 begin
   if fLstField.Count = 0 then
@@ -207,14 +275,22 @@ begin
   else
     select := ListToString(fLstField, ', ');
 
-  join  := ListToString(fLstJoin, ' ');
-  where := ListToString(fLstWhere, WhereOperatorToString);
+  join := ListToString(fLstJoin, ' ');
+  where := ListToString(fLstWhere, LogicalJoinOperatorToString(fOperatorWhere));
+  group := ListToString(fLstGroup, ', ');
+  having := ListToString(fLstHaving, LogicalJoinOperatorToString(fOperatorHaving));
   order := ListToString(fLstOrder, ', ');
 
   Result := Format('SELECT %s FROM %s %s', [select, fFrom, join]);
 
   if where <> '' then
     Result := Result + ' WHERE ' + where;
+
+  if group <> '' then
+    Result := Result + ' GROUP BY ' + group;
+
+  if having <> '' then
+    Result := Result + ' HAVING ' + having;
 
   if order <> '' then
     Result := Result + ' ORDER BY ' + order;
@@ -238,12 +314,33 @@ begin
   end;
 end;
 
-function TSqlQueryBuilder.WhereOperatorToString: string;
+function TSqlQueryBuilder.LogicalJoinOperatorToString(aOperator: TLogicalJoinOperator): string;
 begin
-  if fOperator = woOr then
-    result:= ' OR '
+  if aOperator = woOr then
+    Result := ' OR '
   else
-    result:= 'AND ';
+    Result := 'AND ';
+end;
+
+function TSqlQueryBuilder.GetTableFromJoin(aJoin: string): string;
+const
+  cJOIN = 'JOIN ';
+var
+  s: string;
+  idx: integer;
+begin
+  Result := '';
+  aJoin := Trim(AnsiUpperCase(aJoin));
+  idx := Pos(cJOIN, aJoin);
+  if (idx > 0) then
+  begin
+    s := Copy(aJoin, idx + Length(cJOIN), Length(aJoin));
+    idx := Pos(' ', s);
+    if (idx > 0) then
+    begin
+      Result := Copy(s, 1, idx - 1);
+    end;
+  end;
 end;
 
 

@@ -76,7 +76,7 @@ var
 implementation
 
 uses
-  ukatalog;
+  ukatalog, usqlqryb;
 
 {$R *.frm}
 
@@ -353,29 +353,45 @@ end;
 
 procedure TDMG.GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
 var
-  qry: TZReadOnlyQuery;
+  qry: TSqlQueryBuilder;
+  s: string;
+
 begin
-  if aIdFld > 0 then
+  if (Assigned(aLstLat)) then
   begin
-    qry := qLataDekFld;
-    qry.ParamByName('IdFld').AsInteger := aIdFld;
-  end
-  else
-  begin
-    qry := qLataDek;
-  end;
+    qry := TSqlQueryBuilder.Create;
+    try
+      qry.AddFields('F.RokFilmu, (F.RokFilmu/10)*10 AS Dekada');
+      qry.From := 'Pliki P';
+      qry.AddJoin('JOIN RejestrPlikow R ON R.IdRip = P.IdRip');
+      qry.AddJoin('JOIN PlikiFilmy PF ON PF.IdRip = R.IdRip');
+      qry.AddJoin('JOIN Filmy F ON F.IdFilmu = PF.IdFilmu');
+      qry.AddGroup('F.RokFilmu');
+      qry.AddOrder('F.RokFilmu');
 
-  aLstLat.Clear;
-  qry.Close;
-  qry.Open;
-  qry.First;
-  while not qry.EOF do
-  begin
-    aLstLat.AddPair(qry.FieldByName('RokFilmu').AsString, qry.FieldByName('Dekada').AsString);
+      if (aIdFld > 0) then
+      begin
+        qry.AddWhereFormat('P.IdFld = %d', [aIdFld]);
+      end;
 
-    qry.Next;
+      qCmd.Close;
+      qCmd.SQL.Text := qry.AsString;
+      qCmd.Open;
+
+      aLstLat.Clear;
+      qCmd.First;
+      while not qCmd.EOF do
+      begin
+        aLstLat.AddPair(qCmd.FieldByName('RokFilmu').AsString, qCmd.FieldByName('Dekada').AsString);
+
+        qCmd.Next;
+      end;
+      qCmd.Close;
+
+    finally
+      FreeAndNil(qry);
+    end;
   end;
-  qry.Close;
 end;
 
 procedure TDMG.DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);

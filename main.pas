@@ -7,9 +7,9 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   ActnList, Menus, ComboEx, Buttons, DBGrids, RxDBGrid, rxcurredit, rxspin,
-  RxTimeEdit, RxMDI, LSControls,
-  IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls, ukatalog, Contnrs, DB, ukatmgr,
-  Grids, DBActns, {ShellAPI,} Clipbrd, LCLIntf, LCLType, StrUtils, umgrpoz, upozsl;
+  RxTimeEdit, RxMDI, LSControls, IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls,
+  ukatalog, Contnrs, DB, ukatmgr, Grids, DBActns, Clipbrd, LCLIntf, LCLType,
+  PairSplitter, StrUtils, umgrpoz, upozsl;
 
 type
   TWybranyFiltr = (twfOcena, twfRok, twfAktor, twfTag, twfGatunek, twfSeria);
@@ -66,6 +66,8 @@ type
     acGatDodaj: TAction;
     acGatUsun: TAction;
     acGatEdycja: TAction;
+    acFiltrOdswiez: TAction;
+    acFiltrWyczysc: TAction;
     acWidokOdswiez: TAction;
     ActionList2: TActionList;
     ActionList3: TActionList;
@@ -76,7 +78,6 @@ type
     btnDodajRekInfo: TBitBtn;
     cbxTypPl: TComboBoxEx;
     chbxFiltrAktorWszystko: TCheckBox;
-    chbxFiltrWszystko: TCheckBox;
     DataSetCancel1: TDataSetCancel;
     DataSetEdit1: TDataSetEdit;
     DataSetPost1: TDataSetPost;
@@ -113,6 +114,7 @@ type
     DBText8: TDBText;
     DBText9: TDBText;
     dsMainAkt: TDataSource;
+    edFiltrListView: TEdit;
     gbxOcena1: TGroupBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -138,6 +140,7 @@ type
     Label28: TLabel;
     Label29: TLabel;
     Label30: TLabel;
+    lbFiltrIlosc: TLabel;
     lbOcenaFOpis: TLabel;
     lbFilmIlosc: TLabel;
     lcbDubbing: TDBLookupComboBox;
@@ -154,7 +157,9 @@ type
     dsMain: TDataSource;
     edWybKat: TEdit;
     Label7: TLabel;
+    lvFiltrDekady: TListView;
     ListView2: TListView;
+    lvFiltrLata: TListView;
     MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
@@ -224,6 +229,9 @@ type
     nbkFiltry: TNotebook;
     OpenDlg: TOpenDialog;
     PageControl1: TPageControl;
+    PairSplitter1: TPairSplitter;
+    PairSplitterSide1: TPairSplitterSide;
+    PairSplitterSide2: TPairSplitterSide;
     Panel10: TPanel;
     pmOcenyF: TPopupMenu;
     pnlFilmOcena: TPanel;
@@ -269,6 +277,7 @@ type
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
     sbnOcenaFilm: TSpeedButton;
+    SpeedButton3: TSpeedButton;
     SpeedButton4: TSpeedButton;
     sbnInfoDodaj: TSpeedButton;
     SpeedButton5: TSpeedButton;
@@ -277,11 +286,13 @@ type
     sbnFiltrAktorOdsw: TSpeedButton;
     SpeedButton8: TSpeedButton;
     btnDodOceneFilmu: TSpeedButton;
+    SpeedButton9: TSpeedButton;
     Splitter3: TSplitter;
     Splitter4: TSplitter;
     Splitter5: TSplitter;
     Splitter6: TSplitter;
     Tagi: TPage;
+    tmrFiltr: TTimer;
     ToolBar3: TToolBar;
     ToolBar4: TToolBar;
     ToolBar6: TToolBar;
@@ -334,7 +345,6 @@ type
     ToolButton22: TToolButton;
     tsOpisOgolny: TTabSheet;
     tsOpisPlik: TTabSheet;
-    tvFiltryLata: TTreeView;
     tsFiltry: TTabSheet;
     tsBaza: TTabSheet;
     ToolBar2: TToolBar;
@@ -381,9 +391,13 @@ type
     procedure acFilmRokExecute(Sender: TObject);
     procedure acFilmUruchomExecute(Sender: TObject);
     procedure acFiltrAktorzyExecute(Sender: TObject);
+    procedure acFiltrGatunkiExecute(Sender: TObject);
     procedure acFiltrLataExecute(Sender: TObject);
     procedure acFiltrOcenyExecute(Sender: TObject);
+    procedure acFiltrOdswiezExecute(Sender: TObject);
     procedure acFiltrSerieExecute(Sender: TObject);
+    procedure acFiltrTagiExecute(Sender: TObject);
+    procedure acFiltrWyczyscExecute(Sender: TObject);
     procedure acFolderSkanujExecute(Sender: TObject);
     procedure acFolderWeryfikujExecute(Sender: TObject);
     procedure acFolderyExecute(Sender: TObject);
@@ -415,14 +429,17 @@ type
     procedure btnDodajRekInfoClick(Sender: TObject);
     procedure btnDodOceneFilmuClick(Sender: TObject);
     procedure cbxTypPlChange(Sender: TObject);
-    procedure chbxFiltrWszystkoChange(Sender: TObject);
     procedure dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
     procedure dsMainAktDataChange(Sender: TObject; Field: TField);
     procedure dsMainDataChange(Sender: TObject; Field: TField);
+    procedure edFiltrListViewChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lvFiltrDekadyItemChecked(Sender: TObject; Item: TListItem);
+    procedure lvFiltrDekadySelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
+    procedure lvFiltrLataItemChecked(Sender: TObject; Item: TListItem);
     procedure lvFiltryItemChecked(Sender: TObject; Item: TListItem);
     procedure lvKatDblClick(Sender: TObject);
     procedure MenuItem23Click(Sender: TObject);
@@ -442,13 +459,13 @@ type
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton7Click(Sender: TObject);
+    procedure tmrFiltrTimer(Sender: TObject);
     procedure tmrMainTimer(Sender: TObject);
   private
     fKatMgr: TKatMgr;
     fWybFiltr: TWybranyFiltr;
     fLstFiltrow: TObjectList;
     fFiltrAktywny: array[0..5] of boolean;
-    fLstLat: TStringList;
     fIdRipWybPl: longint;
     fAktualneInfo: boolean;
     fAktualneParam: boolean;
@@ -465,7 +482,7 @@ type
     procedure OdswiezDane;
     function PrepareQuery: string;
     procedure UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
-    procedure PokazFiltrLata;
+    procedure UtworzFiltrLata;
     procedure PokazDanePliku;
     procedure PokazZakladkiTypu(IdTypu: longint);
     procedure PokazDaneWybranejZakladki;
@@ -481,6 +498,7 @@ type
     procedure UstawOceneGraf(AOcena: byte; AImg: TImage; AImgLst: TImageList); overload;
     procedure OdswiezFiltrAktorow;
     function WybFiltrToDbIdx(filtr: TWybranyFiltr): integer;
+    function WybFiltrToIdx(Filtr: TWybranyFiltr): integer;
     function WczytajTabDoFiltra(filtr: TWybranyFiltr; ds: TDataSet; postfix: string): integer;
     procedure UtworzFiltry;
     procedure WczytajPozycjeFiltru(MgrPoz: TManagerPozycji; lv: TListView; ImgIdx: integer);
@@ -489,6 +507,11 @@ type
     function WybranePozycjeFiltra(MgrPoz: TManagerPozycji; var LstWartosci: TStringList): integer;
     procedure UsunTagi;
     procedure PokazZdjecieAktora;
+    function ZaznaczonaPozycjaListView(const lv: TListView): boolean;
+    function ZaznaczoneWszystkiePozycjeListView(const lv: TListView): boolean;
+    procedure OdswiezPozycjeFiltra(filtr: TWybranyFiltr);
+    function PozFiltraToSql(Filtr: TWybranyFiltr; Pole: string): string;
+    function PozFiltraLataToSql(Pole: string): string;
   public
 
   end;
@@ -501,7 +524,7 @@ implementation
 uses
   funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dlgkatalogi, dlgskan, dlgRozszPl, dlgwlasc, usqlqryb,
   dmmain, dlgflmdod, dlgfilmlista, dlginfotxt, dlgrok, dlgczasfilm, dlgimgview, dlgpozsl, ulnkopen, dmakt,
-  dlgpzlntxt, dlgslpoz, dlgakttxt;
+  dlgpzlntxt, dlgslpoz, dlgakttxt, functrls, ugrlat;
 
 {$R *.frm}
 
@@ -510,9 +533,6 @@ uses
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
-  fLstLat := TStringList.Create;
-  fLstLat.CaseSensitive := False;
-  fLstLat.Duplicates := TDuplicates.dupIgnore;
   fLstFiltrow := TObjectList.Create;
   fIdRipWybPl := 0;
   fAktualneInfo := False;
@@ -527,11 +547,6 @@ procedure TFrmMain.FormDestroy(Sender: TObject);
 begin
   if Assigned(fKatMgr) then
     FreeAndNil(fKatMgr);
-  if Assigned(fLstLat) then
-  begin
-    fLstLat.Clear;
-    FreeAndNil(fLstLat);
-  end;
   if (Assigned(fLstFiltrow)) then
   begin
     fLstFiltrow.Clear;
@@ -547,14 +562,106 @@ begin
       'Problem z uruchomieniem', mtError, [mbOK], 0);
     Close;
   end;
-  DMG.GetListaLatIDekadFolder(0, fLstLat);
-  PokazFiltrLata;
   tbnOceny.Down := True;
   UtworzFiltry;
+  UtworzFiltrLata;
   DMM.UstawStanObjListyAktDataSet(True);
   OdswiezWidokKatalogow;
   OdswiezFiltrAktorow;
   acFiltrOceny.Execute;
+end;
+
+procedure TFrmMain.lvFiltrDekadyItemChecked(Sender: TObject; Item: TListItem);
+var
+  mgrPoz: TManagerPozycji;
+  id: integer;
+  i: integer;
+  itemRok: TListItem;
+  poz: TPozycjaSlownika;
+  saZmiany: boolean;
+  wzorzec: string;
+begin
+  saZmiany := False;
+  mgrPoz := GetMgrPozFiltra(twfRok);
+
+  if (lvFiltrDekady.Selected = nil) then
+  begin
+    wzorzec := Copy(item.Caption, 1, 3);
+    if (ListViewMgrPozSetStateAllItem(lvFiltrLata, mgrPoz, wzorzec, Item.Checked) > 0) then
+      saZmiany := True;
+  end
+  else if (lvFiltrDekady.Selected <> Item) then
+  begin
+    wzorzec := Copy(item.Caption, 1, 3);
+    if (MgrPozSetStateAllItem(mgrPoz, wzorzec, Item.Checked) > 0) then
+      saZmiany := True;
+  end
+  else
+  begin
+    for i := 0 to lvFiltrLata.Items.Count - 1 do
+    begin
+      itemRok := lvFiltrLata.Items[i];
+      if (itemRok.Checked <> Item.Checked) then
+      begin
+        itemRok.Checked := Item.Checked;
+        id := StrToInt(itemRok.SubItems.Strings[0]);
+        poz := mgrPoz.GetPozycjaWgId(id);
+        poz.Zaznaczona := itemRok.Checked;
+        saZmiany := True;
+      end;
+    end;
+  end;
+  if (saZmiany) then
+    OdswiezDane;
+end;
+
+procedure TFrmMain.lvFiltrDekadySelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
+var
+  mgrPoz: TManagerPozycji;
+begin
+  mgrPoz := GetMgrPozFiltra(twfRok);
+  if Selected then
+  begin
+    mgrPoz.Filtr := Copy(Item.Caption, 1, 3);
+  end
+  else
+  begin
+    mgrPoz.Filtr := '';
+  end;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltrLata, 54);
+  lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltrLata.Items.Count, mgrPoz.IloscWszystkichPozycji]);
+end;
+
+procedure TFrmMain.lvFiltrLataItemChecked(Sender: TObject; Item: TListItem);
+var
+  poz: TPozycjaSlownika;
+  pozDekada: TListItem;
+  id: integer;
+  mgrPoz: TManagerPozycji;
+  wzorzec: string;
+  stanLat: boolean;
+begin
+  id := StrToInt(Item.SubItems.Strings[0]);
+  pozDekada := lvFiltrDekady.Selected;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  poz := mgrPoz.GetPozycjaWgId(id);
+  poz.Zaznaczona := Item.Checked;
+  if pozDekada <> nil then
+    pozDekada.Checked := ZaznaczoneWszystkiePozycjeListView(lvFiltrLata)
+  else
+  begin
+    wzorzec := Copy(Item.Caption, 1, 3);
+    stanLat := ListViewAllItemIsCheck(lvFiltrLata, wzorzec);
+    pozDekada := ListViewGetItem(lvFiltrDekady, wzorzec + '0');
+    if (pozDekada <> nil) then
+    begin
+      if (pozDekada.Checked <> stanLat) then
+        pozDekada.Checked := stanLat;
+    end
+    else
+      MessageDlg('Błąd podczas wyszukiwania pozycji dekady ' + wzorzec + '0' + '.', mtError, [mbOK], 0);
+  end;
+  OdswiezDane;
 end;
 
 procedure TFrmMain.acPlikKoniecExecute(Sender: TObject);
@@ -707,6 +814,76 @@ begin
   end;
 end;
 
+function TFrmMain.ZaznaczonaPozycjaListView(const lv: TListView): boolean;
+var
+  i: integer;
+begin
+  Result := False;
+  if (Assigned(lv)) then
+  begin
+    for i := 0 to lv.Items.Count - 1 do
+    begin
+      if lv.Items[i].Checked then
+      begin
+        Result := True;
+        break;
+      end;
+    end;
+  end;
+end;
+
+function TFrmMain.ZaznaczoneWszystkiePozycjeListView(const lv: TListView): boolean;
+var
+  i: integer;
+begin
+  Result := False;
+  if (Assigned(lv)) then
+  begin
+    Result := True;
+    for i := 0 to lv.Items.Count - 1 do
+    begin
+      if not lv.Items[i].Checked then
+      begin
+        Result := False;
+        break;
+      end;
+    end;
+  end;
+end;
+
+procedure TFrmMain.OdswiezPozycjeFiltra(filtr: TWybranyFiltr);
+begin
+  case filtr of
+    //twfOcena:
+    //twfRok:
+    twfAktor:
+    begin
+      DMM.qMainFiltrAkt.Open;
+      WczytajTabDoFiltra(twfAktor, DMM.qMainFiltrAkt, 'Akt');
+      DMM.qMainFiltrAkt.Close;
+    end;
+    twfTag:
+    begin
+      DMM.qMainFiltrTag.Open;
+      WczytajTabDoFiltra(twfTag, DMM.qMainFiltrTag, 'Tag');
+      DMM.qMainFiltrTag.Close;
+    end;
+    twfGatunek:
+    begin
+      DMM.qMainFiltrGat.Open;
+      WczytajTabDoFiltra(twfGatunek, DMM.qMainFiltrGat, 'Gat');
+      DMM.qMainFiltrGat.Close;
+    end;
+    twfSeria:
+    begin
+      DMM.qMainFiltrSer.Open;
+      WczytajTabDoFiltra(twfSeria, DMM.qMainFiltrSer, 'Serii');
+      DMM.qMainFiltrSer.Close;
+    end;
+  end;
+
+end;
+
 procedure TFrmMain.acWidokOdswiezExecute(Sender: TObject);
 var
   idWybPl: longint;
@@ -819,6 +996,11 @@ begin
 
   tmrMain.Enabled := False;
   tmrMain.Enabled := True;
+end;
+
+procedure TFrmMain.edFiltrListViewChange(Sender: TObject);
+begin
+  tmrFiltr.Enabled := True;
 end;
 
 procedure TFrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -945,10 +1127,18 @@ end;
 
 procedure TFrmMain.SpeedButton3Click(Sender: TObject);
 var
-  pt: TPoint;
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
 begin
-  pt := Mouse.CursorPos;
-  pmOceny.PopUp(pt.x, pt.y);
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  if (mgrPoz.AktywnyFiltr) then
+  begin
+    edFiltrListView.Clear;
+    mgrPoz.Filtr := '';
+    imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+    WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+    lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
+  end;
 end;
 
 procedure TFrmMain.SpeedButton5Click(Sender: TObject);
@@ -987,6 +1177,19 @@ begin
     DMM.qMainInfo.FieldByName('IdRodzaju').Clear;
     DMM.qMainInfo.Post;
   end;
+end;
+
+procedure TFrmMain.tmrFiltrTimer(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
+begin
+  tmrFiltr.Enabled := False;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  mgrPoz.Filtr := Trim(edFiltrListView.Text);
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+  lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
 end;
 
 procedure TFrmMain.tmrMainTimer(Sender: TObject);
@@ -1348,25 +1551,97 @@ begin
   fWybFiltr := twfOcena;
   pnlFiltryTytul.Caption := 'Oceny';
   nbkFiltry.PageIndex := 0;
-  chbxFiltrWszystko.Checked := not FiltrAktywny(fWybFiltr);
   mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
   WczytajPozycjeFiltru(mgrPoz, lvFiltry, 1);
+  lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
+end;
+
+procedure TFrmMain.acFiltrOdswiezExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
+begin
+  OdswiezPozycjeFiltra(fWybFiltr);
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+  lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
 end;
 
 procedure TFrmMain.acFiltrSerieExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
 begin
   fWybFiltr := twfSeria;
   pnlFiltryTytul.Caption := 'Serie';
   nbkFiltry.PageIndex := 0;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+end;
+
+procedure TFrmMain.acFiltrTagiExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
+begin
+  fWybFiltr := twfTag;
+  pnlFiltryTytul.Caption := 'Tagi';
+  nbkFiltry.PageIndex := 0;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+end;
+
+procedure TFrmMain.acFiltrWyczyscExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
+begin
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  if (mgrPoz.SaWybranePozycje) then
+  begin
+    mgrPoz.OdznaczWszystkiePozycje;
+    imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+    WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+    lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
+    OdswiezDane;
+  end;
 end;
 
 procedure TFrmMain.acFiltrAktorzyExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
 begin
   fWybFiltr := twfAktor;
   pnlFiltryTytul.Caption := 'Aktorzy';
-  nbkFiltry.PageIndex := 2;
+  nbkFiltry.PageIndex := 0;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+  lbFiltrIlosc.Caption := Format('%d/%d', [lvFiltry.Items.Count, mgrPoz.IloscWszystkichPozycji]);
 end;
 
+procedure TFrmMain.acFiltrGatunkiExecute(Sender: TObject);
+var
+  mgrPoz: TManagerPozycji;
+  imgIdx: integer;
+begin
+  fWybFiltr := twfGatunek;
+  pnlFiltryTytul.Caption := 'Gatunki';
+  nbkFiltry.PageIndex := 0;
+  mgrPoz := GetMgrPozFiltra(fWybFiltr);
+  edFiltrListView.Text := mgrPoz.Filtr;
+  imgIdx := WybFiltrToIdx(fWybFiltr) + 1;
+  WczytajPozycjeFiltru(mgrPoz, lvFiltry, imgIdx);
+end;
 
 procedure TFrmMain.acFolderSkanujExecute(Sender: TObject);
 var
@@ -1471,7 +1746,7 @@ begin
     frm.TytulOkna := 'Edycja opisu gatunku';
     frm.Ikona := 7;
     frm.OpisWidoczny := True;
-    frm.EdycjaNazwy:= False;
+    frm.EdycjaNazwy := False;
     if frm.ShowModal = mrOk then
     begin
     end;
@@ -1952,13 +2227,9 @@ end;
 function TFrmMain.PrepareQuery: string;
 var
   qry: TSqlQueryBuilder;
-  lstWart: TStringList;
-  iloscWart: integer;
   s: string;
-  MgrPoz: TManagerPozycji;
 begin
   qry := TSqlQueryBuilder.Create;
-  lstWart := TStringList.Create;
   try
     qry.AddFields('P.IdPl, P.IdFld, P.IdRip, P.IdTypPl, P.NazwaPl, P.ScPl, P.WzgScPl, P.IdRozszPl, P.RozmiarPl, P.StatusPl, I.IloscUruchomienIpf, P.DataDodPl, P.DataModPl, P.OpisPl');
     qry.AddFields('R.Crc32Rip, R.Md5Rip, T.NazwaTypPl, O.NazwaRozszPl, O.ImgIdxRozszPl, I.WysokoscIpf, I.SzerokoscIpf, R.OcenaRip, O.NazwaOceny');
@@ -1975,20 +2246,41 @@ begin
     if ((fKatMgr.Poziom > 0) and (fKatMgr.WybranyKatalog <> nil)) then
       qry.AddWhereFormat('P.IdFld = %d ', [fKatMgr.WybranyKatalog.IdKatalogu]);
 
-    if ((fWybFiltr = twfOcena) and (FiltrAktywny(fWybFiltr))) then
+    // TU FILTRY
+    s := PozFiltraToSql(twfOcena, 'R.OcenaRip');
+    if (s <> '') then
+      qry.AddWhere(s);
+
+    s := PozFiltraLataToSql('F.RokFilmu');
+    if (s <> '') then
     begin
-      MgrPoz := GetMgrPozFiltra(fWybFiltr);
-      iloscWart := WybranePozycjeFiltra(MgrPoz, lstWart);
-      if (iloscWart > 1) then
-      begin
-        s := lstWart.CommaText;
-        qry.AddWhereFormat('R.OcenaRip IN (%s) ', [s]);
-      end
-      else if (iloscWart > 0) then
-      begin
-        qry.AddWhereFormat('R.OcenaRip = %s ', [lstWart.Strings[0]]);
-      end;
+      qry.AddWhereFormat('EXISTS (SELECT PF.IDFILMU FROM PLIKIFILMY PF JOIN Filmy F ON F.IDFILMU = PF.IDFILMU WHERE PF.IDRIP = R.IDRIP AND (%s))', [s]);
     end;
+
+    s := PozFiltraToSql(twfAktor, 'FA.IdAkt');
+    if (s <> '') then
+    begin
+      qry.AddWhereFormat('EXISTS (SELECT FA.IDFILMU FROM PLIKIFILMY PF JOIN FILMYAKT FA ON FA.IDFILMU = PF.IDFILMU WHERE PF.IDRIP = R.IDRIP AND %s)', [s]);
+    end;
+
+    s := PozFiltraToSql(twfTag, 'RT.IdTag');
+    if (s <> '') then
+    begin
+      qry.AddWhereFormat('EXISTS(SELECT RT.IdTag FROM RejPlTag RT WHERE RT.IdRip = R.IdRip AND %s)', [s]);
+    end;
+
+    s := PozFiltraToSql(twfGatunek, 'FG.IdGat');
+    if (s <> '') then
+    begin
+      qry.AddWhereFormat('EXISTS (SELECT FA.IDFILMU FROM PLIKIFILMY PF JOIN FilmyGatunki FG ON FG.IDFILMU = PF.IDFILMU WHERE PF.IDRIP = R.IDRIP AND %s)', [s]);
+    end;
+
+    s := PozFiltraToSql(twfSeria, 'F.IdSerii');
+    if (s <> '') then
+    begin
+      qry.AddWhereFormat('EXISTS (SELECT PF.IDFILMU FROM PLIKIFILMY PF JOIN Filmy F ON F.IDFILMU = PF.IDFILMU WHERE PF.IDRIP = R.IDRIP AND %s)', [s]);
+    end;
+
     {else if ((fWybFiltr = twfRok) and (tvFiltryLata.Selected <> nil) and (tvFiltryLata.Selected.AbsoluteIndex > 0)) then
     begin
       if (tvFiltryLata.Selected.Level = 1) then
@@ -1996,6 +2288,7 @@ begin
       else if (tvFiltryLata.Selected.Level = 2) then
         qry.AddWhereFormat('R.OcenaRip = %d ', [7-lvFiltry.ItemIndex])
     end;}
+    //end;
 
     if (cbxTypPl.ItemIndex > 0) then
     begin
@@ -2010,8 +2303,6 @@ begin
     Result := qry.AsString;
   finally
     FreeAndNil(qry);
-    LstWart.Clear;
-    FreeAndNil(LstWart);
   end;
 
   {where:= '';
@@ -2046,6 +2337,64 @@ begin
   result:= select + where + order;}
 end;
 
+function TFrmMain.PozFiltraToSql(Filtr: TWybranyFiltr; Pole: string): string;
+var
+  iloscWart: integer;
+  lstWart: TStringList;
+  MgrPoz: TManagerPozycji;
+  s: string;
+begin
+  Result := '';
+
+  lstWart := TStringList.Create;
+  try
+    MgrPoz := GetMgrPozFiltra(Filtr);
+    iloscWart := WybranePozycjeFiltra(MgrPoz, lstWart);
+    if (iloscWart > 1) then
+    begin
+      s := lstWart.CommaText;
+      Result := Format('%s IN (%s) ', [Pole, s]);
+    end
+    else if (iloscWart > 0) then
+    begin
+      Result := Format('%s = %s ', [Pole, lstWart.Strings[0]]);
+    end;
+  finally
+    LstWart.Clear;
+    FreeAndNil(LstWart);
+  end;
+
+end;
+
+function TFrmMain.PozFiltraLataToSql(Pole: string): string;
+var
+  GrupLat: TGrupowanieLat;
+  mgrPoz: TManagerPozycji;
+  poz: TPozycjaSlownika;
+  i: integer;
+begin
+  Result := '';
+  mgrPoz := GetMgrPozFiltra(twfRok);
+  if (mgrPoz.SaWybranePozycje) then
+  begin
+    GrupLat := TGrupowanieLat.Create;
+    try
+      for i := 0 to mgrPoz.IloscWszystkichPozycji - 1 do
+      begin
+        poz := mgrPoz.Pozycja[i];
+        if (poz.Zaznaczona) then
+        begin
+          GrupLat.DodajRok(StrToInt(poz.Nazwa));
+        end;
+      end;
+      Result := GrupLat.GetWarunekWhere(Pole);
+    finally
+      FreeAndNil(GrupLat);
+    end;
+  end;
+end;
+
+
 procedure TFrmMain.UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
 const
   oceny: array[0..5] of string = ('Beznadziejny', 'Słaby', 'Taki sobie', 'Dobry', 'Bardzo dobry', 'Świetny');
@@ -2065,38 +2414,55 @@ begin
   end;
 end;
 
-procedure TFrmMain.PokazFiltrLata;
+procedure TFrmMain.UtworzFiltrLata;
 var
-  node: TTreeNode;
-  wzDek: TTreeNode;
+  lstLat: TStringList;
+  lstDekad: TStringList;
   i: integer;
-  dekada: string;
+  s: string;
+  poz: TListItem;
+  mgrPoz: TManagerPozycji;
+  pozSl: TPozycjaSlownika;
 begin
-  tvFiltryLata.BeginUpdate;
+  lstLat := TStringList.Create;
+  lstDekad := TStringList.Create;
   try
-    tvFiltryLata.Items.Clear;
-    node := tvFiltryLata.Items.AddFirst(nil, 'Wszystko');
-    node.ImageIndex := 0;
-    node.SelectedIndex := 0;
+    DMG.GetListaLatIDekadFolder(0, lstLat);
+    mgrPoz := GetMgrPozFiltra(twfRok);
 
-    for i := 0 to fLstLat.Count - 1 do
+    for i := 0 to lstLat.Count - 1 do
     begin
-      dekada := fLstLat.ValueFromIndex[i];
-      wzDek := tvFiltryLata.Items.FindTopLvlNode(dekada);
-      if wzDek = nil then
-      begin
-        wzDek := tvFiltryLata.Items.Add(nil, dekada);
-        wzDek.ImageIndex := 2;
-        wzDek.SelectedIndex := 2;
-      end;
-      node := tvFiltryLata.Items.AddChild(wzDek, fLstLat.Names[i]);
-      node.ImageIndex := 2;
-      node.SelectedIndex := 2;
+      s := lstLat.ValueFromIndex[i];
+      if lstDekad.IndexOf(s) < 0 then
+        lstDekad.Add(s);
+
+      s := lstLat.Names[i];
+      pozSl := TPozycjaSlownika.Create(StrToIntDef(s, 0), s);
+      mgrPoz.DodajPozycje(pozSl);
     end;
+
+    lvFiltrDekady.Items.BeginUpdate;
+    try
+      lvFiltrDekady.Items.Clear;
+      for i := 0 to lstDekad.Count - 1 do
+      begin
+        poz := lvFiltrDekady.Items.Add;
+        poz.Caption := lstDekad.Strings[i];
+        poz.ImageIndex := 53;
+      end;
+    finally
+      lvFiltrDekady.Items.EndUpdate;
+    end;
+    WczytajPozycjeFiltru(mgrPoz, lvFiltrLata, 54);
+
+
+
   finally
-    tvFiltryLata.EndUpdate;
+    lstDekad.Clear;
+    FreeAndNil(lstDekad);
+    lstLat.Clear;
+    FreeAndNil(lstLat);
   end;
-  tvFiltryLata.Selected := tvFiltryLata.Items.GetFirstNode;
 end;
 
 procedure TFrmMain.PokazDanePliku;
@@ -2444,10 +2810,25 @@ function TFrmMain.WybFiltrToDbIdx(filtr: TWybranyFiltr): integer;
 begin
   case filtr of
     twfOcena: Result := 0;
-    twfAktor: Result := 1;
-    twfTag: Result := 2;
-    twfGatunek: Result := 3;
-    twfSeria: Result := 4;
+    twfRok: Result := 1;
+    twfAktor: Result := 2;
+    twfTag: Result := 3;
+    twfGatunek: Result := 4;
+    twfSeria: Result := 5;
+    else
+      Result := -1;
+  end;
+end;
+
+function TFrmMain.WybFiltrToIdx(Filtr: TWybranyFiltr): integer;
+begin
+  case filtr of
+    twfOcena: Result := 0;
+    twfRok: Result := 1;
+    twfAktor: Result := 2;
+    twfTag: Result := 3;
+    twfGatunek: Result := 4;
+    twfSeria: Result := 5;
     else
       Result := -1;
   end;
@@ -2458,7 +2839,7 @@ var
   mgrPoz: TManagerPozycji;
   i: integer;
 begin
-  for i := 1 to 5 do
+  for i := 0 to 5 do
   begin
     mgrPoz := TManagerPozycji.Create;
     fLstFiltrow.Add(mgrPoz);
@@ -2611,20 +2992,6 @@ begin
     raise Exception.Create('Błąd podczas próby wczytania danych do filtra. Nieobsługiwany filtr.');
 end;
 
-procedure TFrmMain.chbxFiltrWszystkoChange(Sender: TObject);
-var
-  idx: integer;
-begin
-  idx := WybFiltrToDbIdx(fWybFiltr);
-  if (idx >= 0) then
-  begin
-    fFiltrAktywny[idx] := not chbxFiltrWszystko.Checked;
-    OdswiezDane;
-  end
-  else
-    raise Exception.Create('Błąd podczas ustawiania aktywności filtru - niepoprawny typ filtra');
-end;
-
 procedure TFrmMain.lvFiltryItemChecked(Sender: TObject; Item: TListItem);
 var
   poz: TPozycjaSlownika;
@@ -2635,10 +3002,12 @@ begin
   mgrPoz := GetMgrPozFiltra(fWybFiltr);
   poz := mgrPoz.GetPozycjaWgId(id);
   poz.Zaznaczona := Item.Checked;
-  if not chbxFiltrWszystko.Checked then
+  OdswiezDane;
+  //ZaznaczonaPozycjaListView(lvFiltry);
+  {if not chbxFiltrWszystko.Checked then
   begin
     OdswiezDane;
-  end;
+  end;}
 end;
 
 end.

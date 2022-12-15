@@ -3442,6 +3442,7 @@ object FrmMain: TFrmMain
               Top = 2
               Action = acFiltrAktorzy
               AllowAllUp = True
+              AutoSize = True
               Grouped = True
               Style = tbsCheck
             end
@@ -3481,8 +3482,8 @@ object FrmMain: TFrmMain
             object ListView: TPage
               object lvFiltry: TListView
                 Left = 0
-                Height = 432
-                Top = 26
+                Height = 430
+                Top = 28
                 Width = 253
                 Align = alClient
                 Checkboxes = True
@@ -3498,53 +3499,136 @@ object FrmMain: TFrmMain
               end
               object pnlFiltrNagl: TPanel
                 Left = 0
-                Height = 26
+                Height = 28
                 Top = 0
                 Width = 253
                 Align = alTop
                 BevelInner = bvLowered
-                ClientHeight = 26
+                ClientHeight = 28
                 ClientWidth = 253
                 TabOrder = 1
-                object chbxFiltrWszystko: TCheckBox
-                  Left = 8
-                  Height = 19
-                  Top = 4
-                  Width = 67
-                  Caption = 'Wszystko'
-                  Checked = True
-                  OnChange = chbxFiltrWszystkoChange
-                  State = cbChecked
-                  TabOrder = 0
-                end
                 object sbnFiltrOdsw: TSpeedButton
-                  Left = 224
-                  Height = 22
-                  Hint = 'Odśwież widok'
-                  Top = 1
+                  Left = 180
+                  Height = 23
+                  Top = 3
                   Width = 23
-                  Flat = True
-                  Images = DMG.ilCommon
-                  ImageIndex = 27
+                  Action = acFiltrOdswiez
+                  Anchors = [akTop, akRight]
+                  Images = ilMenuS
+                  ImageIndex = 17
+                  ShowCaption = False
                   ShowHint = True
                   ParentShowHint = False
+                end
+                object edFiltrListView: TEdit
+                  Left = 4
+                  Height = 23
+                  Top = 2
+                  Width = 120
+                  Anchors = [akTop, akLeft, akRight]
+                  OnChange = edFiltrListViewChange
+                  ParentShowHint = False
+                  TabOrder = 0
+                  TextHint = '(filtr)'
+                end
+                object SpeedButton3: TSpeedButton
+                  Left = 124
+                  Height = 23
+                  Top = 2
+                  Width = 23
+                  Anchors = [akTop, akRight]
+                  Images = DMG.ilCommon
+                  ImageIndex = 5
+                  OnClick = SpeedButton3Click
+                end
+                object SpeedButton9: TSpeedButton
+                  Left = 156
+                  Height = 23
+                  Top = 3
+                  Width = 23
+                  Action = acFiltrWyczysc
+                  Anchors = [akTop, akRight]
+                  Images = DMG.ilCommon
+                  ImageIndex = 29
+                  ShowCaption = False
+                  ShowHint = True
+                  ParentShowHint = False
+                end
+                object lbFiltrIlosc: TLabel
+                  Left = 206
+                  Height = 15
+                  Top = 8
+                  Width = 41
+                  Anchors = [akTop, akRight]
+                  Caption = '345/543'
                 end
               end
               object DbGrid: TPage
               end
             end
             object Lata: TPage
-              object tvFiltryLata: TTreeView
+              object PairSplitter1: TPairSplitter
+                Cursor = crDefault
                 Left = 0
                 Height = 458
                 Top = 0
                 Width = 253
                 Align = alClient
-                Images = ilFiltry
-                MultiSelect = True
-                RowSelect = True
-                TabOrder = 0
-                Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoRowSelect, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+                Position = 120
+                object PairSplitterSide1: TPairSplitterSide
+                  Cursor = crArrow
+                  Left = 0
+                  Height = 458
+                  Top = 0
+                  Width = 120
+                  ClientWidth = 120
+                  ClientHeight = 458
+                  object lvFiltrDekady: TListView
+                    Left = 0
+                    Height = 458
+                    Top = 0
+                    Width = 120
+                    Align = alClient
+                    Checkboxes = True
+                    Columns = <                    
+                      item
+                        Caption = 'Dekady'
+                        Width = 90
+                      end>
+                    HideSelection = False
+                    SmallImages = DMG.ilCommon
+                    TabOrder = 0
+                    ViewStyle = vsReport
+                    OnItemChecked = lvFiltrDekadyItemChecked
+                    OnSelectItem = lvFiltrDekadySelectItem
+                  end
+                end
+                object PairSplitterSide2: TPairSplitterSide
+                  Cursor = crArrow
+                  Left = 125
+                  Height = 458
+                  Top = 0
+                  Width = 128
+                  ClientWidth = 128
+                  ClientHeight = 458
+                  object lvFiltrLata: TListView
+                    Left = 0
+                    Height = 458
+                    Top = 0
+                    Width = 128
+                    Align = alClient
+                    Checkboxes = True
+                    Columns = <                    
+                      item
+                        Caption = 'Lata'
+                        Width = 100
+                      end>
+                    SmallImages = DMG.ilCommon
+                    TabOrder = 0
+                    ViewStyle = vsReport
+                    OnItemChecked = lvFiltrLataItemChecked
+                  end
+                end
               end
             end
             object Aktorzy: TPage
@@ -3801,6 +3885,7 @@ object FrmMain: TFrmMain
       Caption = 'Gatunki'
       Hint = ' Gatunki'
       ImageIndex = 5
+      OnExecute = acFiltrGatunkiExecute
     end
     object acFiltrSerie: TAction
       Category = 'Filtry'
@@ -3835,6 +3920,7 @@ object FrmMain: TFrmMain
       Caption = 'Tagi'
       Hint = 'Tagi'
       ImageIndex = 10
+      OnExecute = acFiltrTagiExecute
     end
     object acDaneGatunki: TAction
       Category = 'Dane'
@@ -3947,6 +4033,12 @@ object FrmMain: TFrmMain
     object acFilmRok: TAction
       Category = 'Zakladki'
       OnExecute = acFilmRokExecute
+    end
+    object acFiltrOdswiez: TAction
+      Category = 'Filtry'
+      Hint = 'Odśwież'
+      ImageIndex = 17
+      OnExecute = acFiltrOdswiezExecute
     end
   end
   object MainMenu1: TMainMenu
@@ -5653,6 +5745,12 @@ object FrmMain: TFrmMain
       Hint = 'Usuń gatunek z filmu'
       ImageIndex = 2
     end
+    object acFiltrWyczysc: TAction
+      Category = 'Filtry'
+      Caption = 'Wyczyść'
+      ImageIndex = 29
+      OnExecute = acFiltrWyczyscExecute
+    end
   end
   object ilOceny: TImageList
     Height = 24
@@ -5869,5 +5967,12 @@ object FrmMain: TFrmMain
     OnDataChange = dsMainAktDataChange
     Left = 696
     Top = 123
+  end
+  object tmrFiltr: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrFiltrTimer
+    Left = 864
+    Top = 128
   end
 end
