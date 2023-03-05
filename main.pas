@@ -9,7 +9,7 @@ uses
   ActnList, Menus, ComboEx, Buttons, DBGrids, RxDBGrid, rxcurredit, rxspin,
   RxTimeEdit, RxMDI, LSControls, IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls,
   ukatalog, Contnrs, DB, ukatmgr, Grids, DBActns, Clipbrd, LCLIntf, LCLType,
-  PairSplitter, StrUtils, umgrpoz, upozsl;
+  PairSplitter, StrUtils, umgrpoz, upozsl, udirseqhld;
 
 type
   TWybranyFiltr = (twfOcena, twfRok, twfAktor, twfTag, twfGatunek, twfSeria);
@@ -442,6 +442,7 @@ type
     procedure lvFiltrLataItemChecked(Sender: TObject; Item: TListItem);
     procedure lvFiltryItemChecked(Sender: TObject; Item: TListItem);
     procedure lvKatDblClick(Sender: TObject);
+    procedure lvKatKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MenuItem23Click(Sender: TObject);
     procedure MenuItem33Click(Sender: TObject);
     procedure pcDanePlChange(Sender: TObject);
@@ -463,6 +464,7 @@ type
     procedure tmrMainTimer(Sender: TObject);
   private
     fKatMgr: TKatMgr;
+    fDirSeqHld: TDirSeqHolder;
     fWybFiltr: TWybranyFiltr;
     fLstFiltrow: TObjectList;
     fFiltrAktywny: array[0..5] of boolean;
@@ -512,6 +514,8 @@ type
     procedure OdswiezPozycjeFiltra(filtr: TWybranyFiltr);
     function PozFiltraToSql(Filtr: TWybranyFiltr; Pole: string): string;
     function PozFiltraLataToSql(Pole: string): string;
+    procedure OdczytajFoldery;
+    procedure OdswiezWidokFiltruKatalogow;
   public
 
   end;
@@ -552,6 +556,8 @@ begin
     fLstFiltrow.Clear;
     FreeAndNil(fLstFiltrow);
   end;
+  if (Assigned(fDirSeqHld)) then
+    FreeAndNil(fDirSeqHld);
 end;
 
 procedure TFrmMain.FormShow(Sender: TObject);
@@ -566,7 +572,9 @@ begin
   UtworzFiltry;
   UtworzFiltrLata;
   DMM.UstawStanObjListyAktDataSet(True);
-  OdswiezWidokKatalogow;
+  //OdswiezWidokKatalogow;
+  OdczytajFoldery;
+  OdswiezWidokFiltruKatalogow;
   OdswiezFiltrAktorow;
   acFiltrOceny.Execute;
 end;
@@ -1011,6 +1019,14 @@ end;
 procedure TFrmMain.lvKatDblClick(Sender: TObject);
 begin
   acKatNiz.Execute;
+end;
+
+procedure TFrmMain.lvKatKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (Key = VK_BACK) then
+    acKatWyz.Execute
+  else if (Key = VK_RETURN) then
+    acKatNiz.Execute;
 end;
 
 procedure TFrmMain.MenuItem23Click(Sender: TObject);
@@ -1847,27 +1863,36 @@ begin
     item := lvKat.ItemFocused;
     if Assigned(item) then
     begin
-      if fKatMgr.PrzejdzNizej(item.Caption) then
-        OdswiezWidokKatalogow;
+      //fKatMgr.PrzejdzNizej(item.Caption);
+      //OdswiezWidokKatalogow;
+      if (fDirSeqHld.GoDownDir(item.Caption)) then
+        OdswiezWidokFiltruKatalogow
+      else
+        MessageDlg('Błąd', 'NIe udało się odnaleźć kolejnego katalogu "' + item.Caption + '".', mtError, [mbOK], 0);
     end;
   end;
 end;
 
 procedure TFrmMain.acKatOdswiezExecute(Sender: TObject);
 begin
-  OdswiezWidokKatalogow;
+  OdczytajFoldery;
+  OdswiezWidokFiltruKatalogow;
 end;
 
 procedure TFrmMain.acKatWszystkoExecute(Sender: TObject);
 begin
-  if fKatMgr.PrzejdzDoPoczatku then
-    OdswiezWidokKatalogow;
+  {if fKatMgr.PrzejdzDoPoczatku then
+    OdswiezWidokKatalogow;}
+  if fDirSeqHld.GoRootDir then
+    OdswiezWidokFiltruKatalogow;
 end;
 
 procedure TFrmMain.acKatWyzExecute(Sender: TObject);
 begin
-  if fKatMgr.PrzejdzWyzej then
-    OdswiezWidokKatalogow;
+  {if fKatMgr.PrzejdzWyzej then
+    OdswiezWidokKatalogow;}
+  if (fDirSeqHld.GoUpDir) then
+    OdswiezWidokFiltruKatalogow;
 end;
 
 procedure TFrmMain.acDaneKrajeExecute(Sender: TObject);
@@ -2098,6 +2123,7 @@ begin
   DMG.OtworzPolaczenieZBazaDanych(DMG.Ustawienia, True);
 
   fKatMgr := TKatMgr.Create;
+  //fDirSeqHld:= TDirSeqHolder.Create;
 end;
 
 function TFrmMain.OdczytajUstawienia: TStringList;
@@ -2179,25 +2205,39 @@ var
   item: TListItem;
   i: integer;
   kat: TKatalog;
+  lstDodKat: TStringList;
+  katalog: string;
 begin
   acKatWyz.Enabled := fKatMgr.MoznaWyzej;
   edWybKat.Text := fKatMgr.WybranyKatalogOpis;
+  lstDodKat := TStringList.Create();
   lvKat.BeginUpdate;
   try
     lvKat.Items.Clear;
-    fKatMgr.OdswiezListeKatalogow;
+    //fKatMgr.OdswiezListeKatalogow;
     for i := 0 to fKatMgr.ListaKatalogow.Count - 1 do
     begin
       kat := fKatMgr.ListaKatalogow.Items[i] as TKatalog;
-      item := lvKat.Items.Add;
-      item.Caption := kat.ToString;
-      item.SubItems.Add(IntToStr(i));
-      item.Data := kat;
-      //item.SubItems.Add(IntToStr(kat.IdKatalogu));
-      item.ImageIndex := 23;
+      if (fKatMgr.Poziom > 0) then
+        katalog := kat.GetOstatniKatalog
+      else
+        katalog := kat.GetDoPoziomu(1, False);
+
+      if (lstDodKat.IndexOf(katalog) < 0) then
+      begin
+        lstDodKat.Add(katalog);
+        item := lvKat.Items.Add;
+        item.SubItems.Add(IntToStr(i));
+        item.Caption := katalog;
+        item.Data := kat;
+        //item.SubItems.Add(IntToStr(kat.IdKatalogu));
+        item.ImageIndex := 23;
+      end;
     end;
   finally
     lvKat.EndUpdate;
+    lstDodKat.Clear;
+    FreeAndNil(lstDodKat);
   end;
   OdswiezDane;
 end;
@@ -2206,7 +2246,7 @@ procedure TFrmMain.UstawWybranyKatalog;
 var
   item: TListItem;
   //i: integer;
-  kat: TKatalog;
+  //kat: TKatalog;
 begin
   item := lvKat.ItemFocused;
   if Assigned(item) then
@@ -2243,8 +2283,17 @@ begin
 
     qry.SetOrder('P.NazwaPl');
 
-    if ((fKatMgr.Poziom > 0) and (fKatMgr.WybranyKatalog <> nil)) then
+    {if ((fKatMgr.Poziom > 0) and (fKatMgr.WybranyKatalog <> nil)) then
+    begin
       qry.AddWhereFormat('P.IdFld = %d ', [fKatMgr.WybranyKatalog.IdKatalogu]);
+      if (fKatMgr.Poziom > 1) then
+        qry.AddWhereFormat('P.ScPl LIKE ''%s%%'' ', [fKatMgr.WybranyKatalog.ToString]);
+    end;}
+    if (fDirSeqHld.UpDirAvailable) then
+    begin
+      qry.AddWhereFormat('P.IdFld = %d ', [fDirSeqHld.CurrentDir.DirectoryId]);
+      qry.AddWhereFormat('P.ScPl LIKE ''%s%%'' ', [fDirSeqHld.FullPathCurrentDirString]);
+    end;
 
     // TU FILTRY
     s := PozFiltraToSql(twfOcena, 'R.OcenaRip');
@@ -2297,7 +2346,7 @@ begin
 
     if (sedFiltrPl.Text <> '') then
     begin
-      qry.AddWhereFormat('P.NazwaPl LIKE ''%s'' ', [sedFiltrPl.Text]);
+      qry.AddWhereFormat('P.NazwaPl LIKE ''%%%s%%'' ', [sedFiltrPl.Text]);
     end;
 
     Result := qry.AsString;
@@ -2392,6 +2441,80 @@ begin
       FreeAndNil(GrupLat);
     end;
   end;
+end;
+
+procedure TFrmMain.OdczytajFoldery;
+var
+  lstKatDB: TObjectList;
+  lstKatPodrzDB: TObjectList;
+  i, j: integer;
+  kat: Tkatalog;
+  idKat : integer;
+begin
+  FreeAndNil(fDirSeqHld);
+  fDirSeqHld := TDirSeqHolder.Create;
+
+  lstKatDB := TObjectList.Create(True);
+  lstKatPodrzDB := TObjectList.Create(True);
+  try
+    if DMG.UtworzListeKatalogow(lstKatDB) > 0 then
+    begin
+      for i := 0 to lstKatDB.Count - 1 do
+      begin
+        kat := TKatalog(lstKatDb.Items[i]);
+        idKat:= kat.IdKatalogu;
+        fDirSeqHld.AddRootPath(kat.ToString, idKat);
+        lstKatPodrzDB.Clear;
+        if (DMG.UtworzListeKatalogowPodrzednych(kat.IdKatalogu, lstKatPodrzDB) > 0) then
+        begin
+          for j := 0 to lstKatPodrzDB.Count - 1 do
+          begin
+            kat := TKatalog(lstKatPodrzDB.Items[j]);
+            fDirSeqHld.AddRootPath(kat.ToString, idKat);
+          end;
+        end;
+      end;
+    end;
+  finally
+    lstKatPodrzDB.Clear;
+    lstKatDB.Clear;
+    FreeAndNil(lstKatPodrzDB);
+    FreeAndNil(lstKatDB);
+  end;
+end;
+
+procedure TFrmMain.OdswiezWidokFiltruKatalogow;
+var
+  item: TListItem;
+  i: integer;
+  lstDodKat: TStringList;
+begin
+  acKatWyz.Enabled := fDirSeqHld.UpDirAvailable;
+  edWybKat.Text := fDirSeqHld.FullPathCurrentDirString;
+  lstDodKat := TStringList.Create();
+  lvKat.BeginUpdate;
+  try
+    lvKat.Items.Clear;
+
+    fDirSeqHld.GetCurrentSubDirStr(lstDodKat);
+    for i := 0 to lstDodKat.Count - 1 do
+    begin
+      item := lvKat.Items.Add;
+      item.Caption := lstDodKat.Strings[i];
+      item.ImageIndex := 23;
+    end;
+  finally
+    lvKat.EndUpdate;
+    lstDodKat.Clear;
+    FreeAndNil(lstDodKat);
+  end;
+  lvKat.SetFocus;
+  if (lvKat.Items.Count > 0) then
+  begin
+    lvKat.Selected := lvKat.Items[0];
+    lvKat.ItemFocused := lvKat.Selected;
+  end;
+  OdswiezDane;
 end;
 
 

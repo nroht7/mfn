@@ -41,6 +41,7 @@ type
     qLataDekFld: TZReadOnlyQuery;
     qLataDek: TZReadOnlyQuery;
     qCmd: TZQuery;
+    qKatPod: TZReadOnlyQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -62,6 +63,7 @@ type
     function OdswiezQueryZParam(aQuery: TZQuery; aParamName: string; aValue: variant): boolean; overload;
     function OdswiezQueryZParam(aQuery: TZReadOnlyQuery; aParamName: string; aValue: variant): boolean; overload;
     function UtworzListeKatalogow(var aLstKat: TObjectList): integer;
+    function UtworzListeKatalogowPodrzednych(aIdFld:integer; var aLstKat: TObjectList): integer;
     function DodajRekord(aTabela: string; aListaPol: TStringList): longint;
     function GetLstOblTypowAsStr: string;
     procedure GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
@@ -304,6 +306,32 @@ begin
   end;
 end;
 
+function TDMG.UtworzListeKatalogowPodrzednych(aIdFld: integer;
+  var aLstKat: TObjectList): integer;
+var
+  kat: TKatalog;
+begin
+  Result := 0;
+  if Assigned(aLstKat) then
+  begin
+    OdswiezQueryZParam(qKatPod,'IDFLD',aIdFld);
+    if (qKatPod.Active) and (not qKatPod.IsEmpty) then
+    begin
+      qKatPod.First;
+      while not qKatPod.EOF do
+      begin
+        kat := TKatalog.Create(qKatPod.FieldByName('ScFld').AsString+qKatPod.FieldByName('WzgScPl').AsString);
+        kat.IdKatalogu := aIdFld;
+        aLstKat.Add(kat);
+        Inc(Result);
+
+        qKatPod.Next;
+      end;
+    end;
+    qKatPod.Close;
+  end;
+end;
+
 function TDMG.DodajRekord(aTabela: string; aListaPol: TStringList): longint;
 var
   sql: string;
@@ -354,8 +382,6 @@ end;
 procedure TDMG.GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
 var
   qry: TSqlQueryBuilder;
-  s: string;
-
 begin
   if (Assigned(aLstLat)) then
   begin

@@ -2335,4 +2335,31 @@ object DMG: TDMG
     Left = 104
     Top = 232
   end
+  object qKatPod: TZReadOnlyQuery
+    SortedFields = 'WzgScPl'
+    Connection = ZConn
+    SQL.Strings = (
+      'SELECT DISTINCT P.WzgScPl, F.ScFld  FROM Pliki P'
+      'JOIN Foldery F ON F.IdFld = P.IdFld '
+      'WHERE P.IdFld  = :IDFLD AND P.WzgScPl IS NOT NULL '
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFLD'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    IndexFieldNames = 'WzgScPl Asc'
+    Options = [doCalcDefaults, doPreferPrepared]
+    Left = 136
+    Top = 80
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDFLD'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
 end

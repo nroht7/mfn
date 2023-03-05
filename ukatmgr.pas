@@ -15,14 +15,18 @@ type
   private
     fPoziom: integer;
     fLstKat: TObjectList;
+    fLstKatGl: TObjectList;
+    fLstKatPodrzednych : TObjectList;
     fWybKat: TKatalog;
 
     function CzyMoznaWyzej: boolean;
     function GetWybKatOpis: string;
     function UtworzListeKatZBazyDanych: integer;
+    function UtworzListeKatGl: integer;
     function UtworzListeKatPod(aWybKat: TKatalog): integer;
     function GetIdKat(aKatalog: string): longint;
     function UtworzListeKatalogow: integer;
+    procedure UstawPoziomZero;
   public
     constructor Create;
     destructor Destroy; override;
@@ -53,6 +57,9 @@ begin
   fPoziom := 0;
   fWybKat := nil;
   fLstKat := TObjectList.Create;
+  fLstKatGl := TObjectList.Create;
+  fLstKatPodrzednych := TObjectList.Create;
+  UtworzListeKatZBazyDanych;
   UtworzListeKatalogow;
 end;
 
@@ -65,6 +72,16 @@ begin
   begin
     fLstKat.Clear;
     FreeAndNil(fLstKat);
+  end;
+  if Assigned(fLstKatPodrzednych) then
+  begin
+    fLstKatPodrzednych.Clear;
+    FreeAndNil(fLstKatPodrzednych);
+  end;
+  if Assigned(fLstKatGl) then
+  begin
+    fLstKatGl.Clear;
+    FreeAndNil(fLstKatGl);
   end;
 
   inherited;
@@ -97,14 +114,22 @@ end;
 function TKatMgr.UtworzListeKatalogow: integer;
 begin
   if fPoziom = 0 then
-    Result := UtworzListeKatZBazyDanych
+    Result := UtworzListeKatGl
   else
     Result := UtworzListeKatPod(fWybKat);
 end;
 
+procedure TKatMgr.UstawPoziomZero;
+begin
+  fPoziom := 0;
+  if Assigned(fWybKat) then
+    FreeAndNil(fWybKat);
+end;
+
 function TKatMgr.UtworzListeKatZBazyDanych: integer;
-{var
-  kat: TKatalog;}
+var
+  i : integer;
+  kat: TKatalog;
 begin
   {fLstKat.Clear;
   DMG.tbKat.DisableControls;
@@ -121,14 +146,55 @@ begin
   finally
     DMG.tbKat.EnableControls;
   end;}
-  DMG.UtworzListeKatalogow(fLstKat);
-  Result := fLstKat.Count;
+  fLstKatPodrzednych.Clear;
+  DMG.UtworzListeKatalogow(fLstKatGl);
+  for i:=0  to fLstKatGl.Count-1 do
+  begin
+    kat:= TKatalog(fLstKatGl.Items[i]);
+    DMG.UtworzListeKatalogowPodrzednych(kat.IdKatalogu, fLstKatPodrzednych);
+  end;
+  Result := fLstKatGl.Count;
 end;
 
 function TKatMgr.UtworzListeKatPod(aWybKat: TKatalog): integer;
+var
+  i : integer;
+  kat, dodKat: TKatalog;
+  s : string;
 begin
   fLstKat.Clear;
   //TODO utworzyc liste katalogow na podstawie analizy rekordow dla danego katalogu i wybranego podkatalogu
+  for i:=0 to fLstKatPodrzednych.Count-1 do
+  begin
+    kat:= TKatalog(fLstKatPodrzednych.Items[i]);
+    if (kat.IdKatalogu = aWybKat.IdKatalogu) and (aWybKat.TypRelacjiDoKat(kat) = trkPodrzedny) then
+    begin
+      s:= kat.GetPoziom(fPoziom+1);
+      if (s <> '') then
+      begin
+        dodKat:= TKatalog.Create(aWybKat.ToString);
+        dodKat.DodajKatalog(s);
+        dodKat.IdKatalogu:= aWybKat.IdKatalogu;
+        fLstKat.Add(dodKat);
+      end;
+    end;
+  end;
+  Result := fLstKat.Count;
+end;
+
+function TKatMgr.UtworzListeKatGl: integer;
+var
+  i : integer;
+  kat,katGl: TKatalog;
+begin
+  fLstKat.Clear;
+  for i:=0 to fLstKatGl.Count-1 do
+  begin
+    katGl:= TKatalog(fLstKatGl.Items[i]);
+    kat:= TKatalog.Create(katGl.ToString);
+    kat.IdKatalogu:= katGl.IdKatalogu;
+    fLstKat.Add(kat);
+  end;
   Result := fLstKat.Count;
 end;
 
@@ -171,7 +237,7 @@ begin
         MessageDlg('Nieprawidłowy katalog!', mtError, [mbOK], 0);
       end;
       fWybKat := TKatalog.Create(aKatalog);
-      fWybKat.IdKatalogu := GetIdKat(aKatalog);
+      fWybKat.IdKatalogu := GetIdKat(fWybKat.GetDoPoziomu(1,True));
     end
     else
     begin
@@ -187,16 +253,16 @@ begin
   Result := False;
   if (fPoziom <> 0) then
   begin
-    fPoziom := 0;
-    if Assigned(fWybKat) then
-      FreeAndNil(fWybKat);
-    UtworzListeKatZBazyDanych;
+    UstawPoziomZero;
+    UtworzListeKatalogow;
     Result := True;
   end;
 end;
 
 function TKatMgr.OdswiezListeKatalogow: integer;
 begin
+  UstawPoziomZero;
+  UtworzListeKatZBazyDanych;
   Result := UtworzListeKatalogow;
 end;
 

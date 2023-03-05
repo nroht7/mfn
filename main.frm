@@ -3476,7 +3476,7 @@ object FrmMain: TFrmMain
             Height = 458
             Top = 18
             Width = 253
-            PageIndex = 1
+            PageIndex = 0
             Align = alClient
             TabOrder = 1
             object ListView: TPage
@@ -3845,6 +3845,7 @@ object FrmMain: TFrmMain
           TabOrder = 5
           ViewStyle = vsReport
           OnDblClick = lvKatDblClick
+          OnKeyDown = lvKatKeyDown
         end
       end
     end
