@@ -68,6 +68,12 @@ type
     acGatEdycja: TAction;
     acFiltrOdswiez: TAction;
     acFiltrWyczysc: TAction;
+    acPlikPrzenies: TAction;
+    acPlikHistoria: TAction;
+    acHistOdswiez: TAction;
+    acHistIdz: TAction;
+    acHistCzyscNazw: TAction;
+    acPlikZmienNazwe: TAction;
     acWidokOdswiez: TAction;
     ActionList2: TActionList;
     ActionList3: TActionList;
@@ -78,6 +84,7 @@ type
     btnDodajRekInfo: TBitBtn;
     cbxTypPl: TComboBoxEx;
     chbxFiltrAktorWszystko: TCheckBox;
+    cbxHistOkres: TComboBox;
     DataSetCancel1: TDataSetCancel;
     DataSetEdit1: TDataSetEdit;
     DataSetPost1: TDataSetPost;
@@ -115,6 +122,7 @@ type
     DBText9: TDBText;
     dsMainAkt: TDataSource;
     edFiltrListView: TEdit;
+    edFiltrHistNazwa: TEdit;
     gbxOcena1: TGroupBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -140,6 +148,9 @@ type
     Label28: TLabel;
     Label29: TLabel;
     Label30: TLabel;
+    lbHistPlik: TLabel;
+    lbHistSciezka: TLabel;
+    lbHistIlosc: TLabel;
     lbFiltrIlosc: TLabel;
     lbOcenaFOpis: TLabel;
     lbFilmIlosc: TLabel;
@@ -157,6 +168,7 @@ type
     dsMain: TDataSource;
     edWybKat: TEdit;
     Label7: TLabel;
+    lvHist: TListView;
     lvFiltrDekady: TListView;
     ListView2: TListView;
     lvFiltrLata: TListView;
@@ -220,6 +232,10 @@ type
     MenuItem38: TMenuItem;
     MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem40: TMenuItem;
+    MenuItem41: TMenuItem;
+    MenuItem42: TMenuItem;
+    MenuItem43: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -233,6 +249,8 @@ type
     PairSplitterSide1: TPairSplitterSide;
     PairSplitterSide2: TPairSplitterSide;
     Panel10: TPanel;
+    Panel11: TPanel;
+    pnlFiltrHistoria: TPanel;
     pmOcenyF: TPopupMenu;
     pnlFilmOcena: TPanel;
     pnlAktZdj: TPanel;
@@ -258,6 +276,7 @@ type
     pmOceny: TPopupMenu;
     pnOpisInfo: TPanel;
     pmTagi: TPopupMenu;
+    pmPliki: TPopupMenu;
     RxDBGrid1: TRxDBGrid;
     gbgFiltrAkt: TRxDBGrid;
     RxDBGrid3: TRxDBGrid;
@@ -274,7 +293,11 @@ type
     sedFiltrF: TSearchEdit;
     sbnFiltrPlClear: TSpeedButton;
     sbnFiltrFiClear: TSpeedButton;
+    Separator1: TMenuItem;
     SpeedButton1: TSpeedButton;
+    SpeedButton12: TSpeedButton;
+    SpeedButton13: TSpeedButton;
+    SpeedButton14: TSpeedButton;
     SpeedButton2: TSpeedButton;
     sbnOcenaFilm: TSpeedButton;
     SpeedButton3: TSpeedButton;
@@ -325,6 +348,8 @@ type
     ToolButton43: TToolButton;
     ToolButton44: TToolButton;
     ToolButton45: TToolButton;
+    ToolButton46: TToolButton;
+    ToolButton47: TToolButton;
     ToolButton5: TToolButton;
     ToolButton7: TToolButton;
     ToolButton9: TToolButton;
@@ -346,7 +371,7 @@ type
     tsOpisOgolny: TTabSheet;
     tsOpisPlik: TTabSheet;
     tsFiltry: TTabSheet;
-    tsBaza: TTabSheet;
+    tsHistoria: TTabSheet;
     ToolBar2: TToolBar;
     ToolBar5: TToolBar;
     ToolButton11: TToolButton;
@@ -403,6 +428,9 @@ type
     procedure acFolderyExecute(Sender: TObject);
     procedure acGatDodajExecute(Sender: TObject);
     procedure acGatEdycjaExecute(Sender: TObject);
+    procedure acHistCzyscNazwExecute(Sender: TObject);
+    procedure acHistIdzExecute(Sender: TObject);
+    procedure acHistOdswiezExecute(Sender: TObject);
     procedure acInnyTytDodajExecute(Sender: TObject);
     procedure acInnyTytDodWieleExecute(Sender: TObject);
     procedure acInnyTytUsunExecute(Sender: TObject);
@@ -418,8 +446,11 @@ type
     procedure acOklSchowekExecute(Sender: TObject);
     procedure acOklUsunExecute(Sender: TObject);
     procedure acOklWybierzExecute(Sender: TObject);
+    procedure acPlikHistoriaExecute(Sender: TObject);
     procedure acPlikKoniecExecute(Sender: TObject);
+    procedure acPlikPrzeniesExecute(Sender: TObject);
     procedure acPlikWlasciwosciExecute(Sender: TObject);
+    procedure acPlikZmienNazweExecute(Sender: TObject);
     procedure acRodzajePlikowExecute(Sender: TObject);
     procedure acTagDodajExecute(Sender: TObject);
     procedure acTagUsunExecute(Sender: TObject);
@@ -428,10 +459,12 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure btnDodajRekInfoClick(Sender: TObject);
     procedure btnDodOceneFilmuClick(Sender: TObject);
+    procedure cbxHistOkresChange(Sender: TObject);
     procedure cbxTypPlChange(Sender: TObject);
     procedure dbgDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: integer; Column: TColumn; State: TGridDrawState);
     procedure dsMainAktDataChange(Sender: TObject; Field: TField);
     procedure dsMainDataChange(Sender: TObject; Field: TField);
+    procedure edFiltrHistNazwaChange(Sender: TObject);
     procedure edFiltrListViewChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -441,6 +474,7 @@ type
     procedure lvFiltrDekadySelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
     procedure lvFiltrLataItemChecked(Sender: TObject; Item: TListItem);
     procedure lvFiltryItemChecked(Sender: TObject; Item: TListItem);
+    procedure lvHistSelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
     procedure lvKatDblClick(Sender: TObject);
     procedure lvKatKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure MenuItem23Click(Sender: TObject);
@@ -460,6 +494,7 @@ type
     procedure SpeedButton3Click(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton7Click(Sender: TObject);
+    procedure SpeedButton8Click(Sender: TObject);
     procedure tmrFiltrTimer(Sender: TObject);
     procedure tmrMainTimer(Sender: TObject);
   private
@@ -516,6 +551,7 @@ type
     function PozFiltraLataToSql(Pole: string): string;
     procedure OdczytajFoldery;
     procedure OdswiezWidokFiltruKatalogow;
+    function PrzejdzDoPliku(IdPl: longint): boolean;
   public
 
   end;
@@ -528,7 +564,7 @@ implementation
 uses
   funkcje, inifiles, dmgl, dlgslownik, dlgaktorzy, dlgkatalogi, dlgskan, dlgRozszPl, dlgwlasc, usqlqryb,
   dmmain, dlgflmdod, dlgfilmlista, dlginfotxt, dlgrok, dlgczasfilm, dlgimgview, dlgpozsl, ulnkopen, dmakt,
-  dlgpzlntxt, dlgslpoz, dlgakttxt, functrls, ugrlat;
+  dlgpzlntxt, dlgslpoz, dlgakttxt, functrls, ugrlat, dlghistpl, dlgzmnazpl, dlgprzenpl, dlgpostprzpl;
 
 {$R *.frm}
 
@@ -545,6 +581,10 @@ begin
   fAktualneTagi := False;
   fAktualneOpisy := False;
   fWczytanaOcena := 0;
+
+  lbHistPlik.Caption := '';
+  lbHistSciezka.Caption := '';
+  lbHistIlosc.Caption := '0';
 end;
 
 procedure TFrmMain.FormDestroy(Sender: TObject);
@@ -677,6 +717,33 @@ begin
   Close;
 end;
 
+procedure TFrmMain.acPlikPrzeniesExecute(Sender: TObject);
+var
+  frm : TFrmPrzeniesPlik;
+  frmPostep : TFrmPostepPrzenPl;
+  id : longint;
+begin
+  if (DMM.qMain.Active) and (not DMM.qMain.IsEmpty) then
+  begin
+    id:= DMM.qMain.FieldByName('IdPl').AsInteger;
+    frm:= TFrmPrzeniesPlik.CreateMvFile(self, id);
+    try
+      if (frm.ShowModal = mrOK) then
+      begin
+        frmPostep:= TFrmPostepPrzenPl.CreatePrzenies(self, frm.PlikZrodlowy, frm.PlikDocelowy);
+        try
+          frmPostep.ShowModal;
+
+        finally
+          FreeAndNil(frmPostep);
+        end;
+      end;
+    finally
+      FreeAndNil(frm);
+    end;
+  end;
+end;
+
 procedure TFrmMain.acPlikWlasciwosciExecute(Sender: TObject);
 var
   frm: TFrmWlasc;
@@ -686,6 +753,50 @@ begin
     frm.ShowModal;
   finally
     FreeAndNil(frm);
+  end;
+end;
+
+procedure TFrmMain.acPlikZmienNazweExecute(Sender: TObject);
+var
+  frm: TFrmZmNazwy;
+  idWybPl: longint;
+  StaraSc, NowaSc: string;
+  ModRes : TModalResult;
+begin
+  if ((DMM.qMain.Active) and (not DMM.qMain.IsEmpty)) then
+  begin
+    idWybPl := DMM.qMain.FieldByName('IdPl').AsInteger;
+    frm := TFrmZmNazwy.CreateFile(self, idWybPl);
+    try
+      ModRes:= frm.ShowModal;
+      if (ModRes = mrOk) then
+      begin
+        DMG.ZConn.StartTransaction;
+        try
+          StaraSc := DMM.qMain.FieldByName('ScPl').AsString;
+          NowaSc := frm.Plik;
+          DMM.ZmienNazwePliku(idWybPl, NowaSc);
+          if (RenameFile(StaraSc, NowaSc)) then
+          begin
+            DMG.ZConn.Commit;
+            acWidokOdswiez.Execute;
+          end
+          else
+          begin
+            MessageDlg('Nie udało się zmienić nazwy pliku w systemie plików.' + sLineBreak + 'Nazwa nie zostanie zmieniona.', mtError, [mbOK], 0);
+            DMG.ZConn.Rollback;
+          end;
+        except
+          on e: Exception do
+          begin
+            MessageDlg('Błąd zmiany nazwy', 'Podczas próby zmiany nazwy pliku w bazie danych wystąpił błąd:' + sLineBreak + e.Message, mtError, [mbOK], 0);
+            DMG.ZConn.Rollback;
+          end;
+        end;
+      end;
+    finally
+      FreeAndNil(frm);
+    end;
   end;
 end;
 
@@ -721,6 +832,7 @@ begin
     try
       frm.TytulOkna := 'Dodaj tagi';
       frm.UstawDataSet(DMM.qTagiExcp, 'IdTag', 'NazwaTag');
+      frm.OdswiezDaneDataSet;
       if (frm.ShowModal = mrOk) then
       begin
         lstPoz := TStringList.Create;
@@ -732,7 +844,8 @@ begin
               idTag := StrToInt(s);
               DMM.DodajTag(fIdRipWybPl, idTag);
             end;
-            DMG.OdswiezDataSet(DMM.qMainTag);
+            //DMG.OdswiezDataSet(DMM.qMainTag);
+            DMG.OdswiezQueryZParam(DMM.qMainTag, 'IDRIP', fIdRipWybPl);
           end;
         finally
           lstPoz.Clear;
@@ -761,7 +874,8 @@ begin
       if (MessageDlg('Usuń tag z z pliku', Format('Czy napewno usunąć tag "%s" przypisany do pliku?', [nazwa]), mtConfirmation, [mbOK, mbCancel], 0) = mrOk) then
       begin
         DMM.UsunTag(DMM.qMainTag.FieldByName('IdRip').AsInteger, DMM.qMainTag.FieldByName('IdTag').AsInteger);
-        DMG.OdswiezDataSet(DMM.qMainTag);
+        //DMG.OdswiezDataSet(DMM.qMainTag);
+        DMG.OdswiezQueryZParam(DMM.qMainTag, 'IDRIP', fIdRipWybPl);
       end;
     end;
   end;
@@ -789,7 +903,8 @@ begin
             idTag := StrToInt(s);
             DMM.UsunTag(fIdRipWybPl, idTag);
           end;
-          DMG.OdswiezDataSet(DMM.qMainTag);
+          //DMG.OdswiezDataSet(DMM.qMainTag);
+          DMG.OdswiezQueryZParam(DMM.qMainTag, 'IDRIP', fIdRipWybPl);
         end;
       finally
         lstPoz.Clear;
@@ -901,6 +1016,7 @@ begin
     idWybPl := DMM.qMain.FieldByName('IdPl').AsInteger;
   DMM.qMain.Close;
   DMM.qMain.Open;
+  StatusBar1.Panels[0].Text:= Format('Ilość: %d',[DMM.qMain.RecordCount]);
   if idWybPl > 0 then
   begin
     if not DMM.qMain.Locate('IdPl', idWybPl, []) then
@@ -957,6 +1073,11 @@ begin
   pmOcenyF.PopUp(pt.x, pt.y);
 end;
 
+procedure TFrmMain.cbxHistOkresChange(Sender: TObject);
+begin
+  acHistOdswiez.Execute;
+end;
+
 procedure TFrmMain.cbxTypPlChange(Sender: TObject);
 begin
   OdswiezDane;
@@ -1004,6 +1125,11 @@ begin
 
   tmrMain.Enabled := False;
   tmrMain.Enabled := True;
+end;
+
+procedure TFrmMain.edFiltrHistNazwaChange(Sender: TObject);
+begin
+  acHistOdswiez.Execute;
 end;
 
 procedure TFrmMain.edFiltrListViewChange(Sender: TObject);
@@ -1193,6 +1319,14 @@ begin
     DMM.qMainInfo.FieldByName('IdRodzaju').Clear;
     DMM.qMainInfo.Post;
   end;
+end;
+
+procedure TFrmMain.SpeedButton8Click(Sender: TObject);
+var
+  pt: TPoint;
+begin
+  pt := Mouse.CursorPos;
+  pmOceny.PopUp(pt.x, pt.y);
 end;
 
 procedure TFrmMain.tmrFiltrTimer(Sender: TObject);
@@ -1418,6 +1552,7 @@ begin
             DMM.qMainInfo.Edit;
           DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger := DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger + 1;
         end;
+        DMM.DodajHistorie(idpl, fIdRipWybPl);
       end
       else
       begin
@@ -1771,6 +1906,55 @@ begin
   end;
 end;
 
+procedure TFrmMain.acHistCzyscNazwExecute(Sender: TObject);
+begin
+  if (edFiltrHistNazwa.Caption <> '') then
+  begin
+    edFiltrHistNazwa.Caption := '';
+    acHistOdswiez.Execute;
+  end;
+end;
+
+procedure TFrmMain.acHistIdzExecute(Sender: TObject);
+var
+  IdPl: longint;
+begin
+  if (Assigned(lvHist.ItemFocused)) then
+  begin
+    IdPl := StrToIntDef(lvHist.ItemFocused.SubItems[2], 0);
+    if (IdPl > 0) then
+      PrzejdzDoPliku(IdPl)
+    else
+      MessageDlg(Format('Podczas próby wyszukania pliku wystapił błąd. Przekazany identyfikator pliku nie jest poprawną liczbą: "%s"', [lvHist.ItemFocused.SubItems[2]]), mtError, [mbOK], 0);
+  end;
+end;
+
+procedure TFrmMain.acHistOdswiezExecute(Sender: TObject);
+var
+  item: TListItem;
+begin
+  DMM.UstawWidokHistorii(cbxHistOkres.ItemIndex, Trim(edFiltrHistNazwa.Text));
+  //ShowMessage(DMM.qHist.SQL.Text);
+  lvHist.BeginUpdate;
+  try
+    lvHist.Items.Clear;
+    while not DMM.qHist.EOF do
+    begin
+      item := lvHist.Items.Add;
+      item.Caption := FormatDateTime('(ddd) dd mm yyyy hh:nn:ss', UniversalTimeToLocal(DMM.qHist.FieldByName('DataUruchHpl').AsDateTime));
+      item.SubItems.Add(DMM.qHist.FieldByName('NazwaPl').AsString);
+      item.SubItems.Add(DMM.qHist.FieldByName('ScPl').AsString);
+      item.SubItems.Add(DMM.qHist.FieldByName('IdPl').AsString);
+      item.ImageIndex := 55;
+
+      DMM.qHist.Next;
+    end;
+  finally
+    lvHist.EndUpdate;
+  end;
+  lbHistIlosc.Caption := Format('Wpisy historii: %d', [lvHist.Items.Count]);
+end;
+
 procedure TFrmMain.acInnyTytDodajExecute(Sender: TObject);
 var
   frm: TFrmPozSlownika;
@@ -2114,6 +2298,28 @@ begin
   end;
 end;
 
+procedure TFrmMain.acPlikHistoriaExecute(Sender: TObject);
+var
+  frm: TFrmHistPliku;
+  IdPl: longint;
+begin
+  if (DMM.qMain.Active) and (not DMM.qMain.IsEmpty) then
+  begin
+    IdPl := DMM.qMain.FieldByName('IdPl').AsInteger;
+    if (IdPl > 0) or (fIdRipWybPl > 0) then
+    begin
+      frm := TFrmHistPliku.Create(self);
+      try
+        frm.IdPl := IdPl;
+        frm.IdRip := fIdRipWybPl;
+        frm.ShowModal;
+      finally
+        FreeAndNil(frm);
+      end;
+    end;
+  end;
+end;
+
 function TFrmMain.UruchomAplikacje: boolean;
 begin
   Result := True;
@@ -2449,7 +2655,7 @@ var
   lstKatPodrzDB: TObjectList;
   i, j: integer;
   kat: Tkatalog;
-  idKat : integer;
+  idKat: integer;
 begin
   FreeAndNil(fDirSeqHld);
   fDirSeqHld := TDirSeqHolder.Create;
@@ -2462,7 +2668,7 @@ begin
       for i := 0 to lstKatDB.Count - 1 do
       begin
         kat := TKatalog(lstKatDb.Items[i]);
-        idKat:= kat.IdKatalogu;
+        idKat := kat.IdKatalogu;
         fDirSeqHld.AddRootPath(kat.ToString, idKat);
         lstKatPodrzDB.Clear;
         if (DMG.UtworzListeKatalogowPodrzednych(kat.IdKatalogu, lstKatPodrzDB) > 0) then
@@ -2517,6 +2723,17 @@ begin
   OdswiezDane;
 end;
 
+function TFrmMain.PrzejdzDoPliku(IdPl: longint): boolean;
+begin
+  Result := False;
+  if ((DMM.qMain.Active) and (not DMM.qMain.IsEmpty)) then
+  begin
+    Result := DMM.qMain.Locate('IdPl', IdPl, []);
+    if not Result then
+      MessageDlg('Wyszukiwanie', 'Nie znaleziono wskazanego pliku.' + sLineBreak + 'Prawdopodobnie nie występuje w obecnym widoku.', mtInformation, [mbOK], 0);
+  end;
+end;
+
 
 procedure TFrmMain.UtworzFiltrOceny(MgrPozOcen: TManagerPozycji);
 const
@@ -2565,17 +2782,17 @@ begin
     end;
 
     lvFiltrDekady.Items.BeginUpdate;
-    try
-      lvFiltrDekady.Items.Clear;
-      for i := 0 to lstDekad.Count - 1 do
-      begin
-        poz := lvFiltrDekady.Items.Add;
-        poz.Caption := lstDekad.Strings[i];
-        poz.ImageIndex := 53;
-      end;
-    finally
-      lvFiltrDekady.Items.EndUpdate;
+  try
+    lvFiltrDekady.Items.Clear;
+    for i := 0 to lstDekad.Count - 1 do
+    begin
+      poz := lvFiltrDekady.Items.Add;
+      poz.Caption := lstDekad.Strings[i];
+      poz.ImageIndex := 53;
     end;
+  finally
+    lvFiltrDekady.Items.EndUpdate;
+  end;
     WczytajPozycjeFiltru(mgrPoz, lvFiltrLata, 54);
 
 
@@ -2659,6 +2876,10 @@ begin
   else if (pcDanePl.ActivePage = tsPlikFilm) then
   begin
     PokazDaneZaklFilm;
+  end
+  else if (pcDanePl.ActivePage = tsPlikTagi) then
+  begin
+    PokazDaneZaklTag;
   end
   else if (pcDanePl.ActivePage = tsPlikOpis) then
   begin
@@ -2931,6 +3152,7 @@ end;
 
 function TFrmMain.WybFiltrToDbIdx(filtr: TWybranyFiltr): integer;
 begin
+  Result := -1;
   case filtr of
     twfOcena: Result := 0;
     twfRok: Result := 1;
@@ -2938,13 +3160,12 @@ begin
     twfTag: Result := 3;
     twfGatunek: Result := 4;
     twfSeria: Result := 5;
-    else
-      Result := -1;
   end;
 end;
 
 function TFrmMain.WybFiltrToIdx(Filtr: TWybranyFiltr): integer;
 begin
+  Result := -1;
   case filtr of
     twfOcena: Result := 0;
     twfRok: Result := 1;
@@ -2952,8 +3173,6 @@ begin
     twfTag: Result := 3;
     twfGatunek: Result := 4;
     twfSeria: Result := 5;
-    else
-      Result := -1;
   end;
 end;
 
@@ -3131,6 +3350,20 @@ begin
   begin
     OdswiezDane;
   end;}
+end;
+
+procedure TFrmMain.lvHistSelectItem(Sender: TObject; Item: TListItem; Selected: boolean);
+begin
+  if (Selected) then
+  begin
+    lbHistPlik.Caption := Item.SubItems[0];
+    lbHistSciezka.Caption := Item.SubItems[1];
+  end
+  else
+  begin
+    lbHistPlik.Caption := '';
+    lbHistSciezka.Caption := '';
+  end;
 end;
 
 end.

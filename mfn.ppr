@@ -15,7 +15,8 @@ uses
   dlgedycjarozsz, ulstplrec, usqlqryb, dlgflmdod, dlgfilmlista, dlginfotxt,
   dlgrok, dlgczasfilm, dlgimgview, ulnkopen, dlgaktor, dlglstpoztxt, dlgpzlntxt,
   upozsl, umgrpoz, ubyteconv, dlgslpoz, dlgakttxt, dlgpozseptxt, unazakt, 
-dlgwating, uokrlat, ugrlat, functrls, udirseqhld;
+dlgwating, uokrlat, ugrlat, functrls, udirseqhld, dlghistpl, uwybhist, 
+dlgzmnazpl, dlgprzenpl, dlgfldwyb, dlgpostprzpl, funpl, upldb;
 
 {$R *.res}
 

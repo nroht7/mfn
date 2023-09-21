@@ -21,6 +21,13 @@ type
     property IdRip: longint read fIdRip write fIdRip;
   end;
 
+  TItemInfo = class
+  private
+    fIdItem : longint;
+  public
+    property Id : longint read fIdItem write fIdItem;
+  end;
+
   { TDMG }
 
   TDMG = class(TDataModule)
@@ -42,6 +49,8 @@ type
     qLataDek: TZReadOnlyQuery;
     qCmd: TZQuery;
     qKatPod: TZReadOnlyQuery;
+    tbPliki: TZTable;
+    tbRejPl: TZTable;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -67,7 +76,9 @@ type
     function DodajRekord(aTabela: string; aListaPol: TStringList): longint;
     function GetLstOblTypowAsStr: string;
     procedure GetListaLatIDekadFolder(aIdFld: longint; var aLstLat: TStringList);
-    procedure DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
+    procedure DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis: string; ImgIdx: integer);
+    procedure DataSetToComboBoxExId(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
+    procedure DataSetToComboBoxExFilm(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
     function GetOperatorLikeOrEqual(aLike: boolean): string;
 
   end;
@@ -118,6 +129,10 @@ begin
   fLnkOpen := TLinkOpen.Create;
 
   fLstDSDoZamkniecia.Add(tbRozszPl);
+  fLstDSDoZamkniecia.Add(tbPliki);
+  fLstDSDoZamkniecia.Add(tbRejPl);
+  fLstDSDoZamkniecia.Add(tbKat);
+  fLstDSDoZamkniecia.Add(qKatPod);
   fLstDSDoZamkniecia.Add(qCmd);
 end;
 
@@ -420,7 +435,69 @@ begin
   end;
 end;
 
-procedure TDMG.DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
+procedure TDMG.DataSetToComboBoxEx(DataSet: TDataSet; ComboBox: TComboBoxEx;
+  PoleOpis: string; ImgIdx: integer);
+var
+  item: TComboExItem;
+begin
+  if (Assigned(ComboBox)) then
+  begin
+    ComboBox.Items.Clear;
+    if (Assigned(DataSet)) then
+    begin
+      DataSet.DisableControls;
+      try
+        DataSet.First;
+        while not DataSet.EOF do
+        begin
+          item := ComboBox.ItemsEx.Add;
+          item.Caption := DataSet.FieldByName(PoleOpis).AsString;
+          item.ImageIndex := ImgIdx;
+          item.SelectedImageIndex := ImgIdx;
+
+          DataSet.Next;
+        end;
+      finally
+        DataSet.EnableControls;
+      end;
+    end;
+  end;
+end;
+
+procedure TDMG.DataSetToComboBoxExId(DataSet: TDataSet; ComboBox: TComboBoxEx;
+  PoleOpis, PoleId: string; ImgIdx: integer);
+var
+  item: TComboExItem;
+  info: TItemInfo;
+begin
+  if (Assigned(ComboBox)) then
+  begin
+    ComboBox.Items.Clear;
+    if (Assigned(DataSet)) then
+    begin
+      DataSet.DisableControls;
+      try
+        DataSet.First;
+        while not DataSet.EOF do
+        begin
+          item := ComboBox.ItemsEx.Add;
+          item.Caption := DataSet.FieldByName(PoleOpis).AsString;
+          info := TItemInfo.Create;
+          info.Id := DataSet.FieldByName(PoleId).AsInteger;
+          item.Data := Pointer(info);
+          item.ImageIndex := ImgIdx;
+          item.SelectedImageIndex := ImgIdx;
+
+          DataSet.Next;
+        end;
+      finally
+        DataSet.EnableControls;
+      end;
+    end;
+  end;
+end;
+
+procedure TDMG.DataSetToComboBoxExFilm(DataSet: TDataSet; ComboBox: TComboBoxEx; PoleOpis, PoleId: string; ImgIdx: integer);
 var
   item: TComboExItem;
   fi: TFilmPlInfo;

@@ -2,10 +2,10 @@ object DMM: TDMM
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
-  Height = 699
+  Height = 762
   HorizontalOffset = 86
   VerticalOffset = 86
-  Width = 497
+  Width = 568
   object qMainTag: TZReadOnlyQuery
     Connection = DMG.ZConn
     SQL.Strings = (
@@ -1069,7 +1069,7 @@ object DMM: TDMM
         SQLType = stInteger
       end>
     Options = [doCalcDefaults, doPreferPrepared]
-    Left = 104
+    Left = 80
     Top = 616
     ParamData = <    
       item
@@ -1078,5 +1078,116 @@ object DMM: TDMM
         ParamType = ptInput
         SQLType = stInteger
       end>
+  end
+  object qHistPl: TZReadOnlyQuery
+    SortedFields = 'DataUruchHpl'
+    SortType = stDescending
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT H.IdHpl, H.IdPl, H.IdRip, DATETIME(H.DataUruchHpl, ''localtime'') as DataUruchom, P.ScPl,'
+      'H.DataUruchHpl'
+      'FROM HistoriaPliku H'
+      'JOIN Pliki P ON P.IdPl = H.IdPl'
+      'WHERE H.IdPl = :IDPOZ'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPOZ'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    IndexFieldNames = 'DataUruchHpl Desc'
+    Left = 136
+    Top = 616
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPOZ'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object qHistRip: TZReadOnlyQuery
+    SortedFields = 'DataUruchHpl'
+    SortType = stDescending
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT H.IdHpl, H.IdPl, H.IdRip, DATETIME(H.DataUruchHpl, ''localtime'') as DataUruchom, P.ScPl,'
+      'H.DataUruchHpl'
+      'FROM HistoriaPliku H'
+      'JOIN Pliki P ON P.IdRip = H.IdRip'
+      'WHERE H.IdRip = :IDPOZ'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPOZ'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    IndexFieldNames = 'DataUruchHpl Desc'
+    Left = 184
+    Top = 616
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPOZ'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object qHist: TZReadOnlyQuery
+    SortedFields = 'DataUruchHpl'
+    SortType = stDescending
+    Connection = DMG.ZConn
+    Params = <>
+    IndexFieldNames = 'DataUruchHpl Desc'
+    Left = 232
+    Top = 616
+  end
+  object qZmNazFilmy: TZReadOnlyQuery
+    SortedFields = 'IdPl'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT * FROM Pliki P'
+      'JOIN RejestrPlikow R ON R.IdRip = P.IdRip'
+      'LEFT JOIN PlikiFilmy PF ON PF.IdRip = R.IdRip'
+      'LEFT JOIN Filmy F ON F.IdFilmu = PF.IdFilmu'
+      'WHERE P.IdPl = :IDPL'
+    )
+    Params = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPL'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+    IndexFieldNames = 'IdPl Asc'
+    Left = 344
+    Top = 488
+    ParamData = <    
+      item
+        DataType = ftInteger
+        Name = 'IDPL'
+        ParamType = ptInput
+        SQLType = stInteger
+      end>
+  end
+  object dsZmNazFilmy: TDataSource
+    DataSet = qZmNazFilmy
+    Left = 344
+    Top = 544
+  end
+  object qFld: TZReadOnlyQuery
+    SortedFields = 'ScFld'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdFld,ScFld,NowePlikiFld,DataWerFld,DataAktFld,OpisFld FROM Foldery'
+    )
+    Params = <>
+    IndexFieldNames = 'ScFld Asc'
+    Left = 280
+    Top = 616
   end
 end

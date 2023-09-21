@@ -486,6 +486,7 @@ begin
   begin
     lvAkt.Selected := item;
     lvAkt.ItemFocused := item;
+
     Result := True;
   end;
 end;
@@ -500,6 +501,7 @@ begin
     begin
       lvAkt.Selected := Item;
       lvAkt.ItemFocused := Item;
+      Item.MakeVisible(False);
       Result := True;
     end;
   end;

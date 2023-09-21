@@ -11,7 +11,7 @@ object FrmAktorzy: TFrmAktorzy
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.8'
+  LCLVersion = '8.0'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -28,13 +28,13 @@ object FrmAktorzy: TFrmAktorzy
       Action = acAktDodaj
     end
     object ToolButton9: TToolButton
-      Left = 81
+      Left = 84
       Top = 2
       Action = acAktUsun
       ShowCaption = False
     end
     object ToolButton11: TToolButton
-      Left = 112
+      Left = 115
       Top = 2
       Caption = 'ToolButton11'
       DropdownMenu = pmSort
@@ -42,13 +42,13 @@ object FrmAktorzy: TFrmAktorzy
       ShowCaption = False
     end
     object ToolButton4: TToolButton
-      Left = 58
+      Left = 61
       Top = 2
       Action = acAktEdytuj
       ShowCaption = False
     end
     object ToolButton5: TToolButton
-      Left = 104
+      Left = 107
       Height = 22
       Top = 2
       Caption = 'ToolButton5'

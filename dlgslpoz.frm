@@ -8,7 +8,8 @@ object FrmSlPoz: TFrmSlPoz
   ClientWidth = 400
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '7.7'
+  OnShow = FormShow
+  LCLVersion = '8.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
@@ -69,8 +70,11 @@ object FrmSlPoz: TFrmSlPoz
       Height = 23
       Top = 2
       Width = 23
+      Action = acWyczysc
       Anchors = [akTop, akRight]
-      OnClick = sbnFiltrClearClick
+      Images = DMG.ilCommon
+      ImageIndex = 5
+      ShowCaption = False
       ShowHint = True
       ParentShowHint = False
     end
@@ -80,8 +84,33 @@ object FrmSlPoz: TFrmSlPoz
     Top = 272
   end
   object ActionList1: TActionList
-    Left = 83
+    Images = DMG.ilCommon
+    Left = 80
     Top = 361
+    object acFiltruj: TAction
+      Caption = 'Filtruj'
+      ImageIndex = 4
+      OnExecute = acFiltrujExecute
+      ShortCut = 16454
+    end
+    object acWyczysc: TAction
+      Caption = 'Wyczyść'
+      Hint = 'Wyczyść filtr'
+      ImageIndex = 5
+      OnExecute = acWyczyscExecute
+      ShortCut = 16430
+    end
+    object acGrid: TAction
+      Caption = 'acGrid'
+      OnExecute = acGridExecute
+      ShortCut = 16455
+    end
+    object acOdswiez: TAction
+      Caption = 'Odswież'
+      Hint = 'Odśwież'
+      OnExecute = acOdswiezExecute
+      ShortCut = 116
+    end
   end
   object tmr: TTimer
     Interval = 300

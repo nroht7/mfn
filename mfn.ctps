@@ -9,10 +9,11 @@
         <Filename Value="mfn.ppr"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <CursorPos Y="31"/>
+        <CursorPos Y="32"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -21,26 +22,25 @@
         <ComponentName Value="FrmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2294"/>
-        <CursorPos X="38" Y="2282"/>
+        <TopLine Value="628"/>
+        <CursorPos X="50" Y="718"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dmgl.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="19"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="273"/>
-        <CursorPos X="16" Y="299"/>
+        <TopLine Value="50"/>
+        <CursorPos X="33" Y="136"/>
         <UsageCount Value="202"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -59,9 +59,9 @@
         <ComponentName Value="FrmSlownik"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="63"/>
+        <TopLine Value="48"/>
         <CursorPos X="68" Y="87"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
@@ -74,9 +74,9 @@
         <ComponentName Value="FrmPozSlownika"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="18" Y="15"/>
+        <CursorPos X="96" Y="20"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -88,24 +88,24 @@
         <ComponentName Value="FrmAktorzy"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1071"/>
-        <CursorPos X="60" Y="1115"/>
+        <TopLine Value="478"/>
+        <CursorPos X="29" Y="505"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dmakt.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMA"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="180"/>
+        <TopLine Value="171"/>
         <CursorPos X="5" Y="190"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -126,15 +126,15 @@
       </Unit>
       <Unit>
         <Filename Value="dmmain.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMM"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="18"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="302"/>
-        <CursorPos X="88" Y="312"/>
+        <TopLine Value="522"/>
+        <CursorPos X="4" Y="565"/>
         <UsageCount Value="211"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -167,22 +167,18 @@
       <Unit>
         <Filename Value="ukatalog.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="82"/>
-        <CursorPos Y="108"/>
+        <CursorPos X="14" Y="13"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ukatmgr.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="117"/>
-        <CursorPos X="26" Y="154"/>
+        <CursorPos X="8" Y="20"/>
         <UsageCount Value="202"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgskan.pas"/>
@@ -236,14 +232,15 @@
       <Unit>
         <Filename Value="usqlqryb.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="60" Y="129"/>
+        <CursorPos X="14"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgflmdod.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmFilmDodaj"/>
         <HasResources Value="True"/>
@@ -256,20 +253,20 @@
       </Unit>
       <Unit>
         <Filename Value="dlgfilmlista.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmFilmLista"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="80"/>
-        <CursorPos X="41" Y="121"/>
+        <TopLine Value="55"/>
+        <CursorPos X="70" Y="77"/>
         <UsageCount Value="201"/>
       </Unit>
       <Unit>
         <Filename Value="dlginfotxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmInfoTxt"/>
         <HasResources Value="True"/>
@@ -281,7 +278,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgrok.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmRok"/>
         <HasResources Value="True"/>
@@ -293,7 +290,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgczasfilm.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmCzasFilm"/>
         <HasResources Value="True"/>
@@ -306,7 +303,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgimgview.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmImgView"/>
         <HasResources Value="True"/>
@@ -319,16 +316,16 @@
       </Unit>
       <Unit>
         <Filename Value="ulnkopen.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="7" Y="32"/>
+        <TopLine Value="28"/>
+        <CursorPos X="19" Y="36"/>
         <UsageCount Value="200"/>
       </Unit>
       <Unit>
         <Filename Value="dlgaktor.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmAktor"/>
         <HasResources Value="True"/>
@@ -341,7 +338,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlglstpoztxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmLstPozTxt"/>
         <HasResources Value="True"/>
@@ -354,7 +351,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgpzlntxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmPozLinTxt"/>
         <HasResources Value="True"/>
@@ -366,15 +363,16 @@
       </Unit>
       <Unit>
         <Filename Value="umgrpoz.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="19" Y="96"/>
         <UsageCount Value="203"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="upozsl.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
@@ -383,29 +381,30 @@
       </Unit>
       <Unit>
         <Filename Value="dlgslpoz.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmSlPoz"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="26" Y="19"/>
+        <TopLine Value="67"/>
+        <CursorPos Y="95"/>
         <UsageCount Value="202"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ubyteconv.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="62"/>
-        <CursorPos X="84" Y="75"/>
+        <CursorPos X="24" Y="23"/>
         <UsageCount Value="202"/>
       </Unit>
       <Unit>
         <Filename Value="dlgakttxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmAktTxt"/>
         <HasResources Value="True"/>
@@ -418,7 +417,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgpozseptxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmPozSepTxt"/>
         <HasResources Value="True"/>
@@ -431,7 +430,6 @@
       </Unit>
       <Unit>
         <Filename Value="unazakt.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
@@ -441,7 +439,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgwating.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmWating"/>
         <HasResources Value="True"/>
@@ -453,7 +451,6 @@
       </Unit>
       <Unit>
         <Filename Value="uokrlat.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
@@ -462,7 +459,6 @@
       </Unit>
       <Unit>
         <Filename Value="ugrlat.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
@@ -472,9 +468,8 @@
       </Unit>
       <Unit>
         <Filename Value="functrls.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <CursorPos X="55" Y="8"/>
         <UsageCount Value="200"/>
@@ -482,13 +477,117 @@
       </Unit>
       <Unit>
         <Filename Value="udirseqhld.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="76"/>
+        <CursorPos X="109" Y="102"/>
+        <UsageCount Value="201"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlghistpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmHistPliku"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="89" Y="108"/>
+        <UsageCount Value="202"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uwybhist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="94"/>
+        <CursorPos X="63" Y="134"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgzmnazpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmZmNazwy"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="87"/>
+        <CursorPos X="53" Y="53"/>
+        <UsageCount Value="203"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgprzenpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmPrzeniesPlik"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="270"/>
-        <CursorPos X="52" Y="363"/>
-        <UsageCount Value="107"/>
+        <TopLine Value="127"/>
+        <CursorPos X="83" Y="183"/>
+        <UsageCount Value="172"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgfldwyb.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmWybFld"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="68"/>
+        <CursorPos X="61" Y="86"/>
+        <UsageCount Value="167"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmPostepPrzenPl"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="113"/>
+        <CursorPos X="51" Y="69"/>
+        <UsageCount Value="135"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="funpl.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <CursorPos X="37" Y="11"/>
+        <UsageCount Value="98"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="upldb.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <CursorPos X="10" Y="14"/>
+        <UsageCount Value="93"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -497,51 +596,16 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
         <CursorPos X="62" Y="3"/>
-        <UsageCount Value="44"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\sysutils\sysstrh.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="48"/>
-        <CursorPos X="23" Y="90"/>
-        <UsageCount Value="4"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\listitem.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="645"/>
-        <CursorPos Y="671"/>
-        <UsageCount Value="9"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\listitems.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <CursorPos X="8" Y="4"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="C:\codetyphon\typhon\lcl\include\customaction.inc"/>
         <FRMtype Value="0"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="89"/>
-        <CursorPos Y="112"/>
+        <TopLine Value="222"/>
+        <CursorPos X="70" Y="255"/>
         <UsageCount Value="10"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\controlactionlink.inc"/>
-        <FRMtype Value="0"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="47"/>
-        <CursorPos Y="72"/>
-        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="C:\codetyphon\typhon\lcl\include\actionlink.inc"/>
@@ -549,146 +613,279 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
         <CursorPos Y="27"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
-        <Filename Value="C:\codetyphon\fpcsrc\rtl\win\syswinh.inc"/>
+        <Filename Value="C:\codetyphon\typhon\components\packages_pl\pl_ZeosDBO\source\component\ZDataset.pas"/>
         <FRMtype Value="0"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <CursorPos X="2" Y="19"/>
+        <TopLine Value="38"/>
+        <CursorPos X="14" Y="52"/>
+        <UsageCount Value="5"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\forms.pp"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="424"/>
+        <CursorPos X="3" Y="450"/>
+        <UsageCount Value="4"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\sysutils\filutilh.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="193"/>
+        <CursorPos X="10" Y="219"/>
+        <UsageCount Value="2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\stdctrls.pp"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="StdCtrls"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1233"/>
+        <CursorPos X="39" Y="1258"/>
         <UsageCount Value="3"/>
       </Unit>
       <Unit>
-        <Filename Value="C:\codetyphon\typhon\lcl\include\application.inc"/>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\rtl-objpas\src\inc\system.uitypes.pp"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="System.UITypes"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="186"/>
+        <CursorPos X="6" Y="220"/>
+        <UsageCount Value="3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\control.inc"/>
         <FRMtype Value="0"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="996"/>
-        <CursorPos Y="1066"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="2944"/>
+        <CursorPos Y="2972"/>
+        <UsageCount Value="12"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\containedaction.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="59"/>
+        <CursorPos Y="100"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\buttoncontrol.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos Y="57"/>
+        <UsageCount Value="12"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\buttons.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="144"/>
+        <CursorPos Y="170"/>
+        <UsageCount Value="3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\bitbtn.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="42"/>
+        <CursorPos Y="68"/>
+        <UsageCount Value="3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\wincontrol.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5415"/>
+        <CursorPos Y="5441"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\lclmessageglue.pas"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="LCLMessageGlue"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="86"/>
+        <CursorPos Y="131"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\interfaces\win32\win32callback.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2640"/>
+        <CursorPos X="109" Y="2657"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\comctrls.pp"/>
+        <FRMtype Value="0"/>
+        <UnitName Value="ComCtrls"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <CursorPos X="14" Y="24"/>
+        <UsageCount Value="5"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\sysutils\syshelph.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="134"/>
+        <CursorPos X="14" Y="159"/>
+        <UsageCount Value="5"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\sysutils\sysstrh.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <CursorPos X="40" Y="28"/>
+        <UsageCount Value="5"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\codetyphon\typhon\lcl\include\toolbutton.inc"/>
+        <FRMtype Value="0"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="159"/>
+        <CursorPos Y="184"/>
+        <UsageCount Value="1"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1895" Column="14" TopLine="1890"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="519" Column="3" TopLine="467"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2479" TopLine="2469"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="167" Column="17" TopLine="119"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="484" Column="15" TopLine="460"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="519" Column="3" TopLine="514"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2292" Column="20" TopLine="2184"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="168" Column="16" TopLine="137"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1878" Column="11" TopLine="1876"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="526" TopLine="510"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="67" Column="22" TopLine="27"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="168" Column="61" TopLine="131"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="244" Column="30" TopLine="235"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="571" Column="120" TopLine="533"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="46" Column="15" TopLine="38"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="194" Column="45" TopLine="166"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="207" Column="79" TopLine="196"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="168" Column="18" TopLine="131"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="24" Column="20" TopLine="9"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="100" TopLine="71"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="40" Column="57" TopLine="38"/>
+        <Filename Value="dmmain.pas"/>
+        <Caret Line="556" Column="95" TopLine="532"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="46" Column="20" TopLine="38"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="31" Column="17" TopLine="14"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="208" Column="30" TopLine="192"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="37" Column="20" TopLine="8"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="271" Column="47" TopLine="229"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="107" TopLine="79"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="317" Column="44" TopLine="278"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="144" Column="5" TopLine="35"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="46" Column="20" TopLine="21"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="143" Column="5" TopLine="91"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="208" Column="30" TopLine="165"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="199" Column="9" TopLine="197"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="263" Column="24" TopLine="226"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="242" Column="19" TopLine="200"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="271" Column="28" TopLine="228"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="145" Column="48" TopLine="116"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="306" Column="30" TopLine="263"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="149" Column="8" TopLine="108"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2456" Column="67" TopLine="2454"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="107" Column="5" TopLine="85"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2294" Column="87" TopLine="2253"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="117" Column="5" TopLine="20"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="190" Column="17" TopLine="165"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="126" Column="36" TopLine="86"/>
       </Position>
       <Position>
-        <Filename Value="udirseqhld.pas"/>
-        <Caret Line="58" Column="16" TopLine="29"/>
+        <Filename Value="dlgpostprzpl.pas"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2058" Column="46" TopLine="2044"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="31" Column="22"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1119" Column="3" TopLine="1092"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="104" TopLine="29"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="1581" Column="9" TopLine="1570"/>
+        <Filename Value="dlgprzenpl.pas"/>
+        <Caret Line="50" Column="14" TopLine="30"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2260" TopLine="2235"/>
+        <Filename Value="dlgpostprzpl.pas"/>
       </Position>
       <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2271" Column="12" TopLine="2259"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="2345" Column="32" TopLine="2314"/>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <Caret Line="17" Column="11"/>
       </Position>
     </JumpHistory>
     <RunParams>

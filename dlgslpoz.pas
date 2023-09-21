@@ -13,6 +13,10 @@ type
   { TFrmSlPoz }
 
   TFrmSlPoz = class(TForm)
+    acGrid: TAction;
+    acOdswiez: TAction;
+    acWyczysc: TAction;
+    acFiltruj: TAction;
     ActionList1: TActionList;
     ButtonPanel1: TButtonPanel;
     edNazwa: TEdit;
@@ -22,12 +26,16 @@ type
     sbnFiltrClear: TSpeedButton;
     StatusBar1: TStatusBar;
     tmr: TTimer;
+    procedure acFiltrujExecute(Sender: TObject);
+    procedure acGridExecute(Sender: TObject);
+    procedure acOdswiezExecute(Sender: TObject);
+    procedure acWyczyscExecute(Sender: TObject);
     procedure edNazwaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure lvItemChecked(Sender: TObject; Item: TListItem);
-    procedure sbnFiltrClearClick(Sender: TObject);
     procedure tmrTimer(Sender: TObject);
   private
     fMgrPoz : TManagerPozycji;
@@ -71,10 +79,37 @@ begin
   tmr.Enabled:= True;
 end;
 
+procedure TFrmSlPoz.acFiltrujExecute(Sender: TObject);
+begin
+  edNazwa.SetFocus;
+end;
+
+procedure TFrmSlPoz.acGridExecute(Sender: TObject);
+begin
+  lv.SetFocus;
+end;
+
+procedure TFrmSlPoz.acOdswiezExecute(Sender: TObject);
+begin
+  OdswiezWidok;
+end;
+
+procedure TFrmSlPoz.acWyczyscExecute(Sender: TObject);
+begin
+  edNazwa.Caption:= '';
+  fMgrPoz.Filtr:= '';
+  OdswiezWidok;
+end;
+
 procedure TFrmSlPoz.FormDestroy(Sender: TObject);
 begin
   fMgrPoz.UsunWszystkiePozycje;
   FreeAndNil(fMgrPoz);
+end;
+
+procedure TFrmSlPoz.FormShow(Sender: TObject);
+begin
+  lv.SetFocus;
 end;
 
 procedure TFrmSlPoz.lvItemChecked(Sender: TObject; Item: TListItem);
@@ -86,13 +121,6 @@ begin
     poz.Zaznaczona:= Item.Checked
   else
     MessageDlg('Błąd',Format('Nie udało się odszukać pozycji po nazwie "%s" w fMgrPoz',[Item.Caption]),mtError,[mbOK],0);
-end;
-
-procedure TFrmSlPoz.sbnFiltrClearClick(Sender: TObject);
-begin
-  edNazwa.Caption:= '';
-  fMgrPoz.Filtr:= '';
-  OdswiezWidok;
 end;
 
 procedure TFrmSlPoz.tmrTimer(Sender: TObject);

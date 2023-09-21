@@ -1,0 +1,235 @@
+object FrmPrzeniesPlik: TFrmPrzeniesPlik
+  Left = 486
+  Height = 282
+  Top = 171
+  Width = 800
+  BorderStyle = bsDialog
+  Caption = 'Przenieś plik'
+  ClientHeight = 282
+  ClientWidth = 800
+  OnCloseQuery = FormCloseQuery
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '8.0'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 34
+    Top = 242
+    Width = 788
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object Image1: TImage
+    Left = 8
+    Height = 32
+    Top = 8
+    Width = 32
+    Picture.Data = {
+      1754506F727461626C654E6574776F726B477261706869638605000089504E47
+      0D0A1A0A0000000D4948445200000020000000200806000000737A7AF4000000
+      1974455874536F6674776172650041646F626520496D616765526561647971C9
+      653C000005284944415478DAAC575B681C5518FECE9C99D9A4BB4993402BD887
+      3682F6C1B642A2822FB63158100509A962AB82C49742A9AD342F6DE963D30A82
+      224A0842C54B93B552B7B55E408BA8B5506A690D8D3554A54D1A4D73D924BBB9
+      ED6DE6F89F33B3B39B642FD94D0FFCCCCC9973E6FFFEEFBF9D61286DE8A743A1
+      3360EC5961DB100597CAB70C1A63B06CFBEC8BADAD3B682285158E2A02204A1D
+      232323E26430F825EDE74B2C2A1140057D4FDDDCBA3D4044B0FCF6D3BAFA0DEB
+      F159773776B4B4A279DBD69693C19E2F5E7E69E70BF4DA4AAFD34A04C0D2B46B
+      9A5654D406025951E983DF5F85A7B66E5320B299D0CAF58554C039CF2BD90062
+      F13802013F491531D1D4D21D0C7A20CA06C099136085C4F39BCFE781585D5D83
+      E6A6A6969E53A7CEC810D04BD6ECC60099593006D2EF6AEBEA40163B19437B65
+      6CBCB26B174CC3788E662AF59530501000C9CCEC2C9ED9BE3DE77BDB31A4A26C
+      008C7C5C0CC0DCDCBC9285E409DCB7764DFA81950D402BC280EB8725A9E9402B
+      BF0E781F609C008095B89391FD6285005CAB38E3B8174302307A3B9BC7849558
+      2DEB3B162064CAD796D0BE6EDCFB738BA2D155CC34E6D67ACDA5D75E62DD7201
+      F8A5F247769FA05691921A16B2AD73F476BEA6524645AF4B1AA7F0D1B909D3CD
+      E404EDB5EC0445B75D320053599E4A22D17F9C6CC8F68A05DFFA576125E2E87D
+      EF89281731F4B9469A662509C3A6C30EE0BEA302890447D28A29364A01E02666
+      928C37C96AC3F1B354242CD8F1301AF67C4E8EA2A52C853F437F39007CA4FC10
+      C3B7FB3E50CF12485F878096A82410F16583C80010718A6CC301E04537871DBE
+      006DEA12B6F4BC039DA63B1A2EAB379B49F957FB3BF0DDF53DEA59DE6F3A4820
+      8E1188A40F493B8E74E72C98CE9EB36DF2BFC66597C912C2477E864174D36368
+      FF9B3872E571341E61081D68C7F91B87542591F203DD870EBCA1406886AC133A
+      11A9E5109E2F0D2503DC6D522CABE04820066498CC5B53F8646F9BDAF6E38DB7
+      1DE52C53E5526CD26B151A9746B1BC3D22870B92B2BA3800B21729000EEA24A6
+      F0EBCD1064066A466699244B7A7CDF479FE28FE3C28D1F91B352E601C0D4E7B9
+      6E903EC55F86030940379DB8240B55F1764A80D2A3DA3EC9FBD4E17F3F2ABCCF
+      714A5FE48A813400F79A6180225C500DE83F7F19739311AF2049170478A55A6F
+      F3092F49D2DF90E474652B2FD00B161F68163160613A1CA178D3F0E8CE77499B
+      E5CC2B0602C0B1CDB0D88462405B0480D392EFCF5D432419F652506EE39AAC94
+      742FAC4C85750F2BD168F4A29CD43DFDC4C0E4BFA3A85EB791BC31076BF41C6D
+      A1E3958C5CC3AFD814E638F8AAAC631473E8DFFD3A70F844037E6B3B487BA9FD
+      FA6AA9503C8C2B1F770C3FD67EB54DF977E190C7F37192989EEE52E036A687C3
+      58D7F834159F21085EA1ACA7ACA68B8E0D0F92A28E98B29A2DEA8D8240C41561
+      0454C68F713F2607FFC67F1171896665E59ACEF1D3102399D7D3B4A4C2A36ADE
+      AC5E0B6B7690A836B3CA84C0E9E6B7603F1987E6F3E739AA9151A90401A0FC37
+      6A30FECF2F085E18EBA23723F27054B012CACE363D3C84BAFA8754F96562D629
+      40AEAD4272447ED50C8A406A38F97E848474975EABE269E6EE60ACE7A7A17E55
+      608A9662DA3839701B6B366EA1AF4428B0F4252797E59C5364A583194064E026
+      C6A209196473C57EC7320CDC1DC103CF93A3E3519AF5970E203DCC5588DCB985
+      EB03D3675DEB455100B660339AAE077ABB3AA9E4DA2B3AE1C84A371A4D5E6CFF
+      B0EF9B62F4A783B886A45E1EE1CB377B498A4D90DC2189C2A9D20501C8FE2B39
+      37716F869762CBF91DFF5F8001009F560498BD8BD6040000000049454E44AE42
+      6082
+    }
+  end
+  object Label1: TLabel
+    Left = 86
+    Height = 15
+    Top = 14
+    Width = 22
+    Caption = 'Plik:'
+  end
+  object Edit1: TEdit
+    Left = 112
+    Height = 23
+    Top = 8
+    Width = 680
+    Anchors = [akTop, akLeft, akRight]
+    Color = clBtnFace
+    Font.Style = [fsBold]
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 0
+    Text = 'Edit1'
+  end
+  object Edit2: TEdit
+    Left = 112
+    Height = 23
+    Top = 32
+    Width = 680
+    Anchors = [akTop, akLeft, akRight]
+    Color = clBtnFace
+    TabOrder = 1
+    Text = 'Edit2'
+  end
+  object Label2: TLabel
+    Left = 48
+    Height = 15
+    Top = 38
+    Width = 60
+    Caption = 'Lokalizacja:'
+  end
+  object Label3: TLabel
+    Left = 45
+    Height = 15
+    Top = 86
+    Width = 63
+    Caption = 'Przenieś do:'
+  end
+  object Label4: TLabel
+    Left = 71
+    Height = 15
+    Top = 110
+    Width = 38
+    Caption = 'Nazwa:'
+  end
+  object Label5: TLabel
+    Left = 40
+    Height = 15
+    Top = 200
+    Width = 61
+    Caption = 'Po zmianie:'
+  end
+  object lbScPoZm: TLabel
+    Left = 109
+    Height = 40
+    Top = 200
+    Width = 680
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'lbScPoZm'
+    Font.Style = [fsBold]
+    ParentFont = False
+    WordWrap = True
+  end
+  object SpeedButton1: TSpeedButton
+    Left = 771
+    Height = 24
+    Top = 78
+    Width = 23
+    Action = acWybFolder
+    Images = DMG.ilCommon
+    ImageIndex = 23
+    ShowCaption = False
+  end
+  object edFldDoc: TEdit
+    Left = 112
+    Height = 23
+    Top = 78
+    Width = 656
+    OnChange = edFldDocChange
+    ReadOnly = True
+    TabOrder = 3
+  end
+  object edNazwa: TEdit
+    Left = 112
+    Height = 23
+    Top = 103
+    Width = 656
+    OnChange = edNazwaChange
+    TabOrder = 4
+  end
+  object SpeedButton2: TSpeedButton
+    Left = 771
+    Height = 24
+    Top = 103
+    Width = 23
+    Action = acZmienNazwe
+    Images = DMG.ilCommon
+    ImageIndex = 56
+    ShowCaption = False
+  end
+  object Bevel1: TBevel
+    Left = 6
+    Height = 14
+    Top = 146
+    Width = 783
+    Shape = bsTopLine
+  end
+  object lbScPrzedZm: TLabel
+    Left = 112
+    Height = 40
+    Top = 160
+    Width = 680
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'lbScPrzedZm'
+    Font.Style = [fsBold]
+    ParentFont = False
+    WordWrap = True
+  end
+  object Label6: TLabel
+    Left = 32
+    Height = 15
+    Top = 160
+    Width = 73
+    Caption = 'Przed zmianą:'
+  end
+  object ActionList1: TActionList
+    Images = DMG.ilCommon
+    Left = 16
+    Top = 56
+    object acWybFolder: TAction
+      Caption = 'Folder'
+      Hint = 'Wybierz folder docelowy'
+      ImageIndex = 23
+      OnExecute = acWybFolderExecute
+    end
+    object acZmienNazwe: TAction
+      Caption = 'Nazwa'
+      Hint = 'Zmień nazwę'
+      ImageIndex = 56
+      OnExecute = acZmienNazweExecute
+    end
+  end
+end

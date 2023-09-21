@@ -10,7 +10,7 @@ object FrmSlownik: TFrmSlownik
   OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.8'
+  LCLVersion = '8.0'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26

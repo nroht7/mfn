@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, DB, Controls, ZDataset, ZAbstractRODataset, Dialogs,
-  contnrs;
+  contnrs, uwybhist, upldb;
 
 const
   STATUS_USUNIETY = 'U';
@@ -22,6 +22,7 @@ type
   { TDMM }
 
   TDMM = class(TDataModule)
+    dsZmNazFilmy: TDataSource;
     dsTagi: TDataSource;
     dsOceny: TDataSource;
     dsMFTag: TDataSource;
@@ -118,6 +119,11 @@ type
     qTagiExcp: TZReadOnlyQuery;
     qMainLinki: TZQuery;
     qGatExcp: TZReadOnlyQuery;
+    qHistPl: TZReadOnlyQuery;
+    qHistRip: TZReadOnlyQuery;
+    qHist: TZReadOnlyQuery;
+    qZmNazFilmy: TZReadOnlyQuery;
+    qFld: TZReadOnlyQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
     procedure qMainAfterScroll(DataSet: TDataSet);
@@ -130,6 +136,7 @@ type
     // Lista TDataSet tylko do zamknięcia na koniec jesli sa otwarte
     fLstCloseDataSet: TObjectList;
     fLstOcen: TStringList;
+    fWybHistoria : TWybranaHistoria;
   public
     function DodajOdtworzenieFilmu(IdRip: longint): integer;
     function DodajRekordInfo(IdRip: longint): longint;
@@ -148,11 +155,19 @@ type
     procedure UsunTag(IdRip, IdTag: longint);
     function DodajGatunek(IdGat, IdFilmu: longint): longint;
     procedure UsunGatunek(IdGat, IdFilmu: longint);
+    function DodajHistorie(IdPl, IdRip: longint):longint;
+    procedure UsunHistorie(IdHpl: longint);
     function FilmMaTakiInnyTytul(IdFilmu: longint; InnyTytul: string): boolean;
     procedure UstawOcenePliku(IdRip: longint; Ocena: longint);
     function OpisOceny(Ocena: integer): string;
     function GetTytulIRokFilmu(IdFilmu: longint): string;
     procedure OdswiezSlowniki;
+    procedure UstawWidokHistorii(OkresIdx:integer;FiltrNazwa:string);
+    function IstniejeInnyPlikSc(IdPl:longint; ScPl:string):boolean;
+    procedure ZmienNazwePliku(IdPl:longint; ScPl:string);
+    function PrzeniesPlik(IdPl:longint; PlDoc: TPlikDB; var KomZwr:string): boolean;
+
+    property WybHistoria : TWybranaHistoria read fWybHistoria write fWybHistoria;
   end;
 
 var
@@ -172,6 +187,7 @@ begin
   fLstAktDataSet := TObjectList.Create(False);
   fLstCloseDataSet := TObjectList.Create(False);
   fLstOcen := TStringList.Create;
+  fWybHistoria:= TWybranaHistoria.Create;
 
   fLstAktDataSet.Add(qJezyki);
   fLstAktDataSet.Add(qSerie);
@@ -197,6 +213,7 @@ begin
   FreeAndNil(fLstCloseDataSet);
   fLstOcen.Clear;
   FreeAndNil(fLstOcen);
+  FreeAndNil(fWybHistoria);
 end;
 
 procedure TDMM.qMainAfterScroll(DataSet: TDataSet);
@@ -394,6 +411,26 @@ begin
   qCmd.ExecSQL;
 end;
 
+function TDMM.DodajHistorie(IdPl, IdRip: longint): longint;
+begin
+  Result := 0;
+  if (IdPl = 0) or (IdRip = 0) then
+    Exit;
+
+  qCmd.Close;
+  qCmd.SQL.Text := Format('INSERT INTO HistoriaPliku(IdPl,IdRip) VALUES(%d,%d)', [IdPl, IdRip]);
+  qCmd.ExecSQL;
+  Result := DMG.GetLastId;
+end;
+
+procedure TDMM.UsunHistorie(IdHpl: longint);
+begin
+  qCmd.Close;
+
+  qCmd.SQL.Text := Format('DELETE FROM HistoriaPliku WHERE IdHpl = %d', [IdHpl]);
+  qCmd.ExecSQL;
+end;
+
 function TDMM.FilmMaTakiInnyTytul(IdFilmu: longint; InnyTytul: string): boolean;
 begin
   Result := False;
@@ -455,6 +492,94 @@ end;
 procedure TDMM.OdswiezSlowniki;
 begin
   OdswiezObjListyDataSet(fLstAktDataSet);
+end;
+
+procedure TDMM.UstawWidokHistorii(OkresIdx: integer; FiltrNazwa: string);
+begin
+  fWybHistoria.OkresAsIndeks:= OkresIdx;
+  fWybHistoria.FiltrNazwa:= Trim(FiltrNazwa);
+  qHist.Close;
+  qHist.SQL.Text := fWybHistoria.GetQuery;
+  qHist.Open;
+end;
+
+function TDMM.IstniejeInnyPlikSc(IdPl: longint; ScPl: string): boolean;
+begin
+  Result := False;
+  qCmd.Close;
+  qCmd.SQL.Text := Format('SELECT IdPl FROM Pliki WHERE ScPl = ''%s'' AND IdPl <> %d ', [ScPl,IdPl]);
+  qCmd.Open;
+  Result:= not qCmd.IsEmpty;
+  qCmd.Close;
+end;
+
+procedure TDMM.ZmienNazwePliku(IdPl: longint; ScPl: string);
+var
+  nazwa : string;
+begin
+  nazwa:= ExtractFileName(ScPl);
+  qCmd.Close;
+  qCmd.SQL.Text := Format('UPDATE Pliki SET NazwaPl = ''%s'', ScPl = ''%s'' WHERE IdPl = %d', [nazwa,ScPl,IdPl]);
+  qCmd.ExecSQL;
+end;
+
+function TDMM.PrzeniesPlik(IdPl: longint; PlDoc: TPlikDB; var KomZwr: string
+  ): boolean;
+var
+  pustyDataSet : boolean;
+  IdentyfikatorPliku : longint;
+begin
+  result:= False;
+  KomZwr:= '';
+
+  if (IdPl < 0) then
+  begin
+    KomZwr:= 'Nie przekazano id pliku';
+    exit;
+  end;
+
+  if not Assigned(PlDoc) then
+  begin
+    KomZwr:= 'Nie przekazano danych pliku docelowego';
+    exit;
+  end;
+
+  qCmd.Close;
+  qCmd.SQL.Text := Format('SELECT * FROM Pliki WHERE ScPl = ''%s''', [PlDoc.AsString]);
+  qCmd.Open;
+  pustyDataSet:= qCmd.IsEmpty;
+  if not pustyDataSet then
+    IdentyfikatorPliku:= qCmd.FieldByName('IdPl').AsInteger;
+  qCmd.Close;
+  if not pustyDataSet then
+  begin
+    KomZwr:= Format('Plik już istnieje w miejscu docelowym (IdPl=%d)', [IdentyfikatorPliku]);
+    exit;
+  end;
+
+  qCmd.Close;
+  if not DMG.tbPliki.Active then
+    DMG.tbPliki.Open;
+
+  if (DMG.tbPliki.Locate('IdPl', IdPl, [])) then
+  begin
+    DMG.tbPliki.Edit;
+    DMG.tbPliki.FieldByName('IdFld').AsInteger:= PlDoc.IdFolderu;
+    DMG.tbPliki.FieldByName('NazwaPl').AsString:= PlDoc.NazwaPliku;
+    DMG.tbPliki.FieldByName('ScPl').AsString:= PlDoc.AsString;
+    if (PlDoc.WzglednaSciezkaPliku = '') then
+      DMG.tbPliki.FieldByName('WzgScPl').Clear
+    else
+      DMG.tbPliki.FieldByName('WzgScPl').AsString:= PlDoc.WzglednaSciezkaPliku;
+    DMG.tbPliki.FieldByName('DataModPl').AsDateTime:= now;
+    DMG.tbPliki.Post;
+
+    result:= True;
+  end
+  else
+  begin
+    KomZwr:= Format('Zródłowy plik o wskazanym identyfikatorze (id=%d) nie istnieje.', [IdPl]);
+  end;
 end;
 
 function TDMM.DodajOdtworzenieFilmu(IdRip: longint): integer;

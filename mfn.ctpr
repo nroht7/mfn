@@ -78,7 +78,7 @@
       </Unit>
       <Unit>
         <Filename Value="dmgl.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMG"/>
         <HasResources Value="True"/>
@@ -114,7 +114,7 @@
       </Unit>
       <Unit>
         <Filename Value="dmakt.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMA"/>
         <HasResources Value="True"/>
@@ -130,7 +130,7 @@
       </Unit>
       <Unit>
         <Filename Value="dmmain.pas"/>
-        <FRMtype Value="200"/>
+        <FRMtype Value="300"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DMM"/>
         <HasResources Value="True"/>
@@ -195,7 +195,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgflmdod.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmFilmDodaj"/>
         <HasResources Value="True"/>
@@ -203,7 +203,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgfilmlista.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmFilmLista"/>
         <HasResources Value="True"/>
@@ -211,7 +211,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlginfotxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmInfoTxt"/>
         <HasResources Value="True"/>
@@ -219,7 +219,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgrok.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmRok"/>
         <HasResources Value="True"/>
@@ -227,7 +227,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgczasfilm.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmCzasFilm"/>
         <HasResources Value="True"/>
@@ -235,7 +235,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgimgview.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmImgView"/>
         <HasResources Value="True"/>
@@ -243,12 +243,11 @@
       </Unit>
       <Unit>
         <Filename Value="ulnkopen.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgaktor.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmAktor"/>
         <HasResources Value="True"/>
@@ -256,7 +255,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlglstpoztxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmLstPozTxt"/>
         <HasResources Value="True"/>
@@ -264,7 +263,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgpzlntxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmPozLinTxt"/>
         <HasResources Value="True"/>
@@ -272,17 +271,15 @@
       </Unit>
       <Unit>
         <Filename Value="umgrpoz.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="upozsl.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgslpoz.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmSlPoz"/>
         <HasResources Value="True"/>
@@ -290,12 +287,11 @@
       </Unit>
       <Unit>
         <Filename Value="ubyteconv.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgakttxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmAktTxt"/>
         <HasResources Value="True"/>
@@ -303,7 +299,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgpozseptxt.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmPozSepTxt"/>
         <HasResources Value="True"/>
@@ -311,12 +307,11 @@
       </Unit>
       <Unit>
         <Filename Value="unazakt.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="dlgwating.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmWating"/>
         <HasResources Value="True"/>
@@ -324,21 +319,71 @@
       </Unit>
       <Unit>
         <Filename Value="uokrlat.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="ugrlat.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="functrls.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="udirseqhld.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlghistpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmHistPliku"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uwybhist.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgzmnazpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmZmNazwy"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgprzenpl.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmPrzeniesPlik"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgfldwyb.pas"/>
+        <FRMtype Value="200"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmWybFld"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="dlgpostprzpl.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmPostepPrzenPl"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="funpl.pas"/>
+        <FRMtype Value="0"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="upldb.pas"/>
         <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
