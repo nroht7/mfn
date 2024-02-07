@@ -6,12 +6,12 @@ object FrmAktorzy: TFrmAktorzy
   Caption = 'Aktorzy'
   ClientHeight = 600
   ClientWidth = 900
+  Position = poOwnerFormCenter
+  LCLVersion = '8.2'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poOwnerFormCenter
-  LCLVersion = '8.0'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -123,9 +123,9 @@ object FrmAktorzy: TFrmAktorzy
         Height = 23
         Top = 2
         Width = 239
-        OnKeyDown = edFiltrujKeyDown
         TabOrder = 0
         TextHint = '(Nazwisko) <Ctrl-F>'
+        OnKeyDown = edFiltrujKeyDown
       end
       object ToolButton16: TToolButton
         Left = 240
@@ -343,9 +343,9 @@ object FrmAktorzy: TFrmAktorzy
         Width = 17
         Max = 6
         Min = 0
-        OnChangingEx = udOcenaChangingEx
         Position = 0
         TabOrder = 0
+        OnChangingEx = udOcenaChangingEx
       end
       object sbnOcena: TSpeedButton
         Left = 28
@@ -1061,8 +1061,8 @@ object FrmAktorzy: TFrmAktorzy
       Caption = 'Dodaj'
       Hint = 'Dodaj nowego aktora'
       ImageIndex = 1
-      OnExecute = acAktDodajExecute
       ShortCut = 16462
+      OnExecute = acAktDodajExecute
     end
     object DataSetFirst1: TDataSetFirst
       Category = 'Database'
@@ -1185,15 +1185,15 @@ object FrmAktorzy: TFrmAktorzy
       Caption = 'Wyczyść'
       Hint = 'Wyczyść filtr'
       ImageIndex = 5
-      OnExecute = acFiltrWyczyscExecute
       ShortCut = 16453
+      OnExecute = acFiltrWyczyscExecute
     end
     object acFiltr: TAction
       Category = 'Filtr'
       Caption = 'acFiltr'
       HelpKeyword = 'Przejdz do filtru'
-      OnExecute = acFiltrExecute
       ShortCut = 16454
+      OnExecute = acFiltrExecute
     end
     object acDodajWiele: TAction
       Category = 'AKA'
@@ -1284,8 +1284,8 @@ object FrmAktorzy: TFrmAktorzy
       Caption = 'Usuń'
       Hint = 'Usuń aktora'
       ImageIndex = 2
-      OnExecute = acAktUsunExecute
       ShortCut = 16430
+      OnExecute = acAktUsunExecute
     end
     object acFiltrWyszCzescPocz: TAction
       Category = 'Filtr'
@@ -1319,8 +1319,8 @@ object FrmAktorzy: TFrmAktorzy
     end
     object acZamknij: TAction
       Caption = 'Zamknij'
-      OnExecute = acZamknijExecute
       ShortCut = 27
+      OnExecute = acZamknijExecute
     end
     object acWybrane: TAction
       Category = 'ListaAktorow'

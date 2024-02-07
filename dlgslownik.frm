@@ -6,11 +6,11 @@ object FrmSlownik: TFrmSlownik
   Caption = 'Słownik'
   ClientHeight = 600
   ClientWidth = 400
+  Position = poOwnerFormCenter
+  LCLVersion = '8.2'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poOwnerFormCenter
-  LCLVersion = '8.0'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -104,9 +104,9 @@ object FrmSlownik: TFrmSlownik
         Top = 2
         Width = 370
         Anchors = [akTop, akLeft, akRight]
-        OnEditingDone = edFiltrEditingDone
         TabOrder = 0
         TextHint = '(filtr)'
+        OnEditingDone = edFiltrEditingDone
       end
       object SpeedButton1: TSpeedButton
         Left = 376
@@ -199,16 +199,16 @@ object FrmSlownik: TFrmSlownik
       Caption = 'Dodaj'
       Hint = 'Dodaj'
       ImageIndex = 1
-      OnExecute = acDodajExecute
       ShortCut = 16462
+      OnExecute = acDodajExecute
     end
     object acUsun: TAction
       Category = 'Database'
       Caption = 'Usuń'
       Hint = 'Usuń'
       ImageIndex = 2
-      OnExecute = acUsunExecute
       ShortCut = 16430
+      OnExecute = acUsunExecute
     end
   end
   object ImageList1: TImageList

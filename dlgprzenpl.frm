@@ -7,11 +7,11 @@ object FrmPrzeniesPlik: TFrmPrzeniesPlik
   Caption = 'Przenieś plik'
   ClientHeight = 282
   ClientWidth = 800
+  Position = poOwnerFormCenter
+  LCLVersion = '8.2'
   OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
   OnShow = FormShow
-  Position = poOwnerFormCenter
-  LCLVersion = '8.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34
@@ -167,17 +167,17 @@ object FrmPrzeniesPlik: TFrmPrzeniesPlik
     Height = 23
     Top = 78
     Width = 656
-    OnChange = edFldDocChange
     ReadOnly = True
     TabOrder = 3
+    OnChange = edFldDocChange
   end
   object edNazwa: TEdit
     Left = 112
     Height = 23
     Top = 103
     Width = 656
-    OnChange = edNazwaChange
     TabOrder = 4
+    OnChange = edNazwaChange
   end
   object SpeedButton2: TSpeedButton
     Left = 771

@@ -5,7 +5,7 @@ object DMM: TDMM
   Height = 762
   HorizontalOffset = 86
   VerticalOffset = 86
-  Width = 568
+  Width = 599
   object qMainTag: TZReadOnlyQuery
     Connection = DMG.ZConn
     SQL.Strings = (
@@ -110,8 +110,8 @@ object DMM: TDMM
       end>
     IndexFieldNames = 'NazwaAKAF Asc'
     Options = [doCalcDefaults, doPreferPrepared]
-    Left = 384
-    Top = 312
+    Left = 368
+    Top = 300
     ParamData = <    
       item
         DataType = ftInteger
@@ -413,7 +413,7 @@ object DMM: TDMM
     Connection = DMG.ZConn
     SQL.Strings = (
       'SELECT IdRip, KodekVideoIpf,KodekAudioIpf,KontenerIpf,FormatIpf,WysokoscIpf,SzerokoscIpf,DlugoscIpf, '
-      'IloscStrumIpf,IloscUruchomienIpf, DaneIpf, OpisIpf, IdRodzaju'
+      'IloscStrumIpf,IloscUruchomienIpf, DaneIpf, OpisIpf, IdRodzaju, IdJak, IdKlasyf, SkalaSefIpf'
       'FROM InfoPlikiFilmy'
       'WHERE IdRip = :IDRIP'
     )
@@ -557,10 +557,38 @@ object DMM: TDMM
       ReadOnly = False
       Required = False
     end
+    object qMainInfoIdJak: TZInt64Field
+      FieldKind = fkData
+      FieldName = 'IdJak'
+      Index = 13
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoIdKlasyf: TZUInt64Field
+      FieldKind = fkData
+      FieldName = 'IdKlasyf'
+      Index = 14
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qMainInfoSkalaSefIpf: TZRawStringField
+      FieldKind = fkData
+      FieldName = 'SkalaSefIpf'
+      Index = 15
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 10
+    end
     object qMainInfoCDlugosc: TStringField
       FieldKind = fkCalculated
       FieldName = 'CDlugosc'
-      Index = 13
+      Index = 16
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
@@ -1189,5 +1217,39 @@ object DMM: TDMM
     IndexFieldNames = 'ScFld Asc'
     Left = 280
     Top = 616
+  end
+  object qJakosci: TZReadOnlyQuery
+    SortedFields = 'IdJak'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdJak, NazwaJak, OpisJak'
+      'FROM Jakosci'
+    )
+    Params = <>
+    IndexFieldNames = 'IdJak Asc'
+    Left = 344
+    Top = 368
+  end
+  object qKlasyfikacje: TZReadOnlyQuery
+    SortedFields = 'IdKlasyf'
+    Connection = DMG.ZConn
+    SQL.Strings = (
+      'SELECT IdKlasyf, NazwaKlasyf, OpisKlasyf'
+      'FROM Klasyfikacje'
+    )
+    Params = <>
+    IndexFieldNames = 'IdKlasyf Asc'
+    Left = 408
+    Top = 368
+  end
+  object dsJakosci: TDataSource
+    DataSet = qJakosci
+    Left = 344
+    Top = 424
+  end
+  object dsKlasyfikacje: TDataSource
+    DataSet = qKlasyfikacje
+    Left = 408
+    Top = 424
   end
 end

@@ -371,7 +371,7 @@
       </Unit>
       <Unit>
         <Filename Value="dlgpostprzpl.pas"/>
-        <FRMtype Value="0"/>
+        <FRMtype Value="200"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmPostepPrzenPl"/>
         <HasResources Value="True"/>
@@ -379,12 +379,10 @@
       </Unit>
       <Unit>
         <Filename Value="funpl.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="upldb.pas"/>
-        <FRMtype Value="0"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

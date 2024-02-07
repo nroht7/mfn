@@ -6,10 +6,10 @@ object FrmSlPoz: TFrmSlPoz
   Caption = 'Słownik pozycji'
   ClientHeight = 500
   ClientWidth = 400
+  LCLVersion = '8.2'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '8.0'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
@@ -61,9 +61,9 @@ object FrmSlPoz: TFrmSlPoz
       Top = 2
       Width = 370
       Anchors = [akTop, akLeft, akRight]
-      OnKeyDown = edNazwaKeyDown
       TabOrder = 0
       TextHint = 'Nazwa (Ctrl+F)'
+      OnKeyDown = edNazwaKeyDown
     end
     object sbnFiltrClear: TSpeedButton
       Left = 376
@@ -90,26 +90,26 @@ object FrmSlPoz: TFrmSlPoz
     object acFiltruj: TAction
       Caption = 'Filtruj'
       ImageIndex = 4
-      OnExecute = acFiltrujExecute
       ShortCut = 16454
+      OnExecute = acFiltrujExecute
     end
     object acWyczysc: TAction
       Caption = 'Wyczyść'
       Hint = 'Wyczyść filtr'
       ImageIndex = 5
-      OnExecute = acWyczyscExecute
       ShortCut = 16430
+      OnExecute = acWyczyscExecute
     end
     object acGrid: TAction
       Caption = 'acGrid'
-      OnExecute = acGridExecute
       ShortCut = 16455
+      OnExecute = acGridExecute
     end
     object acOdswiez: TAction
       Caption = 'Odswież'
       Hint = 'Odśwież'
-      OnExecute = acOdswiezExecute
       ShortCut = 116
+      OnExecute = acOdswiezExecute
     end
   end
   object tmr: TTimer

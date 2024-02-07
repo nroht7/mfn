@@ -9,7 +9,7 @@ uses
   ActnList, Menus, ComboEx, Buttons, DBGrids, RxDBGrid, rxcurredit, rxspin,
   RxTimeEdit, RxMDI, LSControls, IDEWindowIntf, SearchEdit, DBCtrls, StdCtrls,
   ukatalog, Contnrs, DB, ukatmgr, Grids, DBActns, Clipbrd, LCLIntf, LCLType,
-  PairSplitter, StrUtils, umgrpoz, upozsl, udirseqhld;
+  PairSplitter, StrUtils, umgrpoz, upozsl, udirseqhld, Types;
 
 type
   TWybranyFiltr = (twfOcena, twfRok, twfAktor, twfTag, twfGatunek, twfSeria);
@@ -74,6 +74,8 @@ type
     acHistIdz: TAction;
     acHistCzyscNazw: TAction;
     acPlikZmienNazwe: TAction;
+    acHistUsun: TAction;
+    acFilmUruchBezHist: TAction;
     acWidokOdswiez: TAction;
     ActionList2: TActionList;
     ActionList3: TActionList;
@@ -96,6 +98,7 @@ type
     DBEdit14: TDBEdit;
     DBEdit15: TDBEdit;
     DBEdit16: TDBEdit;
+    DBEdit17: TDBEdit;
     DBEdit2: TDBEdit;
     DBEdit3: TDBEdit;
     DBEdit4: TDBEdit;
@@ -106,8 +109,13 @@ type
     DBEdit9: TDBEdit;
     DbGrid: TPage;
     DBGrid1: TDBGrid;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    lcbKlasyfikacja: TDBLookupComboBox;
     DBLookupComboBox2: TDBLookupComboBox;
     DBLookupComboBox3: TDBLookupComboBox;
+    lcbJakosc: TDBLookupComboBox;
     DBMemo1: TDBMemo;
     DBMemo2: TDBMemo;
     DBMemo3: TDBMemo;
@@ -236,6 +244,11 @@ type
     MenuItem41: TMenuItem;
     MenuItem42: TMenuItem;
     MenuItem43: TMenuItem;
+    MenuItem44: TMenuItem;
+    MenuItem45: TMenuItem;
+    MenuItem46: TMenuItem;
+    MenuItem47: TMenuItem;
+    MenuItem48: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
@@ -277,6 +290,8 @@ type
     pnOpisInfo: TPanel;
     pmTagi: TPopupMenu;
     pmPliki: TPopupMenu;
+    pmHistoria: TPopupMenu;
+    pmUruchom: TPopupMenu;
     RxDBGrid1: TRxDBGrid;
     gbgFiltrAkt: TRxDBGrid;
     RxDBGrid3: TRxDBGrid;
@@ -294,7 +309,11 @@ type
     sbnFiltrPlClear: TSpeedButton;
     sbnFiltrFiClear: TSpeedButton;
     Separator1: TMenuItem;
+    Separator2: TMenuItem;
+    Separator3: TMenuItem;
     SpeedButton1: TSpeedButton;
+    SpeedButton10: TSpeedButton;
+    SpeedButton11: TSpeedButton;
     SpeedButton12: TSpeedButton;
     SpeedButton13: TSpeedButton;
     SpeedButton14: TSpeedButton;
@@ -414,6 +433,7 @@ type
     procedure acFilmDodajExecute(Sender: TObject);
     procedure acFilmListaExecute(Sender: TObject);
     procedure acFilmRokExecute(Sender: TObject);
+    procedure acFilmUruchBezHistExecute(Sender: TObject);
     procedure acFilmUruchomExecute(Sender: TObject);
     procedure acFiltrAktorzyExecute(Sender: TObject);
     procedure acFiltrGatunkiExecute(Sender: TObject);
@@ -431,6 +451,7 @@ type
     procedure acHistCzyscNazwExecute(Sender: TObject);
     procedure acHistIdzExecute(Sender: TObject);
     procedure acHistOdswiezExecute(Sender: TObject);
+    procedure acHistUsunExecute(Sender: TObject);
     procedure acInnyTytDodajExecute(Sender: TObject);
     procedure acInnyTytDodWieleExecute(Sender: TObject);
     procedure acInnyTytUsunExecute(Sender: TObject);
@@ -489,6 +510,9 @@ type
     procedure sbnNapisyClearClick(Sender: TObject);
     procedure sbnOcenaFilmClick(Sender: TObject);
     procedure sedFiltrPlExecute(Sender: TObject);
+    procedure SpeedButton10ContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
+    procedure SpeedButton11Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
@@ -552,6 +576,7 @@ type
     procedure OdczytajFoldery;
     procedure OdswiezWidokFiltruKatalogow;
     function PrzejdzDoPliku(IdPl: longint): boolean;
+    procedure UruchomDokument(ZapisHist:boolean);
   public
 
   end;
@@ -608,6 +633,7 @@ begin
       'Problem z uruchomieniem', mtError, [mbOK], 0);
     Close;
   end;
+  pcLeft.ActivePage:= tsFiltry;
   tbnOceny.Down := True;
   UtworzFiltry;
   UtworzFiltrLata;
@@ -1245,6 +1271,29 @@ begin
   OdswiezDane;
 end;
 
+procedure TFrmMain.SpeedButton10ContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+  if (not DMM.qMainInfo.IsEmpty) then
+  begin
+    if not (DMM.qMainInfo.State in [dsInsert, dsEdit]) then
+      DMM.qMainInfo.Edit;
+    DMM.qMainInfo.FieldByName('IdKlasyf').Clear;
+    DMM.qMainInfo.Post;
+  end;
+end;
+
+procedure TFrmMain.SpeedButton11Click(Sender: TObject);
+begin
+  if (not DMM.qMainInfo.IsEmpty) then
+  begin
+    if not (DMM.qMainInfo.State in [dsInsert, dsEdit]) then
+      DMM.qMainInfo.Edit;
+    DMM.qMainInfo.FieldByName('IdJak').Clear;
+    DMM.qMainInfo.Post;
+  end;
+end;
+
 procedure TFrmMain.SpeedButton1Click(Sender: TObject);
 begin
   if (not DMM.qMainFilm.IsEmpty) then
@@ -1501,72 +1550,14 @@ begin
   end;
 end;
 
-procedure TFrmMain.acFilmUruchomExecute(Sender: TObject);
-var
-  s: string;
-  idpl: longint;
+procedure TFrmMain.acFilmUruchBezHistExecute(Sender: TObject);
 begin
-  if ((DMM.qMain.Active) and (not DMM.qMain.IsEmpty)) then
-  begin
-    if (DMM.qMain.FieldByName('StatusPl').AsString <> 'U') then
-    begin
-      s := DMM.qMain.FieldByName('ScPl').AsString;
-      idpl := DMM.qMain.FieldByName('IdPl').AsInteger;
-      if (FileExists(s)) then
-      begin
-        {ShellExecute(0, PChar('open'), PChar(s),
-          PChar(''), PChar(''), 1);}
-        {if RunCommand(s,r) then
-          ShowMessage('OK - '+r)
-        else
-          ShowMessage('Problem - '+r);}
-        OpenDocument(s);
-        {DMM.DodajOdtworzenieFilmu(DMM.qMain.FieldByName('IdRip').AsInteger);
-        DMM.qMain.Close;
-        DMM.qMain.Open;
-        if not DMM.qMain.Locate('IdPl', idpl, []) then
-          MessageDlg('Błąd', 'Nie udało się wyszukać pliku po zwiększeniu licznika odtworzeń', mtError, [mbOK], 0);}
-        if (DMM.qMainInfo.IsEmpty) then
-        begin
-          if (fIdRipWybPl > 0) then
-          begin
-            DMM.qMainInfo.Append;
-            DMM.qMainInfo.FieldByName('IdRip').AsInteger := fIdRipWybPl;
-            DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger := 1;
-            DMM.qMainInfo.Post;
-            if (pcDanePl.ActivePage = tsPlikParam) then
-            begin
-              PokazDaneZaklParam(True);
-            end
-            else if (pcDanePl.ActivePage = tsPlikOpis) then
-            begin
-              PokazDaneZaklOpis(True);
-            end;
-          end
-          else
-            MessageDlg('Problem', 'Nie udało się dodać rekordu do InfoPlikiFilmy brak wybranego IDRIP', mtError, [mbOK], 0);
-        end
-        else
-        begin
-          if (not (DMM.qMainInfo.State in [dsInsert, dsEdit])) then
-            DMM.qMainInfo.Edit;
-          DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger := DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger + 1;
-        end;
-        DMM.DodajHistorie(idpl, fIdRipWybPl);
-      end
-      else
-      begin
-        DMM.UstawStatusPliku(DMM.qMain.FieldByName('IdPl').AsInteger, STATUS_USUNIETY);
-        ShowMessage('Plik nie istnieje: ' + s);
-        DMM.qMain.Close;
-        DMM.qMain.Open;
-        if not DMM.qMain.Locate('IdPl', idpl, []) then
-          MessageDlg('Błąd', 'Nie udało się wyszukać pliku po zmianie statusu na usunięty', mtError, [mbOK], 0);
-      end;
-    end
-    else
-      ShowMessage('Plik ma status - usunięty');
-  end;
+  UruchomDokument(False);
+end;
+
+procedure TFrmMain.acFilmUruchomExecute(Sender: TObject);
+begin
+  UruchomDokument(True);
 end;
 
 procedure TFrmMain.acDaneAktorzyExecute(Sender: TObject);
@@ -1945,6 +1936,7 @@ begin
       item.SubItems.Add(DMM.qHist.FieldByName('NazwaPl').AsString);
       item.SubItems.Add(DMM.qHist.FieldByName('ScPl').AsString);
       item.SubItems.Add(DMM.qHist.FieldByName('IdPl').AsString);
+      item.SubItems.Add(DMM.qHist.FieldByName('IdHpl').AsString);
       item.ImageIndex := 55;
 
       DMM.qHist.Next;
@@ -1953,6 +1945,26 @@ begin
     lvHist.EndUpdate;
   end;
   lbHistIlosc.Caption := Format('Wpisy historii: %d', [lvHist.Items.Count]);
+end;
+
+procedure TFrmMain.acHistUsunExecute(Sender: TObject);
+var
+  IdHpl: longint;
+begin
+  if (Assigned(lvHist.ItemFocused)) then
+  begin
+    IdHpl := StrToIntDef(lvHist.ItemFocused.SubItems[3], 0);
+    if (IdHpl > 0) then
+    begin
+      if (MessageDlg('Potwierdzenie usunięcia wpisu',Format('Na pewno usunąć wpis z historii:'+sLineBreak+' %s'+sLineBreak+'%s ?',[lvHist.ItemFocused.Caption,lvHist.ItemFocused.SubItems[0]]),mtConfirmation,[mbOk,mbCancel],0) = mrOK) then
+      begin
+        DMM.UsunHistorie(IdHpl);
+        acHistOdswiez.Execute;
+      end;
+    end
+    else
+      MessageDlg(Format('Podczas próby wyszukania wpisu w historii wystapił błąd.'+sLineBreak+'Przekazany identyfikator pliku nie jest poprawną liczbą: "%s"', [lvHist.ItemFocused.SubItems[3]]), mtError, [mbOK], 0);
+  end;
 end;
 
 procedure TFrmMain.acInnyTytDodajExecute(Sender: TObject);
@@ -2731,6 +2743,75 @@ begin
     Result := DMM.qMain.Locate('IdPl', IdPl, []);
     if not Result then
       MessageDlg('Wyszukiwanie', 'Nie znaleziono wskazanego pliku.' + sLineBreak + 'Prawdopodobnie nie występuje w obecnym widoku.', mtInformation, [mbOK], 0);
+  end;
+end;
+
+procedure TFrmMain.UruchomDokument(ZapisHist: boolean);
+var
+  s: string;
+  idpl: longint;
+begin
+  if ((DMM.qMain.Active) and (not DMM.qMain.IsEmpty)) then
+  begin
+    if (DMM.qMain.FieldByName('StatusPl').AsString <> 'U') then
+    begin
+      s := DMM.qMain.FieldByName('ScPl').AsString;
+      idpl := DMM.qMain.FieldByName('IdPl').AsInteger;
+      if (FileExists(s)) then
+      begin
+        {ShellExecute(0, PChar('open'), PChar(s),
+          PChar(''), PChar(''), 1);}
+        {if RunCommand(s,r) then
+          ShowMessage('OK - '+r)
+        else
+          ShowMessage('Problem - '+r);}
+        OpenDocument(s);
+        {DMM.DodajOdtworzenieFilmu(DMM.qMain.FieldByName('IdRip').AsInteger);
+        DMM.qMain.Close;
+        DMM.qMain.Open;
+        if not DMM.qMain.Locate('IdPl', idpl, []) then
+          MessageDlg('Błąd', 'Nie udało się wyszukać pliku po zwiększeniu licznika odtworzeń', mtError, [mbOK], 0);}
+        if (DMM.qMainInfo.IsEmpty) then
+        begin
+          if (fIdRipWybPl > 0) then
+          begin
+            DMM.qMainInfo.Append;
+            DMM.qMainInfo.FieldByName('IdRip').AsInteger := fIdRipWybPl;
+            DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger := 1;
+            DMM.qMainInfo.Post;
+            if (pcDanePl.ActivePage = tsPlikParam) then
+            begin
+              PokazDaneZaklParam(True);
+            end
+            else if (pcDanePl.ActivePage = tsPlikOpis) then
+            begin
+              PokazDaneZaklOpis(True);
+            end;
+          end
+          else
+            MessageDlg('Problem', 'Nie udało się dodać rekordu do InfoPlikiFilmy brak wybranego IDRIP', mtError, [mbOK], 0);
+        end
+        else
+        begin
+          if (not (DMM.qMainInfo.State in [dsInsert, dsEdit])) then
+            DMM.qMainInfo.Edit;
+          DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger := DMM.qMainInfo.FieldByName('IloscUruchomienIpf').AsInteger + 1;
+        end;
+        if (ZapisHist) then
+          DMM.DodajHistorie(idpl, fIdRipWybPl);
+      end
+      else
+      begin
+        DMM.UstawStatusPliku(DMM.qMain.FieldByName('IdPl').AsInteger, STATUS_USUNIETY);
+        ShowMessage('Plik nie istnieje: ' + s);
+        DMM.qMain.Close;
+        DMM.qMain.Open;
+        if not DMM.qMain.Locate('IdPl', idpl, []) then
+          MessageDlg('Błąd', 'Nie udało się wyszukać pliku po zmianie statusu na usunięty', mtError, [mbOK], 0);
+      end;
+    end
+    else
+      ShowMessage('Plik ma status - usunięty');
   end;
 end;
 

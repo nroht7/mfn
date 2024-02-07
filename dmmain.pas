@@ -22,6 +22,8 @@ type
   { TDMM }
 
   TDMM = class(TDataModule)
+    dsJakosci: TDataSource;
+    dsKlasyfikacje: TDataSource;
     dsZmNazFilmy: TDataSource;
     dsTagi: TDataSource;
     dsOceny: TDataSource;
@@ -58,6 +60,8 @@ type
     qMainInfoDaneIpf: TZRawCLobField;
     qMainInfoDlugoscIpf: TZInt64Field;
     qMainInfoFormatIpf: TZRawStringField;
+    qMainInfoIdJak: TZInt64Field;
+    qMainInfoIdKlasyf: TZUInt64Field;
     qMainInfoIdRip: TZInt64Field;
     qMainInfoIdRodzaju: TZInt64Field;
     qMainInfoIloscStrumIpf: TZInt64Field;
@@ -66,6 +70,7 @@ type
     qMainInfoKodekVideoIpf: TZRawStringField;
     qMainInfoKontenerIpf: TZRawStringField;
     qMainInfoOpisIpf: TZRawCLobField;
+    qMainInfoSkalaSefIpf: TZRawStringField;
     qMainInfoSzerokoscIpf: TZInt64Field;
     qMainInfoWysokoscIpf: TZInt64Field;
     qMainMd5Rip: TZRawStringField;
@@ -124,6 +129,8 @@ type
     qHist: TZReadOnlyQuery;
     qZmNazFilmy: TZReadOnlyQuery;
     qFld: TZReadOnlyQuery;
+    qJakosci: TZReadOnlyQuery;
+    qKlasyfikacje: TZReadOnlyQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
     procedure qMainAfterScroll(DataSet: TDataSet);
@@ -194,6 +201,8 @@ begin
   fLstAktDataSet.Add(qKraje);
   fLstAktDataSet.Add(qRodzaje);
   fLstAktDataSet.Add(qOceny);
+  fLstAktDataSet.Add(qJakosci);
+  fLstAktDataSet.Add(qKlasyfikacje);
 
   fLstCloseDataSet.Add(qTagi);
   fLstCloseDataSet.Add(qTagiExcp);
