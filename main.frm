@@ -2,12 +2,12 @@ object FrmMain: TFrmMain
   Left = 72
   Height = 900
   Top = 86
-  Width = 1200
+  Width = 1600
   Caption = 'mfn'
   ClientHeight = 900
-  ClientWidth = 1200
+  ClientWidth = 1600
   Menu = MainMenu1
-  LCLVersion = '8.2'
+  LCLVersion = '8.3'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -16,18 +16,18 @@ object FrmMain: TFrmMain
     Left = 266
     Height = 821
     Top = 56
-    Width = 934
+    Width = 929
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlMain'
     ClientHeight = 821
-    ClientWidth = 934
+    ClientWidth = 929
     TabOrder = 0
     object pcDanePl: TPageControl
       Left = 0
       Height = 300
       Top = 521
-      Width = 934
+      Width = 929
       ActivePage = tsPlikInfo
       Align = alBottom
       TabIndex = 0
@@ -36,12 +36,12 @@ object FrmMain: TFrmMain
       object tsPlikInfo: TTabSheet
         Caption = 'Informacje'
         ClientHeight = 272
-        ClientWidth = 926
+        ClientWidth = 921
         object DBEdit1: TDBEdit
           Left = 56
           Height = 23
           Top = 24
-          Width = 856
+          Width = 851
           DataField = 'NazwaPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
@@ -126,7 +126,7 @@ object FrmMain: TFrmMain
           Left = 56
           Height = 23
           Top = 72
-          Width = 856
+          Width = 851
           DataField = 'ScPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
@@ -137,7 +137,7 @@ object FrmMain: TFrmMain
           Left = 56
           Height = 23
           Top = 120
-          Width = 856
+          Width = 851
           DataField = 'WzgScPl'
           DataSource = dsMain
           Anchors = [akTop, akLeft, akRight]
@@ -350,7 +350,7 @@ object FrmMain: TFrmMain
       object tsPlikParam: TTabSheet
         Caption = 'Parametry'
         ClientHeight = 272
-        ClientWidth = 926
+        ClientWidth = 921
         object Image2: TImage
           Left = 8
           Height = 32
@@ -740,15 +740,15 @@ object FrmMain: TFrmMain
       object tsPlikFilm: TTabSheet
         Caption = 'Filmy'
         ClientHeight = 272
-        ClientWidth = 926
+        ClientWidth = 921
         object pnlFilm: TPanel
           Left = 0
           Height = 272
           Top = 0
-          Width = 926
+          Width = 921
           Align = alClient
           ClientHeight = 272
-          ClientWidth = 926
+          ClientWidth = 921
           TabOrder = 0
           object Panel8: TPanel
             Left = 1
@@ -823,17 +823,17 @@ object FrmMain: TFrmMain
             Left = 57
             Height = 270
             Top = 1
-            Width = 868
+            Width = 863
             Align = alClient
             BevelOuter = bvNone
             ClientHeight = 270
-            ClientWidth = 868
+            ClientWidth = 863
             TabOrder = 1
             object pcFilmy: TPageControl
               Left = 0
               Height = 230
               Top = 40
-              Width = 868
+              Width = 863
               ActivePage = tsFilmPodstawy
               Align = alClient
               TabIndex = 0
@@ -841,7 +841,7 @@ object FrmMain: TFrmMain
               object tsFilmPodstawy: TTabSheet
                 Caption = 'Podstawy'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object GroupBox1: TGroupBox
                   Left = 8
                   Height = 185
@@ -1597,7 +1597,7 @@ object FrmMain: TFrmMain
               object tsFilmAktorzy: TTabSheet
                 Caption = 'Aktorzy'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object pnlAktZdj: TPanel
                   Left = 0
                   Height = 202
@@ -1866,17 +1866,17 @@ object FrmMain: TFrmMain
                   Left = 146
                   Height = 202
                   Top = 0
-                  Width = 714
+                  Width = 709
                   Align = alClient
                   BevelOuter = bvNone
                   ClientHeight = 202
-                  ClientWidth = 714
+                  ClientWidth = 709
                   TabOrder = 1
                   object ToolBar8: TToolBar
                     Left = 0
                     Height = 26
                     Top = 0
-                    Width = 714
+                    Width = 709
                     Caption = 'ToolBar8'
                     Images = DMG.ilCommon
                     TabOrder = 0
@@ -1919,7 +1919,7 @@ object FrmMain: TFrmMain
                     Left = 0
                     Height = 176
                     Top = 26
-                    Width = 714
+                    Width = 709
                     ColumnDefValues.BlobText = '(blob)'
                     TitleButtons = False
                     AutoSort = True
@@ -2013,12 +2013,12 @@ object FrmMain: TFrmMain
               object tsFilmyLinki: TTabSheet
                 Caption = 'Linki'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object ToolBar6: TToolBar
                   Left = 0
                   Height = 26
                   Top = 0
-                  Width = 860
+                  Width = 855
                   Caption = 'ToolBar6'
                   Images = DMG.ilCommon
                   List = True
@@ -2079,7 +2079,7 @@ object FrmMain: TFrmMain
                   Left = 0
                   Height = 50
                   Top = 152
-                  Width = 860
+                  Width = 855
                   Align = alBottom
                   DataField = 'OpisLnk'
                   DataSource = DMM.dsMainLinki
@@ -2091,7 +2091,7 @@ object FrmMain: TFrmMain
                   Left = 0
                   Height = 5
                   Top = 147
-                  Width = 860
+                  Width = 855
                   Align = alBottom
                   ResizeAnchor = akBottom
                 end
@@ -2099,7 +2099,7 @@ object FrmMain: TFrmMain
                   Left = 0
                   Height = 121
                   Top = 26
-                  Width = 860
+                  Width = 855
                   ColumnDefValues.BlobText = '(blob)'
                   TitleButtons = False
                   AutoSort = True
@@ -2192,12 +2192,12 @@ object FrmMain: TFrmMain
               object tsFilmGatunki: TTabSheet
                 Caption = 'Gatunki'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object ToolBar9: TToolBar
                   Left = 0
                   Height = 26
                   Top = 0
-                  Width = 860
+                  Width = 855
                   Caption = 'ToolBar9'
                   Images = DMG.ilCommon
                   List = True
@@ -2227,7 +2227,7 @@ object FrmMain: TFrmMain
                   Left = 0
                   Height = 176
                   Top = 26
-                  Width = 860
+                  Width = 855
                   ColumnDefValues.BlobText = '(blob)'
                   TitleButtons = False
                   AutoSort = True
@@ -2320,12 +2320,12 @@ object FrmMain: TFrmMain
               object tsFilmKomentarz: TTabSheet
                 Caption = 'Komentarz'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object DBMemo3: TDBMemo
                   Left = 0
                   Height = 202
                   Top = 0
-                  Width = 860
+                  Width = 855
                   Align = alClient
                   DataField = 'KomentarzFilmu'
                   DataSource = DMM.dsMainFilm
@@ -2336,12 +2336,12 @@ object FrmMain: TFrmMain
               object tsFilmOpis: TTabSheet
                 Caption = 'Opis'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object DBMemo4: TDBMemo
                   Left = 0
                   Height = 202
                   Top = 0
-                  Width = 860
+                  Width = 855
                   Align = alClient
                   DataField = 'OpisFilmu'
                   DataSource = DMM.dsMainFilm
@@ -2352,12 +2352,12 @@ object FrmMain: TFrmMain
               object tsFilmAKA: TTabSheet
                 Caption = 'Inne tytuły'
                 ClientHeight = 202
-                ClientWidth = 860
+                ClientWidth = 855
                 object ToolBar7: TToolBar
                   Left = 0
                   Height = 26
                   Top = 0
-                  Width = 860
+                  Width = 855
                   Caption = 'ToolBar7'
                   Images = DMG.ilCommon
                   List = True
@@ -2392,7 +2392,7 @@ object FrmMain: TFrmMain
                   Left = 0
                   Height = 176
                   Top = 26
-                  Width = 860
+                  Width = 855
                   ColumnDefValues.BlobText = '(blob)'
                   TitleButtons = False
                   AutoSort = True
@@ -2487,11 +2487,11 @@ object FrmMain: TFrmMain
               Left = 0
               Height = 40
               Top = 0
-              Width = 868
+              Width = 863
               Align = alTop
               BevelOuter = bvNone
               ClientHeight = 40
-              ClientWidth = 868
+              ClientWidth = 863
               TabOrder = 1
               object Label22: TLabel
                 Left = 2
@@ -2501,7 +2501,7 @@ object FrmMain: TFrmMain
                 Caption = 'Tytuł:'
               end
               object sbnFilm: TSpeedButton
-                Left = 774
+                Left = 769
                 Height = 22
                 Top = 8
                 Width = 23
@@ -2511,7 +2511,7 @@ object FrmMain: TFrmMain
                 OnClick = sbnFilmClick
               end
               object sbnFilmOdswiez: TSpeedButton
-                Left = 798
+                Left = 793
                 Height = 22
                 Top = 8
                 Width = 23
@@ -2520,7 +2520,7 @@ object FrmMain: TFrmMain
                 ImageIndex = 27
               end
               object lbFilmIlosc: TLabel
-                Left = 822
+                Left = 817
                 Height = 15
                 Top = 12
                 Width = 36
@@ -2531,7 +2531,7 @@ object FrmMain: TFrmMain
                 Left = 40
                 Height = 25
                 Top = 8
-                Width = 734
+                Width = 729
                 DataField = 'TytulFilmu'
                 DataSource = DMM.dsMainFilm
                 Anchors = [akTop, akLeft, akRight]
@@ -2552,7 +2552,7 @@ object FrmMain: TFrmMain
       object tsPlikTagi: TTabSheet
         Caption = 'Tagi'
         ClientHeight = 272
-        ClientWidth = 926
+        ClientWidth = 921
         object Panel6: TPanel
           Left = 0
           Height = 272
@@ -2643,17 +2643,17 @@ object FrmMain: TFrmMain
           Left = 56
           Height = 272
           Top = 0
-          Width = 870
+          Width = 865
           Align = alClient
           BevelOuter = bvNone
           ClientHeight = 272
-          ClientWidth = 870
+          ClientWidth = 865
           TabOrder = 1
           object ToolBar3: TToolBar
             Left = 0
             Height = 26
             Top = 0
-            Width = 870
+            Width = 865
             Caption = 'ToolBar3'
             Images = DMG.ilCommon
             ParentShowHint = False
@@ -2674,7 +2674,7 @@ object FrmMain: TFrmMain
             Left = 0
             Height = 59
             Top = 213
-            Width = 870
+            Width = 865
             Align = alBottom
             DataField = 'OpisTag'
             DataSource = DMM.dsMainTag
@@ -2687,7 +2687,7 @@ object FrmMain: TFrmMain
             Left = 0
             Height = 5
             Top = 208
-            Width = 870
+            Width = 865
             Align = alBottom
             ResizeAnchor = akBottom
           end
@@ -2695,7 +2695,7 @@ object FrmMain: TFrmMain
             Left = 0
             Height = 182
             Top = 26
-            Width = 870
+            Width = 865
             ColumnDefValues.BlobText = '(blob)'
             TitleButtons = False
             AutoSort = True
@@ -2982,7 +2982,7 @@ object FrmMain: TFrmMain
       Left = 0
       Height = 5
       Top = 516
-      Width = 934
+      Width = 929
       Align = alBottom
       ResizeAnchor = akBottom
     end
@@ -2990,7 +2990,7 @@ object FrmMain: TFrmMain
       Left = 0
       Height = 483
       Top = 33
-      Width = 934
+      Width = 929
       ColumnDefValues.BlobText = '(blob)'
       TitleButtons = False
       AutoSort = True
@@ -3221,11 +3221,11 @@ object FrmMain: TFrmMain
       Left = 0
       Height = 33
       Top = 0
-      Width = 934
+      Width = 929
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 33
-      ClientWidth = 934
+      ClientWidth = 929
       Color = clActiveCaption
       ParentBackground = False
       ParentColor = False
@@ -3234,7 +3234,7 @@ object FrmMain: TFrmMain
         Left = 101
         Height = 25
         Top = 4
-        Width = 828
+        Width = 823
         Anchors = [akTop, akLeft, akRight]
         Color = clForm
         Font.CharSet = EASTEUROPE_CHARSET
@@ -3262,7 +3262,7 @@ object FrmMain: TFrmMain
     Left = 0
     Height = 56
     Top = 0
-    Width = 1200
+    Width = 1600
     ButtonHeight = 52
     ButtonWidth = 50
     Caption = 'ToolBar1'
@@ -3349,7 +3349,7 @@ object FrmMain: TFrmMain
     Left = 0
     Height = 23
     Top = 877
-    Width = 1200
+    Width = 1600
     Panels = <    
       item
         Text = 'Ilość: 0'
@@ -4077,6 +4077,42 @@ object FrmMain: TFrmMain
     end
   end
   object Tagi: TPage
+  end
+  object pnlInfo: TPanel
+    Left = 1200
+    Height = 821
+    Top = 56
+    Width = 400
+    Align = alRight
+    ClientHeight = 821
+    ClientWidth = 400
+    TabOrder = 6
+    object pnlInfoNagl: TPanel
+      Left = 1
+      Height = 15
+      Top = 1
+      Width = 398
+      Align = alTop
+      BevelOuter = bvNone
+      Caption = 'Informacje'
+      ClientHeight = 15
+      ClientWidth = 398
+      TabOrder = 0
+      object SpeedButton15: TSpeedButton
+        Left = 368
+        Height = 22
+        Top = 0
+        Width = 23
+      end
+    end
+  end
+  object Splitter7: TSplitter
+    Left = 1195
+    Height = 821
+    Top = 56
+    Width = 5
+    Align = alRight
+    ResizeAnchor = akRight
   end
   object ActionList1: TActionList
     Images = ilMenuS

@@ -263,6 +263,8 @@ type
     PairSplitterSide2: TPairSplitterSide;
     Panel10: TPanel;
     Panel11: TPanel;
+    pnlInfoNagl: TPanel;
+    pnlInfo: TPanel;
     pnlFiltrHistoria: TPanel;
     pmOcenyF: TPopupMenu;
     pnlFilmOcena: TPanel;
@@ -317,6 +319,7 @@ type
     SpeedButton12: TSpeedButton;
     SpeedButton13: TSpeedButton;
     SpeedButton14: TSpeedButton;
+    SpeedButton15: TSpeedButton;
     SpeedButton2: TSpeedButton;
     sbnOcenaFilm: TSpeedButton;
     SpeedButton3: TSpeedButton;
@@ -333,6 +336,7 @@ type
     Splitter4: TSplitter;
     Splitter5: TSplitter;
     Splitter6: TSplitter;
+    Splitter7: TSplitter;
     Tagi: TPage;
     tmrFiltr: TTimer;
     ToolBar3: TToolBar;

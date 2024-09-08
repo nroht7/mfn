@@ -6,10 +6,10 @@ object FrmKatalogi: TFrmKatalogi
   Caption = 'Katalogi'
   ClientHeight = 412
   ClientWidth = 550
+  LCLVersion = '8.3'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '7.7'
   object ToolBar1: TToolBar
     Left = 0
     Height = 26
@@ -29,12 +29,12 @@ object FrmKatalogi: TFrmKatalogi
       Action = acKatUsun
     end
     object ToolButton3: TToolButton
-      Left = 101
+      Left = 78
       Top = 2
       Action = acZamknij
     end
     object ToolButton4: TToolButton
-      Left = 93
+      Left = 70
       Height = 22
       Top = 2
       Caption = 'ToolButton4'
@@ -44,12 +44,6 @@ object FrmKatalogi: TFrmKatalogi
       Left = 24
       Top = 2
       Action = acKatZmien
-    end
-    object ToolButton6: TToolButton
-      Left = 70
-      Top = 2
-      Caption = 'ToolButton6'
-      OnClick = ToolButton6Click
     end
   end
   object Panel1: TPanel
@@ -67,10 +61,10 @@ object FrmKatalogi: TFrmKatalogi
       Top = 4
       Width = 522
       Anchors = [akTop, akLeft, akRight]
-      OnEditingDone = edFiltrEditingDone
-      OnEnter = edFiltrEnter
       TabOrder = 0
       TextHint = '(Filtr)'
+      OnEditingDone = edFiltrEditingDone
+      OnEnter = edFiltrEnter
     end
     object SpeedButton1: TSpeedButton
       Left = 526
@@ -138,28 +132,28 @@ object FrmKatalogi: TFrmKatalogi
       Caption = 'Dodaj'
       Hint = 'Dodaj katalog'
       ImageIndex = 20
-      OnExecute = acKatDodajExecute
       ShortCut = 16462
+      OnExecute = acKatDodajExecute
     end
     object acKatZmien: TAction
       Caption = 'Zmień'
       ImageIndex = 52
-      OnExecute = acKatZmienExecute
       ShortCut = 16453
+      OnExecute = acKatZmienExecute
     end
     object acKatUsun: TAction
       Caption = 'Usuń'
       Hint = 'Usuń katalog'
       ImageIndex = 21
-      OnExecute = acKatUsunExecute
       ShortCut = 16430
+      OnExecute = acKatUsunExecute
     end
     object acZamknij: TAction
       Caption = 'Zamknij'
       Hint = 'Zamknij'
       ImageIndex = 19
-      OnExecute = acZamknijExecute
       ShortCut = 16465
+      OnExecute = acZamknijExecute
     end
     object acFiltrClear: TAction
       Hint = 'Usuń filtr'

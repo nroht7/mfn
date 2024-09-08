@@ -7,9 +7,9 @@ object FrmKatalog: TFrmKatalog
   Caption = 'Katalog'
   ClientHeight = 240
   ClientWidth = 320
-  OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '7.7'
+  LCLVersion = '8.3'
+  OnShow = FormShow
   object Label1: TLabel
     Left = 8
     Height = 15
@@ -29,8 +29,8 @@ object FrmKatalog: TFrmKatalog
     Height = 114
     Top = 72
     Width = 304
-    OnChange = meOpisChange
     TabOrder = 1
+    OnChange = meOpisChange
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
@@ -53,6 +53,7 @@ object FrmKatalog: TFrmKatalog
     Height = 23
     Top = 24
     Width = 304
+    OnAcceptDirectory = deKatAcceptDirectory
     ShowHidden = False
     ButtonWidth = 23
     NumGlyphs = 1

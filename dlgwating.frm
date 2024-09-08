@@ -9,7 +9,7 @@ object FrmWating: TFrmWating
   ClientWidth = 320
   Position = poOwnerFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '7.7'
+  LCLVersion = '8.3'
   object Image1: TImage
     Left = 16
     Height = 32

@@ -36,7 +36,6 @@ type
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
-    ToolButton6: TToolButton;
     procedure acFiltrClearExecute(Sender: TObject);
     procedure acKatDodajExecute(Sender: TObject);
     procedure acKatUsunExecute(Sender: TObject);
@@ -295,20 +294,7 @@ begin
 end;
 
 procedure TFrmKatalogi.ToolButton6Click(Sender: TObject);
-var
-  frm: TFrmWating;
 begin
-  frm := TFrmWating.Create(self);
-  try
-    frm.TytulOkna := 'Przetwarzanie';
-    frm.Info := 'Trwa przetwarzanie...';
-    frm.Show;
-
-    Application.ProcessMessages;
-    Sleep(5000);
-  finally
-    FreeAndNil(frm);
-  end;
 end;
 
 procedure TFrmKatalogi.UtworzWidokKatalogow(aFiltr: string);

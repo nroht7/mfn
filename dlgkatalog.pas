@@ -18,6 +18,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     meOpis: TMemo;
+    procedure deKatAcceptDirectory(Sender: TObject; var Value: String);
     procedure deKatChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure meOpisChange(Sender: TObject);
@@ -50,6 +51,12 @@ implementation
 procedure TFrmKatalog.deKatChange(Sender: TObject);
 begin
   ButtonPanel1.OKButton.Enabled:= DaneWprOk;
+end;
+
+procedure TFrmKatalog.deKatAcceptDirectory(Sender: TObject; var Value: String);
+begin
+  if (Copy(Value,Length(Value),1) <> PathDelim) then
+    Value:= Value + PathDelim;
 end;
 
 procedure TFrmKatalog.FormShow(Sender: TObject);

@@ -47,6 +47,7 @@ end;
 procedure TFrmWating.SetInfo(AValue: string);
 begin
   lbInfo.Caption:= AValue;
+  Application.ProcessMessages;
 end;
 
 procedure TFrmWating.SetTytulOkna(AValue: string);

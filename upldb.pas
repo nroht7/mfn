@@ -88,11 +88,19 @@ begin
 end;
 
 function TPlikDB.GetFolderPliku: string;
+var
+  scWzglPl : string;
 begin
   Result := '';
   if (fScFld <> '') then
   begin
-    Result := fScFld + fScWzgPl;
+    if ((Length(fScWzgPl) > 0) and (fScWzgPl[1] = DirectorySeparator)) then
+    begin
+      scWzglPl:= fScWzgPl;
+      Delete(scWzglPl,1,1);
+    end;
+
+    Result := fScFld + scWzglPl;
   end;
 end;
 
@@ -102,8 +110,15 @@ begin
 end;
 
 function TPlikDB.AsString: string;
+var
+  scWzglPl : string;
 begin
-  Result := fScFld + fScWzgPl + fNazwaPl;
+  if ((Length(fScWzgPl) > 0) and (fScWzgPl[1] = DirectorySeparator)) then
+  begin
+    scWzglPl:= fScWzgPl;
+    Delete(scWzglPl,1,1);
+  end;
+  Result := fScFld + scWzglPl + fNazwaPl;
 end;
 
 end.
